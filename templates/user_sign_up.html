@@ -103,21 +103,12 @@ function fun(){
 }
 
 </script>
-<script>
+<!-- <script>
 function add_data(){
 	
 	var email=document.getElementById("email1_lg")
 	var password=document.getElementById("pass1_lg")
-	var role1=document.getElementById("role1")
-	var role2=document.getElementById("role2")
-	var rolex;
-	if(role1.checked)
-	{
-		rolex=role1.value;
-	}
-	else{
-		rolex=role2.value;
-	}
+	
 	 var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 	if(email.value=='')
 	{
@@ -140,7 +131,6 @@ function add_data(){
         {
           email:email.value,
 		  password:password.value,
-		  role:rolex
         },
 		function(data,status){
 			if(data=="wrong")
@@ -158,17 +148,16 @@ function add_data(){
 	
 }
 
-</script>
+</script> -->
 {% endblock %}
 </head>
 {% block body %}
 
-
-	<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+	<!-- <div class="modal fade" id="myModal" tabindex="-1" role="dialog"> -->
 		<!-- Modal1 -->
-		<div class="modal-dialog">
+		<!-- <div class="modal-dialog"> -->
 			<!-- Modal content-->
-				<div class="modal-content">
+				<!-- <div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
 							<h4>Signin</h4>
@@ -177,11 +166,11 @@ function add_data(){
 <div class="container">
   <form" method="post" name="form11">
   
-  <div class="col-md-8 form-group ">
+  <div class="col-md-8 form-group "> -->
               <!-- <label>Member</label> &nbsp;&nbsp; -->
-              <input type="radio" name="role" value="user"  id="role1" checked>User</input>
+              <!-- <input type="radio" name="role" value="user"  id="role1" checked>User</input>
 			  &nbsp;&nbsp;<input type="radio" value="expert" id="role2" name="role">Reviewer</input>
-            </div>
+            </div> -->
   
    <!-- <div class="input-group" style="width:45%">
    <select name="role" id="role1" class="form-control">										
@@ -192,7 +181,7 @@ function add_data(){
     </div> -->
   
  
-    <div class="input-group" style="width:45%">
+    <!-- <div class="input-group" style="width:45%">
       <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
       <input id="email1_lg" type="text" class="form-control" name="email" placeholder="Email">
     </div>
@@ -223,7 +212,7 @@ function add_data(){
 							</div>
 				</div>
 		</div>
-	</div>
+	</div> -->
 
 	<!-- start-->
 	</br>
