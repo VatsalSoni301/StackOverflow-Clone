@@ -1,8 +1,131 @@
 {% extends 'home_base.html' %}
 {% block head %}
+
 <head>
 	<title>Bookmark</title>
+
+	<style>
+		.quebox{
+			width: 75%;
+			margin: 10px;
+		}
+		.tag{
+
+			width: 60%;
+		}
+		.askerinfo{
+			float: right;
+			width: 30%;
+		}
+		.viewansvotes{
+			margin-left: 20px;
+		}
+		.quetitle{
+			font-size:16px;
+			color: #31708f;
+			text-decoration: none;
+		}
+		.bookmark{
+			float:right;
+			font-size:12px;
+		}
+	</style>
 </head>
 {% endblock %}
 {% block body %}
+<br>
+<div class="quebox">
+	<div class="panel panel-info">
+		<div class="panel-heading">
+			<span class="panel-title">
+				<span>
+					<span style="font-size:24px">
+							Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+					</span>
+					<button type="button" class="btn btn-default bookmark">
+							<span class="glyphicon glyphicon-star" aria-hidden="true"></span> Bookmark
+					</button>
+				</span>
+				
+			</span>
+			
+		</div>
+		<div class="panel-body">
+
+			A hash function that maps names to integers from 0 to 15. There is a collision between keys "John Smith" and "Sandra
+			Dee".
+			A hash function is any function that can be used to map data of arbitrary size to data of a fixed size. The values
+			returned by a hash function are called hash values, hash codes, digests, or simply hashes. Hash functions are often
+			used in combination with a hash table, a common data structure used in computer software for rapid data lookup. Hash
+			functions accelerate table or database lookup by detecting duplicated records in a large file. One such application
+			<br>
+			<hr>
+			<span class="tag">
+				<a class="label label-info">HTML</a>
+				<a class="label label-info">CSS</a>
+				<a class="label label-info">Javascript</a>
+				<a class="label label-info">Angularjs</a>
+			</span>
+
+			<span class="askerinfo">
+				<div>
+					Posted on :
+					<span>22-Jan-2018</span>
+				</div>
+				<div>
+					By :
+					<span>Darshan</span>
+				</div>
+			</span>
+
+		</div>
+	</div>
+</div>
+
+<div class="quebox">
+	<div class="panel panel-info">
+		<div class="panel-heading">
+			<span class="panel-title quetitle">
+				<a href="{{url_for('todo')}}">
+					<span >
+						Question title A hash function that maps names to
+						integers from 0
+						to 15. There is a collision 
+					</span>
+				</a>
+			</span>
+			<!-- ISSUE : when line fill up bookmark goes below heading area -->
+			<span class="bookmark">
+				<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+			</span>
+		</div>
+		<div class="panel-body">
+			<span class="tag">
+				<a class="label label-info">HTML</a>
+				<a class="label label-info">CSS</a>
+				<a class="label label-info">Javascript</a>
+				<a class="label label-info">Angularjs</a>
+			</span>
+
+			<span class="askerinfo">
+				<div>
+					Posted on : <span>22-Jan-2018</span>
+				</div>
+				<div>
+					By : <span>Darshan</span>
+				</div>
+			</span>
+		</div>
+		<div class="panel-footer">
+			<span>
+				<span class="viewansvotes">View : </span><span>12</span>
+				<span class="viewansvotes">Ans : </span><span>10</span>
+				<span class="viewansvotes">Votes : </span><span>0</span>
+			</span>
+		</div>
+	</div>
+
+</div>
+
+
 {% endblock %}
