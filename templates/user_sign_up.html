@@ -88,113 +88,106 @@ function fun(){
 </head>
 {% block body %}
 
-	<!-- start-->
-	</br>
-	<div class="contac1t">
-		<div class="container">
-			 <div class="w3-heading-grid">			
+<!-- start-->
+</br>
+<div class="contac1t">
+	<div class="container">
+		<div class="w3-heading-grid">
 			<div class="w3layouts_head">
 				<h3 class="tittle">Sign Up</h3>
-					<div class="border"></div>
-				</div>				
-			</div> 
-			
-			
-	 <form action="{{ url_for('user_sign_up_1') }}" method="POST" enctype="multipart/form-data" name="form1">
-		<p style="color:red">* - Required Fields... </p>
-         	<div class="vali-form">
-						
-            <div class="col-md-4 form-group group-mail">
-              <label >Firstname <strong style="color:red">*</strong></label>
-              <input type="text" class="form-control" placeholder="FirstName" id="fname1" name="fname">
-            </div>
-			<div class="col-md-4 form-group group-mail">
-				<label >Middlename</label>
-				<input type="text" class="form-control" placeholder="MiddleName" id="mname1" name="mname">
-			  </div>
-			<div class="col-md-4 form-group group-mail">
-              <label >Lastname <strong style="color:red">*</strong></label>
-              <input type="text" class="form-control" placeholder="LastName" id="lname1" name="lname">
-            </div>
-           
-            </div>
-            <div class="col-md-8 form-group group-mail">
-              <label >Email <strong style="color:red">*</strong></label>
-              <input type="text" class="form-control" placeholder="Email" id="email1" name="email">
-            </div>  
-			 <div class="col-md-8 form-group group-mail">
-              <label>Mobile No</label>
-              <input type="number" class="form-control" placeholder="Mobile No" id="mobile1"  name="mobile">
-            </div>	
+				<div class="border"></div>
+			</div>
+		</div>
+		
+		<form action="{{ url_for('user_sign_up_1') }}" method="POST" enctype="multipart/form-data" name="form1">
+			<p style="color:red">* - Required Fields... </p>
+			<div class="vali-form">
+
+				<div class="col-md-4 form-group group-mail">
+					<label>Firstname <strong style="color:red">*</strong></label>
+					<input type="text" class="form-control" placeholder="FirstName" id="fname1" name="fname">
+				</div>
+				<div class="col-md-4 form-group group-mail">
+					<label>Middlename</label>
+					<input type="text" class="form-control" placeholder="MiddleName" id="mname1" name="mname">
+				</div>
+				<div class="col-md-4 form-group group-mail">
+					<label>Lastname <strong style="color:red">*</strong></label>
+					<input type="text" class="form-control" placeholder="LastName" id="lname1" name="lname">
+				</div>
+
+			</div>
 			<div class="col-md-8 form-group group-mail">
-              <label >Password <strong style="color:red">*</strong></label>
-              <input type="password" class="form-control" placeholder="Password" id="pass1" name="password">
-            </div>
-            <div class="col-md-8 form-group group-mail">
-              <label>Confirm password <strong style="color:red">*</strong></label>
-              <input type="password" class="form-control" placeholder="Confirm password" id="cpass1" name="cpassword">
-            </div>
+				<label>Email <strong style="color:red">*</strong></label>
+				<input type="text" class="form-control" placeholder="Email" id="email1" name="email">
+			</div>
+			<div class="col-md-8 form-group group-mail">
+				<label>Mobile No</label>
+				<input type="number" class="form-control" placeholder="Mobile No" id="mobile1" name="mobile">
+			</div>
+			<div class="col-md-8 form-group group-mail">
+				<label>Password <strong style="color:red">*</strong></label>
+				<input type="password" class="form-control" placeholder="Password" id="pass1" name="password">
+			</div>
+			<div class="col-md-8 form-group group-mail">
+				<label>Confirm password <strong style="color:red">*</strong></label>
+				<input type="password" class="form-control" placeholder="Confirm password" id="cpass1" name="cpassword">
+			</div>
 			<div class="col-md-8 form-group ">
-              <label>Gender</label> &nbsp;&nbsp;
-              <input type="radio" name="gn" value="Male" checked>Male</input>
-			  &nbsp;&nbsp;<input type="radio" value="Female" name="gn">Female</input>
-            </div>
+				<label>Gender</label> &nbsp;&nbsp;
+				<input type="radio" name="gn" value="Male" checked>Male</input>
+				&nbsp;&nbsp;<input type="radio" value="Female" name="gn">Female</input>
+			</div>
 			<div class="col-md-8 form-group group-mail">
-              <label class="control-label">Date Of Birth</label></br>
-            <input type="date" class="form-control" class="form-control1 ng-invalid ng-invalid-required"  ng-model="model.date" name="date" id="date1">
-            </div>
-			 <div class="col-md-8 form-group group-mail">
-              <label class="control-label">Current Position</label>
-			  <input type="text" class="form-control" placeholder="Your current position in your Company/Intitute" id="current_pos" name="cur_pos">	   
+				<label class="control-label">Date Of Birth</label></br>
+				<input type="date" class="form-control" class="form-control1 ng-invalid ng-invalid-required" ng-model="model.date"
+				 name="date" id="date1">
+			</div>
+			<div class="col-md-8 form-group group-mail">
+				<label class="control-label">Current Position</label>
+				<input type="text" class="form-control" placeholder="Your current position in your Company/Intitute" id="current_pos"
+				 name="cur_pos">
 			</div>
 			<div class="col-md-8 form-group group-mail">
 				<label class="control-label">College</label>
-				<input type="text" class="form-control" placeholder="College name" id="college" name="collegename">	   
-			  </div>	
-			<div class="col-md-8 form-group group-mail">
-              <label class="control-label">Country</label>
-              <select name="country"  class="form-control">
-									{% for i in c %}
-										<option value="{{i['name']}}">{{i['name']}}</option>
-									{% endfor %}
-									
-									</select>
+				<input type="text" class="form-control" placeholder="College name" id="college" name="collegename">
 			</div>
 			<div class="col-md-8 form-group group-mail">
-              <label class="control-label">Profile Pic</label>
-              <input type="file" class="form-control" name="file" id="file1">
-            </div>
-            <div class="col-md-12 form-group">
-              <button type="button" class="btn btn-primary" onclick="fun()">Submit</button>
-              <button type="reset" class="btn btn-default">Reset</button>
-            </div>
-          <div class="clearfix"> </div>
-        </form>
-	
-	
-	
-	
-	
-	
-		</div>
-	</div>	
-	<!-- end -->
-	<div class="modal fade" id="myModal11" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-body">
-          <p id="msg"></p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-      
-    </div>
-  </div>
+				<label class="control-label">Country</label>
+				<select name="country" class="form-control">
+					{% for i in c %}
+					<option value="{{i['name']}}">{{i['name']}}</option>
+					{% endfor %}
 
-	  
+				</select>
+			</div>
+			<div class="col-md-8 form-group group-mail">
+				<label class="control-label">Profile Pic</label>
+				<input type="file" class="form-control" name="file" id="file1">
+			</div>
+			<div class="col-md-12 form-group">
+				<button type="button" class="btn btn-primary" onclick="fun()">Submit</button>
+				<button type="reset" class="btn btn-default">Reset</button>
+			</div>
+			<div class="clearfix"> </div>
+		</form>
+	</div>
+</div>
+<!-- end -->
+<div class="modal fade" id="myModal11" role="dialog">
+	<div class="modal-dialog">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-body">
+				<p id="msg"></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+
+	</div>
+</div>
 	
  {% endblock %}
