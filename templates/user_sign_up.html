@@ -57,6 +57,11 @@ function fun(){
 		document.getElementById("msg").innerHTML="Password and Confirm Password must be Same"
 		$('#myModal11').modal('show');
 	}
+	else if(date.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter D.O.B"
+		$('#myModal11').modal('show');	
+	}
 	else if(x[1]!='png' && x[1]!='jpeg' && x[1]!='jpg' && x[1]!='bmp' && file.value!='')
 	{
 		document.getElementById("msg").innerHTML="Image must be in form of jpg/jpeg/png/bmp"
@@ -73,23 +78,20 @@ function fun(){
 				document.getElementById("msg").innerHTML="EmailID is already exist."
 				$('#myModal11').modal('show');
 			}
-			else{
-				alert("success")
+			else
+			{
 				document.form1.submit();
 			}
-			
         }
         );		
 	}
 }
-
 </script>
 {% endblock %}
 </head>
 {% block body %}
-
+<br />
 <!-- start-->
-</br>
 <div class="contac1t">
 	<div class="container">
 		<div class="w3-heading-grid">
@@ -139,7 +141,7 @@ function fun(){
 				&nbsp;&nbsp;<input type="radio" value="Female" name="gn">Female</input>
 			</div>
 			<div class="col-md-8 form-group group-mail">
-				<label class="control-label">Date Of Birth</label></br>
+				<label class="control-label">Date Of Birth<strong style="color:red">*</strong></label>
 				<input type="date" class="form-control" class="form-control1 ng-invalid ng-invalid-required" ng-model="model.date"
 				 name="date" id="date1">
 			</div>
@@ -155,10 +157,10 @@ function fun(){
 			<div class="col-md-8 form-group group-mail">
 				<label class="control-label">Country</label>
 				<select name="country" class="form-control">
-					{% for i in c %}
+					<!-- {% for i in c %}
 					<option value="{{i['name']}}">{{i['name']}}</option>
-					{% endfor %}
-
+					{% endfor %} -->
+					<option value="abc">ABC</option>
 				</select>
 			</div>
 			<div class="col-md-8 form-group group-mail">
@@ -189,5 +191,4 @@ function fun(){
 
 	</div>
 </div>
-	
  {% endblock %}

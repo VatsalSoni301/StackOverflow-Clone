@@ -13,8 +13,8 @@ CREATE TABLE `user` (
 	`current_position` VARCHAR(250),
 	`college` VARCHAR(200),
 	`date_of_birth` DATETIME(6),
-	`up_votes` INT(8) DEFAULT '0',
-	`down_votes` INT(8) DEFAULT '0',
+	`up_votes` INT(8) NOT NULL DEFAULT '0',
+	`down_votes` INT(8) NOT NULL DEFAULT '0',
 	`date_of_reg` DATETIME(6) NOT NULL,
 	`profile_pic` VARCHAR(200),
 	PRIMARY KEY (`user_id`)
