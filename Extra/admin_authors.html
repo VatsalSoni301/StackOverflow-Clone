@@ -1,0 +1,75 @@
+
+{% extends 'admin_base.html' %}
+			{% block head %}
+<head>
+<title>Admin</title>
+<style type="text/css">
+body
+{
+    counter-reset: Serial;           /* Set the Serial counter to 0 */
+}
+
+table
+{	
+	text-align: center;
+	border-radius: 10px;
+    border-collapse: separate;
+   	width: 100%; 
+}
+th{
+	height: 50px;
+	text-align: center;
+	padding:10px;
+}
+tr td{
+	padding:10px;
+	margin: 5px;
+}
+tr td:first-child:before
+{
+  counter-increment: Serial;   
+  content:counter(Serial); 
+}
+</style> 
+</head>
+{% endblock %}
+{% block body %}
+  		<!--banner-->	
+		    <div class="banner">
+		   
+				<h2>
+				{{name}}
+				</h2>
+		    </div>
+			<div class="grid-form">
+ 		
+ <div class="grid-form1">
+ <table border="1" style="overflow-x:auto;">
+ 	<tr>
+ 		<th style="text-align: center;">Sr.No</th>
+ 		<th style="text-align: center;">Name</th>
+		<th style="text-align: center;">Connected With Paper</th>
+	<!-- 	<th style="text-align: center;">Paper To Be Reviewed</th>
+		<th style="text-align: center;">Total Papers</th> -->
+ 	</tr>
+ 	
+ 	{% for item in k %}
+ 	<tr>
+ 		<td></td>
+ 		<td style="width:50%">
+		<a href="{{url_for('admin_author_details',a_id=item['id'])}}">{{item['name']}}</a>
+		</td>
+		<td>{{item['no_paper']}}</td>
+		<!-- <td>{{item['Remaining']}}</td>
+		<td>{{item['Total']}}</td> -->
+ 	</tr>	
+	{% endfor %}
+	
+ </table>
+	
+  </div>
+
+ 	</div>
+		
+{% endblock %}
+

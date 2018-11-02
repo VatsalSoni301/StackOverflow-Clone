@@ -1,0 +1,67 @@
+
+{% extends 'admin_base.html' %}
+{% block head %}
+<head>
+<title>Admin</title>
+</head>
+{% endblock %}
+{% block body %}
+  		<!--banner-->	
+		    <div class="banner">
+		   
+				<h2>
+				{{name}}/<a href="{{url_for('author_paper_details',a_id=a_id)}}">Paper associated with Author</a>
+				</h2>
+		    </div>
+		<div class="validation-system">
+ 		
+ 		<div class="validation-form">
+  	    
+        <form name="form1">
+         	<div class="col-md-8 form-group">
+			
+				<input type="hidden" class="form-control" id="a_id" name="a_id" value="{{k[0]}}">
+									<label for="exampleInputName2">Name</label>
+									<input type="text" class="form-control" id="name1" name="name" readonly="" value="{{k[1]}}">
+									</div> 
+
+										<div class="col-md-8 form-group ">
+										<label for="exampleInputName2">Email Id</label>
+										<input type="text" class="form-control" id="email1" name="email" readonly=""  value="{{k[2]}}">
+									  </div> 
+									  
+									  <div class="col-md-8 form-group">
+										<label for="exampleInputName2">Designation</label>
+										<input type="text" class="form-control" id="designation1" name="designation" readonly=""  value="{{k[3]}}">
+									  </div> 
+									  
+									   <div class="col-md-8 form-group">
+										<label for="exampleInputName2">Department</label>
+										<input type="text" class="form-control" id="department1" name="department" readonly=""  value="{{k[6]}}">
+									  </div> 
+									  
+									    <div class="col-md-8 form-group">
+										<label for="exampleInputName2">Institute</label>
+										<input type="text" class="form-control" id="institute1" name="institute" readonly=""  value="{{k[7]}}">
+									  </div>  
+									  
+									   <div class="col-md-8 form-group">
+										<label for="exampleInputName2">City</label>
+										<input type="text" class="form-control" id="city1" name="city" readonly=""  value="{{k[4]}}">
+									  </div> 
+									  
+									  <div class="col-md-8 form-group">
+										<label for="exampleInputName2">Country</label>
+										<input type="text" class="form-control" id="country1" name="country" readonly=""  value="{{k[5]}}">
+									  </div> 	
+           
+            
+            
+          <div class="clearfix"> </div>
+        </form>
+    
+ 	<!---->
+ </div>
+</div>
+{% endblock %}
+
