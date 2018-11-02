@@ -51,6 +51,10 @@ def user_signup_1():
 	db.session.add(usr)
 	db.session.commit()
 	return redirect(url_for('.user_signup'))
+	
+@app.route("/admin_login")
+def admin():
+	return render_template('admin_login.html')
 
 @app.route("/bookmark")
 def bookmark():
