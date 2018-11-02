@@ -47,6 +47,51 @@ hr.style17:after {
 }
 </style>
 <script>
+		function add_data(){
+			
+			var email=document.getElementById("email1_lg")
+			var password=document.getElementById("pass1_lg")
+			
+			 var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+			if(email.value=='')
+			{
+				document.getElementById("msg").innerHTML="Please Enter EmailID"
+				$('#myModal11').modal('show');
+			}
+			else if(reg.test(email.value) == false)
+			{
+				document.getElementById("msg").innerHTML="Please Enter Valid EmailID"
+				$('#myModal11').modal('show');
+			}
+			else if(password.value=='')
+			{
+				document.getElementById("msg").innerHTML="Please Enter Password"
+				$('#myModal11').modal('show');
+			}
+			else{
+				
+				$.post("/signin_1",
+				{
+				  email:email.value,
+				  password:password.value,
+				},
+				function(data,status){
+					if(data=="wrong")
+					{
+						document.getElementById("msg").innerHTML="Unauthorized user"
+						$('#myModal11').modal('show');
+					}
+					else{
+						document.form11.submit();
+					}
+					
+				}
+				);
+			}	
+			
+		}
+</script>
+<script>
 	function searchGlobal()
 	{
 		searchText=document.getElementById("search_global1").value;
@@ -63,6 +108,53 @@ hr.style17:after {
  {% endblock %}
 </head>
 <body>
+
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+		<!-- Modal1 -->
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4>Sign in</h4>
+
+					<div class="container">
+						<form" method="post" name="form11">
+
+							<div class="input-group" style="width:45%">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+								<input id="email1_lg" type="text" class="form-control" name="email" placeholder="Email">
+							</div>
+
+
+							<div class="input-group" style="width:45%">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+								<input id="pass1_lg" type="password" class="form-control" name="password" placeholder="Password">
+							</div>
+
+							<input type="button" class="btn btn-primary" value="Signin" onclick="add_data()">
+							</br>
+							<hr class="style17"></br></br>
+							<div class="input-group">
+								<a href="/google" class="fa fa-google  fa-2x" style="color:white;background: #dd4b39;padding:10px"></a>
+							</div>
+
+							<div class="input-group">
+								<p>Do not have an account?</p>
+								<a href="/user_sign_up">Signup</a>
+							</div>
+
+							<div class="input-group"><a href="/password">Forget Password?</a>
+							</div>
+
+							</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<form name="tempform" method="post">
 	</form>
 <!-- header -->
@@ -150,8 +242,8 @@ hr.style17:after {
 					<address>
 						<ul>
 							
-							<li style="color:#fff">Telephone : +1 (734) 123-4567</li>
-							<li style="color:#fff">Email : <a class="mail" href="mailto:mail@example.com">info(at)example.com</a></li>
+							<li style="color:#fff">Telephone : +91 (8511) 112501 </li>
+							<li style="color:#fff">Email : <a class="mail" href="mailto:mail@example.com">admin@empty_flask.com</a></li>
 						</ul>
 					</address>
 				</div>
@@ -206,7 +298,7 @@ hr.style17:after {
 	   </div>
      </div>
 	<div class="copy">
-		<p> &copy;All Rights Reserved | Designed by Super 2</p>
+		<p> &copy;All Rights Reserved | Designed by empty_flask</p>
 	</div>
 <!--/footer -->
 <!-- js -->
@@ -283,6 +375,26 @@ hr.style17:after {
 		<a href="#home" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
 	</div>
 <!-- //smooth scrolling -->
+
+<!-- Error Message modal-->
+	<div class="modal fade" id="myModal11" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+
+				<div class="modal-body">
+					<p id="msg"></p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
 <script type="text/javascript" src="/static/static_1/js/bootstrap-3.1.1.min.js"></script>
 </body>
 </html>

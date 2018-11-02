@@ -11,6 +11,10 @@ def index():
 def signup():
 	return render_template('user_sign_up.html')
 
+@app.route("/admin_login")
+def admin():
+	return render_template('admin_login.html')
+
 @app.route("/bookmark")
 def bookmark():
 	return render_template('bookmark.html')
