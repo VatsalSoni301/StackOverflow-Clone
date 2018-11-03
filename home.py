@@ -84,6 +84,10 @@ def admin():
 def bookmark():
 	return render_template('bookmark.html')
 
+@app.route("/que_page")
+def que_page():
+	return render_template('que_page.html')
+
 @app.route("/ask_question")
 def ask_question():
 	return render_template('ask_question.html')
