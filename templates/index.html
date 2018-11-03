@@ -50,15 +50,62 @@
 
 	<script>
 
-		function bookmarkFunction()
+		function addtodo(obj) 
 		{
-			alert("hello")
+			uid = document.getElementById("usr_id").value;
+			qid = obj.getAttribute("name");
+			alert(uid);
+			alert(qid);
+			$.post("/add_answer_later_1",
+				{
+					usr: uid,
+					que: qid
+				}
+			);
 		}
-		
-		$(document).ready(function(){
+		function removetodo(obj) 
+		{
+			uid = document.getElementById("usr_id").value;
+			qid = obj.getAttribute("name");
+			alert(uid);
+			alert(qid);
+			$.post("/rm_answer_later_1",
+				{
+					usr: uid,
+					que: qid
+				}
+			);
+		}
+		function addbookmark(obj) 
+		{
+			uid = document.getElementById("usr_id").value;
+			qid = obj.getAttribute("name");
+			alert(uid);
+			alert(qid);
+			$.post("/add_bookmark_1",
+				{
+					usr: uid,
+					que: qid
+				}
+			);
+		}
+		function removebookmark(obj) 
+		{
+			uid = document.getElementById("usr_id").value;
+			qid = obj.getAttribute("name");
+			alert(uid);
+			alert(qid);
+			$.post("/rm_bookmark_1",
+				{
+					usr: uid,
+					que: qid
+				}
+			);
+		}
+		$(document).ready(function () {
 			$('[data-toggle="popover"]').popover({
-				placement : 'top',
-				trigger : 'hover'
+				placement: 'top',
+				trigger: 'hover'
 			});
 		});
 
@@ -68,6 +115,7 @@
 {% block body %}
 <br>
 {% for i in questionList%}
+<input type="hidden" value="{{i['uid']}}" id="usr_id">
 <div class="quebox">
 	<div class="panel panel-info">
 		<div class="panel-heading">
@@ -82,7 +130,7 @@
 		<div class="panel-body">
 			<span class="tag">
 				{% for tagname in i['tags'] %}
-				<a class="label label-info taglable" href="#" >{{tagname['name']}}</a>
+				<a class="label label-info taglable" href="#">{{tagname['name']}}</a>
 				{% endfor %}
 			</span>
 
@@ -91,43 +139,44 @@
 					Posted on : <span>{{i['date']}}</span>
 				</div>
 				<div>
-					By : <span><a href="#">{{i['fname']}} {{i['lname']}}</a></span>
+					By : <span><a href="{{url_for('view_profile',uid=i['uid'])}}">{{i['fname']}} {{i['lname']}}</a></span>
 				</div>
 			</span>
 		</div>
 		<div class="panel-footer">
 			<span>
-				<span class="viewansvotes">View : </span><span>12</span>
-				<span class="viewansvotes">Ans : </span><span>10</span>
-				<span class="viewansvotes">Votes : </span><span>0</span>
+				<span class="viewansvotes">View : </span><span>{{i['views']}}</span>
+				<span class="viewansvotes">Ans : </span><span>{{i['ans']}}</span>
+				<span class="viewansvotes">Votes : </span><span>{{i['votes']}}</span>
 				<span style="float:right">
-					{% if 0  %}
+					{% if i['answered'] %}
+					<span class="bookmarksym" data-toggle="popover" data-content="answered">
+						<span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+					</span>
+					{% else %}
+					{% if i['ans_later']==0 %}
 					<span class="bookmarksym" data-toggle="popover" data-content="answer later">
-							<span class="fa fa-plus-square-o" onclick="addtodo()"></span>
-					</span>	
+						<span class="fa fa-plus-square-o" name="{{i['id']}}" onclick="addtodo(this)"></span>
+					</span>
 					{% else %}
 					<span class="bookmarksym" data-toggle="popover" data-content="remove from TODO">
-							<span class="fa fa-plus-square" onclick="removetodo()"></span>
-					</span>	
-					
-					<span class="bookmarksym" data-toggle="popover" data-content="answered">
-							<span  class="glyphicon glyphicon-check" aria-hidden="true"></span>   
-					</span>	
+						<span class="fa fa-plus-square" name="{{i['id']}}" onclick="removetodo(this)"></span>
+					</span>
 					{% endif %}
-
-					{% if 0 %}
+					{% endif %}
+					{% if i['BID']==0 %}
 					<span class="bookmarksym" data-toggle="popover" data-content="bookmark">
-						<span class="glyphicon glyphicon-star-empty" aria-hidden="true" onclick="addbookmark()"></span>
+						<span class="glyphicon glyphicon-star-empty" aria-hidden="true" name="{{i['id']}}" onclick="addbookmark(this)"></span>
 					</span>
 					{% else %}
 					<span class="bookmarksym" data-toggle="popover" data-content="remove bookmark">
-						<span class="glyphicon glyphicon-star" aria-hidden="true" onclick="removebookmark()"></span>
-					</span>	
+						<span class="glyphicon glyphicon-star" aria-hidden="true" name="{{i['id']}}" onclick="removebookmark(this)"></span>
+					</span>
 					{% endif %}
 				</span>
 
 			</span>
-			
+
 		</div>
 	</div>
 

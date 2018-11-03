@@ -58,6 +58,8 @@ class answer(db.Model):
 	ans_date = db.Column('ans_date',db.DateTime,nullable=False)
 	user_id = db.Column(db.ForeignKey('user.user_id'))
 	question_id = db.Column(db.ForeignKey('questions.question_id'))
+	#def count(self,qid):
+
 
 class bookmark(db.Model):
 	__tablename__ = 'bookmark'
