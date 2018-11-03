@@ -1,8 +1,98 @@
 {% extends 'home_base.html' %}
 {% block head %}
+
 <head>
 	<title>AskQuestion</title>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.css" rel="stylesheet">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.js"></script>
+
+	<script>
+		function add_data() {
+
+			var email = document.getElementById("title")
+			var password = document.getElementById("pass1_lg")
+
+			var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+			if (email.value == '') {
+				document.getElementById("msg").innerHTML = "Please Enter EmailID"
+				$('#myModal11').modal('show');
+			}
+			else if (reg.test(email.value) == false) {
+				document.getElementById("msg").innerHTML = "Please Enter Valid EmailID"
+				$('#myModal11').modal('show');
+			}
+			else if (password.value == '') {
+				document.getElementById("msg").innerHTML = "Please Enter Password"
+				$('#myModal11').modal('show');
+			}
+		}
+	</script>
 </head>
 {% endblock %}
 {% block body %}
+<br />
+<div class="contac1t">
+	<div class="container">
+		<div class="w3-heading-grid">
+			<div class="w3layouts_head">
+				<h3 class="tittle">ASK Question</h3>
+				<div class="border"></div>
+			</div>
+		</div>
+		<form action="{{ url_for('') }}" method="POST" enctype="multipart/form-data" name="form1">
+			<p style="color:red">* - Required Fields... </p>
+
+			<div class="col-md-12 form-group group-mail">
+				<label>Title <strong style="color:red">*</strong></label>
+				<input type="text" class="form-control" placeholder="Title" id="title" name="title">
+			</div>
+			<div class="clearfix"></div>
+			<div class="col-md-12 form-group group-mail">
+				<label>Content <strong style="color:red">*</strong></label>
+				<div id="summernote"></div>
+			</div>
+			<div class="clearfix"></div>
+			<div class="col-md-8 form-group group-mail">
+				<label>Tag-1 <strong style="color:red">*</strong></label>
+				<input type="text" class="form-control" placeholder="Tag-1" id="tag_1" name="tag_1">
+			</div>
+			<div class="col-md-8 form-group group-mail">
+				<label>Tag-2</label>
+				<input type="text" class="form-control" placeholder="Tag-2" id="tag_2" name="tag_2">
+			</div>
+			<div class="col-md-8 form-group group-mail">
+				<label>Tag-3</label>
+				<input type="text" class="form-control" placeholder="Tag-3" id="tag_3" name="tag_3">
+			</div>
+			<div class="col-md-8 form-group group-mail">
+				<label>Tag-4</label>
+				<input type="text" class="form-control" placeholder="Tag-4" id="tag_4" name="tag_4">
+			</div>
+			<div class="col-md-8 form-group group-mail">
+				<label>Tag-5</label>
+				<input type="text" class="form-control" placeholder="Tag-5" id="tag_5" name="tag_5">
+			</div>
+			<div class="col-md-12 form-group">
+				<button type="button" class="btn btn-primary" onclick="fun()">Submit</button>
+				<button type="reset" class="btn btn-default">Reset</button>
+			</div>
+			<div class="clearfix"> </div>
+		</form>
+	</div>
+</div>
+<script>
+	$('#summernote').summernote({
+		toolbar: [
+			['style', ['bold', 'italic', 'underline', 'clear']],
+			['insert', ['link', 'picture']],
+			['para', ['ol']]
+		],
+		placeholder: 'Question Content',
+		tabsize: 2,
+		height: 300,
+		width: 1000
+	});
+</script>
+
 {% endblock %}
