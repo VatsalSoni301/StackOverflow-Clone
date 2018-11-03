@@ -176,6 +176,108 @@ def que_page():
 def ask_question():
 	return render_template('ask_question.html')
 
+@app.route("/ask_question_1",methods=['POST'])
+def ask_question_1():
+	title = request.form['title']
+	sn = request.form['editordata']
+	tag1 = request.form['tag_1']
+	tag2 = request.form['tag_2']
+	tag3 = request.form['tag_3']
+	tag4 = request.form['tag_4']
+	tag5 = request.form['tag_5']
+	date_of_question = datetime.utcnow()
+	tagid1 = None
+	tagid2 = None
+	tagid3 = None
+	tagid4 = None
+	tagid5 = None
+
+	tg = tag.query.filter_by(tag_name=tag1).first()
+	if tg==None:
+		tg = tag(tag_name=tag1)
+		db.session.add(tg)
+		db.session.commit()
+		tagid1=tg.tag_id
+	else:
+		tagid1=tg.tag_id
+
+	if tag2!=None or tag2!="":
+		tg = tag.query.filter_by(tag_name=tag2).first()
+		if tg==None: 
+			tg = tag(tag_name=tag2)
+			db.session.add(tg)
+			db.session.commit()
+			tagid2=tg.tag_id
+		else:
+			tagid2=tg.tag_id
+
+	if tag3!=None or tag3!="":
+		tg = tag.query.filter_by(tag_name=tag3).first()
+		if tg==None :
+			tg = tag(tag_name=tag3)
+			if tg.tag_name!="":
+				db.session.add(tg)
+				db.session.commit()
+				tagid3=tg.tag_id
+		else:
+			tagid3=tg.tag_id
+
+	if tag4!=None or tag4!="":
+		tg = tag.query.filter_by(tag_name=tag4).first()
+		if tg==None:
+			tg = tag(tag_name=tag4)
+			if tg.tag_name!="":
+				db.session.add(tg)
+				db.session.commit()
+				tagid4=tg.tag_id
+		else:
+			tagid4=tg.tag_id
+
+	if tag5!=None or tag5!="":
+		tg = tag.query.filter_by(tag_name=tag5).first()
+		if tg==None:
+			tg = tag(tag_name=tag5)
+			if tg.tag_name!="":
+				db.session.add(tg)
+				db.session.commit()
+				tagid5=tg.tag_id
+		else:
+			tagid5=tg.tag_id
+
+
+	que=questions(user_id=1,question_content=sn,title=title,votes=0,delete_votes=0,views=0,que_date=date_of_question)
+	db.session.add(que)
+	db.session.commit()
+	qid = que.question_id 
+
+	if tagid1!=None and tagid1!="":
+		qt = que_tag(tag_id=tagid1,question_id=qid)
+		db.session.add(qt)
+		db.session.commit()
+
+	if tagid2!=None  and tagid2!="":
+		qt = que_tag(tag_id=tagid2,question_id=qid)
+		db.session.add(qt)
+		db.session.commit()
+
+	if tagid3!=None and tagid3!="":
+		qt = que_tag(tag_id=tagid3,question_id=qid)
+		db.session.add(qt)
+		db.session.commit()
+
+	if tagid4!=None and tagid4!="":
+		qt = que_tag(tag_id=tagid4,question_id=qid)
+		db.session.add(qt)
+		db.session.commit()
+
+	if tagid5!=None and tagid5!="":
+		qt = que_tag(tag_id=tagid5,question_id=qid)
+		db.session.add(qt)
+		db.session.commit()
+
+	return render_template('index.html')
+
+
 @app.route("/todo")
 def todo():
 	return render_template('todo.html')
