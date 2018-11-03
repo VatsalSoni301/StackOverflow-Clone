@@ -71,7 +71,8 @@ def user_sign_in_1():
 	email = request.form['email']
 	password = request.form['password']
 	usr = user.query.filter_by(email_id=email,password=password).first()
-	if usr:
+	print "@@@@@@@@@@@@@",usr.user_id
+	if usr!="None":
 		return "success"
 	else:
 		return "wrong"
@@ -93,8 +94,9 @@ def user_sign_up():
 def view_profile():
 	uid= request.args.get('uid', default='', type=str)
 	usr = user.query.filter_by(user_id=uid).first()
+	con = country.query.filter_by(country_id=usr.country_id).first()
 	user_dict={'fname':usr.first_name,'lname':usr.last_name,'email':usr.email_id,\
-	'country':usr.country,'current':usr.current_position,'college':usr.college,\
+	'country':con.country_name,'current':usr.current_position,'college':usr.college,\
 	'date':usr.date_of_birth,'pic':usr.profile_pic,'gn':usr.gender}
 
 	ques_obj = questions.query.filter_by(user_id=uid)
@@ -122,7 +124,7 @@ def user_sign_up_1():
 	last = request.form['lname']
 	gender = request.form['gn']
 	mobile = request.form['mobile']
-	country = request.form['country']
+	country = int(request.form['country'])
 	current_pos = request.form['cur_pos']
 	college = request.form['collegename']
 	dob = request.form['date']
@@ -140,7 +142,7 @@ def user_sign_up_1():
 			f.save(destination)
 			destination=filename
 	
-	usr = user(first_name=first,middle_name=middle,last_name=last,email_id=email,password=password,gender=gender,mobile_no=mobile,country=country,current_position=current_pos,college=college,date_of_birth=dob,date_of_reg=dd,profile_pic=destination)
+	usr = user(first_name=first,middle_name=middle,last_name=last,email_id=email,password=password,gender=gender,mobile_no=mobile,country_id=country,current_position=current_pos,college=college,date_of_birth=dob,date_of_reg=dd,profile_pic=destination)
 	db.session.add(usr)
 	db.session.commit()
 	return redirect(url_for('.index'))
@@ -246,7 +248,7 @@ def ask_question_1():
 			tagid5=tg.tag_id
 
 
-	que=questions(user_id=1,question_content=sn,title=title,votes=0,delete_votes=0,views=0,que_date=date_of_question)
+	que=questions(user_id=2,question_content=sn,title=title,votes=0,delete_votes=0,views=0,que_date=date_of_question)
 	db.session.add(que)
 	db.session.commit()
 	qid = que.question_id 

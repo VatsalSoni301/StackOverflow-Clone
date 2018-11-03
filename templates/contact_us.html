@@ -1,274 +1,86 @@
 {% extends 'home_base.html' %}
 {% block head %}
+
 <head>
-<!-- <script src='https://www.google.com/recaptcha/api.js'></script> -->
-<script>
-function add_data(){
-	
-	var email=document.getElementById("email1")
-	var password=document.getElementById("pass1")
-	var role1=document.getElementById("role1")
-	var role2=document.getElementById("role2")
-	var rolex;
-	if(role1.checked)
-	{
-		rolex=role1.value;
-	}
-	else{
-		rolex=role2.value;
-	}
-	 var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-	if(email.value=='')
-	{
-		document.getElementById("msg").innerHTML="Please Enter EmailID"
-		$('#myModal11').modal('show');
-	}
-	else if(reg.test(email.value) == false)
-	{
-		document.getElementById("msg").innerHTML="Please Enter Valid EmailID"
-		$('#myModal11').modal('show');
-	}
-	else if(password.value=='')
-	{
-		document.getElementById("msg").innerHTML="Please Enter Password"
-		$('#myModal11').modal('show');
-	}
-	else{
-		
-		$.post("/signin_1",
-        {
-          email:email.value,
-		  password:password.value,
-		  role:rolex
-        },
-		function(data,status){
-			if(data=="wrong")
-			{
-				document.getElementById("msg").innerHTML="Unauthorized user"
+	<!-- <script src='https://www.google.com/recaptcha/api.js'></script> -->
+
+	<script>
+		function add_ct() {
+			var name = document.getElementById("name1").value;
+			var email = document.getElementById("email_ct1").value;
+			var mobile = document.getElementById("mobile1").value;
+			var message = document.getElementById("message1").value;
+			var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+			var reg1 = /^[A-Za-z]+$/;
+			var reg2 = /^[0-9]+$/;
+			if (name == '') {
+				document.getElementById("msg").innerHTML = "Please Enter Name"
 				$('#myModal11').modal('show');
 			}
-			else{
+			else if (!name.match(reg1)) {
+				document.getElementById("msg").innerHTML = "Only Alphabetic allow and Space does not allow"
+				$('#myModal11').modal('show');
+			}
+			else if (email == '') {
+				document.getElementById("msg").innerHTML = "Please Enter EmailID"
+				$('#myModal11').modal('show');
+			}
+			else if (reg.test(email) == false) {
+				document.getElementById("msg").innerHTML = "Please Enter valid EmailID"
+				$('#myModal11').modal('show');
+			}
+			else if (mobile == '') {
+				document.getElementById("msg").innerHTML = "Please Enter Mobile No"
+				$('#myModal11').modal('show');
+			}
+			else if (!mobile.match(reg2)) {
+				document.getElementById("msg").innerHTML = "Only Numeric allow and Space does not allow"
+				$('#myModal11').modal('show');
+			}
+			else if (mobile.length != 10) {
+				document.getElementById("msg").innerHTML = "Mobile No must be of 10 digit"
+				$('#myModal11').modal('show');
+			}
+			else if (message == '') {
+				document.getElementById("msg").innerHTML = "Please Enter Message"
+				$('#myModal11').modal('show');
+			}
+			else {
+				alert("Data added successfully")
 				document.form1.submit();
 			}
-			
-        }
-        );
-	}	
-	
-}
-
-</script>
-<script>
-function add_ct()
-{
-	var name=document.getElementById("name1").value;
-	var email=document.getElementById("email_ct1").value;
-	var mobile=document.getElementById("mobile1").value;
-	var message=document.getElementById("message1").value;
-	var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-	var reg1 = /^[A-Za-z]+$/;
-	var reg2 = /^[0-9]+$/;
-	if(name=='')
-	{
-		document.getElementById("msg").innerHTML="Please Enter Name"
-		$('#myModal11').modal('show');
-	}
-	else if(!name.match(reg1))
-	{
-		document.getElementById("msg").innerHTML="Only Alphabetic allow and Space does not allow"
-		$('#myModal11').modal('show');
-	}
-	else if(email=='')
-	{
-		document.getElementById("msg").innerHTML="Please Enter EmailID"
-		$('#myModal11').modal('show');
-	}
-	else if(reg.test(email) == false)
-	{
-		document.getElementById("msg").innerHTML="Please Enter valid EmailID"
-		$('#myModal11').modal('show');
-	}
-	else if(mobile=='')
-	{
-		document.getElementById("msg").innerHTML="Please Enter Mobile No"
-		$('#myModal11').modal('show');
-	}
-	else if(!mobile.match(reg2))
-	{
-		document.getElementById("msg").innerHTML="Only Numeric allow and Space does not allow"
-		$('#myModal11').modal('show');
-	}
-	else if(mobile.length!=10)
-	{
-		document.getElementById("msg").innerHTML="Mobile No must be of 10 digit"
-		$('#myModal11').modal('show');
-	}
-	else if(message=='')
-	{
-		document.getElementById("msg").innerHTML="Please Enter Message"
-		$('#myModal11').modal('show');
-	}
-	else
-	{
-		alert("Data added successfully")
-		document.form11.submit();
-	}
-}
-</script>
-{% endblock %}
+		}
+	</script>
+	{% endblock %}
 </head>
 {% block body %}
-
-
-	<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
-		<!-- Modal1 -->
-		<div class="modal-dialog">
-			<!-- Modal content-->
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-							<h4>Signin</h4>
-							
-					
-<div class="container">
-  <form method="post" name="form1">
-  
-  <div class="col-md-8 form-group ">
-              <!-- <label>Member</label> &nbsp;&nbsp; -->
-              <input type="radio" name="role" value="user"  id="role1" checked>User</input>
-			  &nbsp;&nbsp;<input type="radio" value="expert" id="role2" name="role">Reviewer</input>
-            </div>
-  
-   <!-- <div class="input-group" style="width:45%">
-   <select name="role" id="role1" class="form-control">										
-	
-		<option value="expert">Expert</option>
-		<option value="user" selected>User</option>
-		</select>
-    </div> -->
-  
- 
-    <div class="input-group" style="width:45%">
-      <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-      <input id="email1" type="text" class="form-control" name="email" placeholder="Email">
-    </div>
-	
-
-    <div class="input-group" style="width:45%">
-      <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-      <input id="pass1" type="password" class="form-control" name="password" placeholder="Password">
-    </div>
-    
-	<input type="button" class="btn btn-primary" value="Signin" onclick="add_data()" > 
-	</br><hr class="style17"></br></br>
-	<!-- <div class="input-group">
-	<a href="/google" class="fa fa-google  fa-2x" style="color:white;background: #dd4b39;padding:10px"></a>
-	</div>  -->
-	
-	<div class="input-group"><p>Do not have an account?</p>
-		<a href="/user_sign_up">Signup</a>		
-     </div>
-	   
-	 <div class="input-group"><a  href="/password">Forget Password?</a>	
-      </div>  
-	  
-	 
-  </form>
-   
-</div>							
-							</div>
-				</div>
-		</div>
-	</div>
-
-	<!-- start-->
-	</br>
-	<div>
-		<div class="container">
-			<div class="w3-heading-grid">
-			
+<!-- start-->
+<br />
+<div>
+	<div class="container">
+		<div>
 			<div>
 				<h3 class="tittle">Contact</h3>
-					<div class="border"></div>
-				</div>
-				
+				<div class="border"></div>
 			</div>
-			
-			
-
-			<div class="contact-form">
-				<h4 style="color:#f36371">Contact Form</h4><br />
-				<form method="post" name="form11">
-				
-			<!-- 	<div class="form-group">
-						<label for="exampleInputName2">Name</label>
-						<input type="text" class="form-control"  placeholder="Name" id="name1" name="name">		
-				</div> 
-				<div class="form-group">
-						<label for="exampleInputName2">Email Id</label>
-						<input type="text" class="form-control" placeholder="Email" id="email_ct1" name="email_ct"  >		
-				</div> 
-				<div class="form-group">
-						<label for="exampleInputName2">Mobile</label>
-						<input type="text" class="form-control" id="mobile1" name="mobile" placeholder="Mobile">		
-				</div> 
-				<div class="form-group">
-						<label for="exampleInputName2">Message</label>
-						<textarea placeholder="Message" id="message1" name="message" >					
-						</textarea> 
-				</div>  -->
-				
-					 <input class="col-1" type="text" placeholder="Name" id="name1" name="name">
-					<input type="email" placeholder="Email" id="email_ct1" name="email_ct">
-					<input type="text" placeholder="Mobile" id="mobile1" name="mobile">
-					<textarea placeholder="Message" id="message1" name="message"></textarea> 
-					<!-- <div class="g-recaptcha" data-sitekey="6LdvCjAUAAAAAI0AbUHdhWJ0x64bESY0qtg4Faxn"></div>  -->
-					</br><input type="button" class="btn-primary btn" value="Submit" onclick="add_ct()"> 
-					
-				</form>
-			</div>	
-			
 		</div>
-		
-	</div>	
-	<!-- end -->
-	
-	
-  	
-   <!-- Footer -->
-   </br>
-	
-	 <div class="modal fade" id="myModal11" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-body">
-          <p id="msg"></p>
-        </div>
-        <div class="modal-footer">
-		
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-      
-    </div>
-  </div>
-  <div class="modal fade" id="myModal12" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-body">
-          <p id="msg1"></p>
-        </div>
-        <div class="modal-footer">
-		<form>
-          <input type="button" class="btn btn-default" onclick="tp()" value="Ok">
-		 </form>
-        </div>
-      </div>
-      
-    </div>
-  </div>
-	{% endblock %}
+		<div class="contact-form">
+			<h4 style="color:#f36371">Contact Form</h4><br />
+			<form method="post" name="form1">
+
+				<input class="col-1" type="text" placeholder="Name" id="name1" name="name">
+				<input type="email" placeholder="Email" id="email_ct1" name="email_ct">
+				<input type="text" placeholder="Mobile" id="mobile1" name="mobile">
+				<textarea placeholder="Message" id="message1" name="message"></textarea>
+				<!-- <div class="g-recaptcha" data-sitekey="6LdvCjAUAAAAAI0AbUHdhWJ0x64bESY0qtg4Faxn"></div>  -->
+				<br /><input type="button" class="btn-primary btn" value="Submit" onclick="add_ct()">
+
+			</form>
+		</div>
+
+	</div>
+
+</div>
+<!-- end -->
+<br />
+{% endblock %}

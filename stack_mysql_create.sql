@@ -7,7 +7,7 @@ CREATE TABLE `user` (
 	`last_name` VARCHAR(50) NOT NULL,
 	`gender` VARCHAR(10),
 	`mobile_no` VARCHAR(10),
-	`country` VARCHAR(50),
+	`country_id` INT(8),
 	`state` VARCHAR(50),
 	`city` VARCHAR(50),
 	`current_position` VARCHAR(250),
@@ -105,6 +105,8 @@ CREATE TABLE `country` (
 	`country_name` VARCHAR(30) NOT NULL UNIQUE,
 	PRIMARY KEY (`country_id`)
 );
+
+ALTER TABLE `user` ADD CONSTRAINT `user_fk0` FOREIGN KEY (`country_id`) REFERENCES `country`(`country_id`);
 
 ALTER TABLE `questions` ADD CONSTRAINT `questions_fk0` FOREIGN KEY (`user_id`) REFERENCES `user`(`user_id`);
 
