@@ -12,11 +12,11 @@ CREATE TABLE `user` (
 	`city` VARCHAR(50),
 	`current_position` VARCHAR(250),
 	`college` VARCHAR(200),
-	`date_of_birth` DATETIME(6),
+	`date_of_birth` DATETIME(6) NOT NULL,
 	`up_votes` INT(8) NOT NULL DEFAULT '0',
 	`down_votes` INT(8) NOT NULL DEFAULT '0',
 	`date_of_reg` DATETIME(6) NOT NULL,
-	`profile_pic` VARCHAR(200),
+	`profile_pic` VARCHAR(100),
 	PRIMARY KEY (`user_id`)
 );
 
@@ -24,11 +24,13 @@ CREATE TABLE `questions` (
 	`question_id` INT(8) NOT NULL AUTO_INCREMENT,
 	`user_id` INT(8) NOT NULL,
 	`question_content` VARCHAR(1000) NOT NULL,
-	`title` VARCHAR(100) NOT NULL,
+	`title` VARCHAR(200) NOT NULL,
 	`votes` INT(8) NOT NULL DEFAULT '0',
 	`delete_votes` INT(8) NOT NULL DEFAULT '0',
 	`que_date` DATETIME(6) NOT NULL,
 	`views` INT(8) NOT NULL DEFAULT '0',
+	`question_image` VARCHAR(100),
+	`question_code` VARCHAR(1000),
 	PRIMARY KEY (`question_id`)
 );
 
@@ -39,6 +41,8 @@ CREATE TABLE `answer` (
 	`ans_content` VARCHAR(1000) NOT NULL,
 	`votes` INT(8) NOT NULL DEFAULT '0',
 	`ans_date` DATETIME(6) NOT NULL,
+	`answer_code` VARCHAR(1000),
+	`answer_image` VARCHAR(100),
 	PRIMARY KEY (`ans_id`)
 );
 
@@ -53,7 +57,7 @@ CREATE TABLE `comment` (
 	`comment_id` INT(8) NOT NULL AUTO_INCREMENT,
 	`ans_id` INT(8) NOT NULL,
 	`user_id` INT(8) NOT NULL,
-	`comment_content` VARCHAR(500) NOT NULL,
+	`comment_content` VARCHAR(1000) NOT NULL,
 	`comment_date` DATETIME(6) NOT NULL,
 	PRIMARY KEY (`comment_id`)
 );
@@ -72,7 +76,7 @@ CREATE TABLE `admin` (
 	`gender` VARCHAR(10),
 	`date_of_birth` DATETIME(6),
 	`date_of_reg` DATETIME(6) NOT NULL,
-	`profile_pic` VARCHAR(200),
+	`profile_pic` VARCHAR(100),
 	PRIMARY KEY (`admin_id`)
 );
 
