@@ -22,7 +22,7 @@ class user(db.Model):
 	last_name = db.Column('last_name',db.String,nullable=False)
 	gender = db.Column('gender',db.String)
 	mobile_no = db.Column('mobile_no',db.String)
-	country = db.Column('country',db.String)
+	country_id = db.Column(db.ForeignKey('country.country_id'))
 	state = db.Column('state',db.String)
 	city = db.Column('city',db.String)
 	current_position = db.Column('current_position',db.String(250))
@@ -58,7 +58,6 @@ class answer(db.Model):
 	ans_date = db.Column('ans_date',db.DateTime,nullable=False)
 	user_id = db.Column(db.ForeignKey('user.user_id'))
 	question_id = db.Column(db.ForeignKey('questions.question_id'))
-	#def count(self,qid):
 
 
 class bookmark(db.Model):
