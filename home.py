@@ -205,9 +205,10 @@ def ask_question_1():
 		tg = tag.query.filter_by(tag_name=tag2).first()
 		if tg==None: 
 			tg = tag(tag_name=tag2)
-			db.session.add(tg)
-			db.session.commit()
-			tagid2=tg.tag_id
+			if tg.tag_name!="":
+				db.session.add(tg)
+				db.session.commit()
+				tagid2=tg.tag_id
 		else:
 			tagid2=tg.tag_id
 
@@ -275,7 +276,7 @@ def ask_question_1():
 		db.session.add(qt)
 		db.session.commit()
 
-	return render_template('index.html')
+	return redirect(url_for('.index'))
 
 
 @app.route("/todo")
