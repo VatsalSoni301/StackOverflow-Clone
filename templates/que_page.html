@@ -11,213 +11,243 @@
 {% block body %}
 <br>
 <div class="queanscontainer">
-<div class="quebox">
-    <div class="panel panel-info">
-        <div class="panel-heading">
-            <span class="panel-title">
-                <span class="quetitle">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+    <div class="quebox">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <span class="panel-title">
+                    <span class="quetitle">
+                        Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                    </span>
                 </span>
-            </span>
 
-        </div>
-        <div class="panel-body">
+            </div>
+            <div class="panel-body">
 
-            A hash function that maps names to integers from 0 to 15. There is a collision between keys "John Smith"
-            and "Sandra
-            Dee".
-            A hash function is any function that can be used to map data of arbitrary size to data of a fixed size. The
-            values
-            returned by a hash function are called hash values, hash codes, digests, or simply hashes. Hash functions
-            are often
-            used in combination with a hash table, a common data structure used in computer software for rapid data
-            lookup. Hash
-            functions accelerate table or database lookup by detecting duplicated records in a large file. One such
-            application
-            <br>
-            <hr>
-            <span class="tag">
-                <a class="label label-info taglable" href="#">HTML</a>
-                <a class="label label-info taglable" href="#">CSS</a>
-                <a class="label label-info taglable" href="#">Javascript</a>
-                <a class="label label-info taglable" href="#">Angularjs</a>
-            </span>
-
-            <span class="askerinfo">
-                <div>
-                    Posted on :
-                    <span>22-Jan-2018</span>
-                </div>
-                <div>
-                    By : <span><a href="#">Darshan Kansagara</a></span>
-                </div>
-            </span>
-
-        </div>
-        <div class="panel-footer">
-            <span>
-                {% if 1 %}
-                <span class="updownvotesym" data-toggle="popover" data-content="upvote">
-                    <i class="fa fa-thumbs-o-up" onclick="upvote()"></i>
+                A hash function that maps names to integers from 0 to 15. There is a collision between keys "John
+                Smith"
+                and "Sandra
+                Dee".
+                A hash function is any function that can be used to map data of arbitrary size to data of a fixed size.
+                The
+                values
+                returned by a hash function are called hash values, hash codes, digests, or simply hashes. Hash
+                functions
+                are often
+                used in combination with a hash table, a common data structure used in computer software for rapid data
+                lookup. Hash
+                functions accelerate table or database lookup by detecting duplicated records in a large file. One such
+                application
+                <br>
+                <hr>
+                <span class="tag">
+                    <a class="label label-info taglable" href="#">HTML</a>
+                    <a class="label label-info taglable" href="#">CSS</a>
+                    <a class="label label-info taglable" href="#">Javascript</a>
+                    <a class="label label-info taglable" href="#">Angularjs</a>
                 </span>
-                {% else %}
-                <span class="updownvotesym" data-toggle="popover" data-content="clear">
-                    <i class="fa fa-thumbs-up" onclick="upvote()"></i>
-                </span>
-                {% endif %}
 
-                <span class="updownvotesym">12</span>
-
-                {% if 0 %}
-                <span class="updownvotesym" data-toggle="popover" data-content="downvote">
-                    <i class="fa fa-thumbs-o-down" onclick="downvote()"></i>
+                <span class="askerinfo">
+                    <div>
+                        Posted on :
+                        <span>22-Jan-2018</span>
+                    </div>
+                    <div>
+                        By : <span><a href="#">Darshan Kansagara</a></span>
+                    </div>
                 </span>
-                {% else %}
-                <span class="updownvotesym" data-toggle="popover" data-content="clear">
-                    <i class="fa fa-thumbs-down" onclick="downvote()"></i>
-                </span>
-                {% endif %}
 
-                <span style="float:right">
-                    {% if 0 %}
-                    <span class="bookmarksym" data-toggle="popover" data-content="answer later">
-                        <span class="fa fa-plus-square-o" onclick="addtodo()"></span>
+            </div>
+            <div class="panel-footer">
+                <span>
+                    {% if 1 %}
+                    <span class="updownvotesym" data-toggle="popover" data-content="upvote">
+                        <i class="fa fa-thumbs-o-up" onclick="upvote()"></i>
                     </span>
                     {% else %}
-                    <span class="bookmarksym" data-toggle="popover" data-content="remove from TODO">
-                        <span class="fa fa-plus-square" onclick="removetodo()"></span>
-                    </span>
-
-                    <span class="bookmarksym" data-toggle="popover" data-content="answered">
-                        <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+                    <span class="updownvotesym" data-toggle="popover" data-content="clear">
+                        <i class="fa fa-thumbs-up" onclick="upvote()"></i>
                     </span>
                     {% endif %}
 
+                    <span class="updownvotesym">12</span>
+
                     {% if 0 %}
-                    <span class="bookmarksym" data-toggle="popover" data-content="bookmark">
-                        <span class="glyphicon glyphicon-star-empty" aria-hidden="true" onclick="addbookmark()"></span>
+                    <span class="updownvotesym" data-toggle="popover" data-content="downvote">
+                        <i class="fa fa-thumbs-o-down" onclick="downvote()"></i>
                     </span>
                     {% else %}
-                    <span class="bookmarksym" data-toggle="popover" data-content="remove bookmark">
-                        <span class="glyphicon glyphicon-star" aria-hidden="true" onclick="removebookmark()"></span>
+                    <span class="updownvotesym" data-toggle="popover" data-content="clear">
+                        <i class="fa fa-thumbs-down" onclick="downvote()"></i>
                     </span>
                     {% endif %}
-                </span>
 
-            </span>
+                    <span style="float:right">
+                        {% if 0 %}
+                        <span class="bookmarksym" data-toggle="popover" data-content="answer later">
+                            <span class="fa fa-plus-square-o" onclick="addtodo()"></span>
+                        </span>
+                        {% else %}
+                        <span class="bookmarksym" data-toggle="popover" data-content="remove from TODO">
+                            <span class="fa fa-plus-square" onclick="removetodo()"></span>
+                        </span>
+
+                        <span class="bookmarksym" data-toggle="popover" data-content="answered">
+                            <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+                        </span>
+                        {% endif %}
+
+                        {% if 0 %}
+                        <span class="bookmarksym" data-toggle="popover" data-content="bookmark">
+                            <span class="glyphicon glyphicon-star-empty" aria-hidden="true" onclick="addbookmark()"></span>
+                        </span>
+                        {% else %}
+                        <span class="bookmarksym" data-toggle="popover" data-content="remove bookmark">
+                            <span class="glyphicon glyphicon-star" aria-hidden="true" onclick="removebookmark()"></span>
+                        </span>
+                        {% endif %}
+                    </span>
+
+                </span>
+            </div>
         </div>
     </div>
-</div>
-{% for i in range(1) %}
-<div class="ansbox">
-    <div class="panel panel-info">
-        <div class="panel-heading">
-            <span class="panel-title">
-                <span class="answertitle">
-                    <span>
-                        Answer by : <span><a class="ansby" href="#">Darshan Kansagara</a></span>
-                    </span>
-                </span>
-            </span>
-
-        </div>
-        <div class="panel-body">
-
-            A hash function that maps names to integers from 0 to 15. There is a collision between keys "John Smith"
-            and "Sandra
-            Dee".
-            A hash function is any function that can be used to map data of arbitrary size to data of a fixed size. The
-            values
-            returned by a hash function are called hash values, hash codes, digests, or simply hashes. Hash functions
-            are often
-            used in combination with a hash table, a common data structure used in computer software for rapid data
-            lookup. Hash
-            functions accelerate table or database lookup by detecting duplicated records in a large file. One such
-            application
-            <br>
-        
-            <span class="comment">
-                {% for i in range(4) %}
-                <span>
-                    <hr class="commenthr">
-                    <span>
-                        comment dbaDb functions accelerate table or database lookup by detecting duplicated records in a
-                        large file. One such
-                        application
-                        <span class="commentposterinfo"> 
-                            <span>
-                                -- by : <span><a href="#">Darshan Kansagara</a></span>
-                            </span>
-                            <span>
-                                on :
-                                <span>22-Jan-2018</span>
-                            </span>
+    {% for i in range(1) %}
+    <div class="ansbox">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <span class="panel-title">
+                    <span class="answertitle">
+                        <span>
+                            Answer by : <span><a class="ansby" href="#">Darshan Kansagara</a></span>
                         </span>
                     </span>
                 </span>
-                {% endfor %}
-                <br><br>
-                <div>
-                    <div style="width:60%;float: left;">
-                            <input type="text" class="form-control" placeholder="Comment here">
-                    </div>
-                    <div style="float:left;margin-left: 12px">
-                        <button class="btn btn-primary">comment</button>
-                    </div> 
-                </div>
-            </span>
-            
-        </div>
-        <div class="panel-footer">
-            <span>
-                {% if 1 %}
-                <span class="updownvotesym" data-toggle="popover" data-content="upvote">
-                    <i class="fa fa-thumbs-o-up" onclick="upvote()"></i>
-                </span>
-                {% else %}
-                <span class="updownvotesym" data-toggle="popover" data-content="clear">
-                    <i class="fa fa-thumbs-up" onclick="upvote()"></i>
-                </span>
-                {% endif %}
 
-                <span class="updownvotesym">12</span>
+            </div>
+            <div class="panel-body">
 
-                {% if 0 %}
-                <span class="updownvotesym" data-toggle="popover" data-content="downvote">
-                    <i class="fa fa-thumbs-o-down" onclick="downvote()"></i>
-                </span>
-                {% else %}
-                <span class="updownvotesym" data-toggle="popover" data-content="clear">
-                    <i class="fa fa-thumbs-down" onclick="downvote()"></i>
-                </span>
-                {% endif %}
+                A hash function that maps names to integers from 0 to 15. There is a collision between keys "John
+                Smith"
+                and "Sandra
+                Dee".
+                A hash function is any function that can be used to map data of arbitrary size to data of a fixed size.
+                The
+                values
+                returned by a hash function are called hash values, hash codes, digests, or simply hashes. Hash
+                functions
+                are often
+                used in combination with a hash table, a common data structure used in computer software for rapid data
+                lookup. Hash
+                functions accelerate table or database lookup by detecting duplicated records in a large file. One such
+                application
+                <br>
 
-                <span style="float:right">
+                <span class="comment">
+                    {% for i in range(4) %}
                     <span>
-                        Posted on :
-                        <span>22-Jan-2018</span>
+                        <hr class="commenthr">
+                        <span>
+                            comment dbaDb functions accelerate table or database lookup by detecting duplicated records
+                            in a
+                            large file. One such
+                            application
+                            <span class="commentposterinfo">
+                                <span>
+                                    -- by : <span><a href="#">Darshan Kansagara</a></span>
+                                </span>
+                                <span>
+                                    on :
+                                    <span>22-Jan-2018</span>
+                                </span>
+                            </span>
+                        </span>
                     </span>
+                    {% endfor %}
+                    <br><br>
+                    <div>
+                        <div style="width:60%;float: left;">
+                            <input type="text" class="form-control" placeholder="Comment here">
+                        </div>
+                        <div style="float:left;margin-left: 12px">
+                            <button class="btn btn-primary">comment</button>
+                        </div>
+                    </div>
                 </span>
 
-            </span>
+            </div>
+            <div class="panel-footer">
+                <span>
+                    {% if 1 %}
+                    <span class="updownvotesym" data-toggle="popover" data-content="upvote">
+                        <i class="fa fa-thumbs-o-up" onclick="upvote()"></i>
+                    </span>
+                    {% else %}
+                    <span class="updownvotesym" data-toggle="popover" data-content="clear">
+                        <i class="fa fa-thumbs-up" onclick="upvote()"></i>
+                    </span>
+                    {% endif %}
+
+                    <span class="updownvotesym">12</span>
+
+                    {% if 0 %}
+                    <span class="updownvotesym" data-toggle="popover" data-content="downvote">
+                        <i class="fa fa-thumbs-o-down" onclick="downvote()"></i>
+                    </span>
+                    {% else %}
+                    <span class="updownvotesym" data-toggle="popover" data-content="clear">
+                        <i class="fa fa-thumbs-down" onclick="downvote()"></i>
+                    </span>
+                    {% endif %}
+
+                    <span style="float:right">
+                        <span>
+                            Posted on :
+                            <span>22-Jan-2018</span>
+                        </span>
+                    </span>
+
+                </span>
+            </div>
         </div>
     </div>
-</div>
-{% endfor %}
+    {% endfor %}
 </div>
 <div class="sidebar">
-    <div>
-        <div style="width:80%;float:left">
-                <input class="form-control" type="text" name="search_global" placeholder="Search">
+    <fieldset>
+        <legend>Search</legend>
+        <div>
+            <div style="width:80%;float:left">
+                <input class="form-control" type="text" name="search_global" placeholder="Search Question">
+            </div>
+            <div style="width:15%;float:left;margin-left: 5px;">
+                <button type="button" class="btn btn-default" onclick="searchGlobal()">
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+            </div>
+            <br><br>
+            <div style="width:80%;float:left">
+                <input class="form-control" type="text" name="search_global" placeholder="Search by Tag">
+            </div>
+            <div style="width:15%;float:left;margin-left: 5px;">
+                <button type="button" class="btn btn-default" onclick="searchGlobal()">
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+            </div>
+
+            <br><br>
+            <div style="width:80%;float:left">
+                <input class="form-control" type="text" name="search_global" placeholder="Search by User">
+            </div>
+            <div style="width:15%;float:left;margin-left: 5px;">
+                <button type="button" class="btn btn-default" onclick="searchGlobal()">
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+            </div>
+
         </div>
-        <div style="width:15%;float:left;margin-left: 5px;">
-            <button type="button" class="btn btn-default" onclick="searchGlobal()">
-                <span class="glyphicon glyphicon-search"></span>
-            </button>
-        </div>
-        
-    </div>    
-    
+    </fieldset>
+
+
 </div>
 <div class="clearfix"></div>
 {% endblock %}

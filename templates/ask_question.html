@@ -27,7 +27,7 @@
 				document.getElementById("msg").innerHTML = "Please Enter Title"
 				$('#myModal11').modal('show');
 			}
-			else if(markupStr == ''){
+			else if(markupStr == '' || markupStr=="<br>"){
 				document.getElementById("msg").innerHTML = "Please Enter Content"
 				$('#myModal11').modal('show');
 			}
