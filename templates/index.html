@@ -3,90 +3,76 @@
 
 <head>
 	<title>Bookmark</title>
-
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<style>
 		.quebox{
 			width: 75%;
 			margin: 10px;
+			
 		}
 		.tag{
-
 			width: 60%;
+		}
+		.taglable{
+			color:black;
+			margin-left:5px;
+			background: #7edadb;
 		}
 		.askerinfo{
 			float: right;
-			width: 30%;
+			font-size: 12px;
 		}
 		.viewansvotes{
 			margin-left: 20px;
 		}
 		.quetitle{
 			font-size:16px;
-			color: #31708f;
 			text-decoration: none;
+			color:white;
+			font-weight: bold;
 		}
 		.bookmark{
 			float:right;
 			font-size:12px;
 		}
+		.bookmarksym{
+			margin-left: 15px;
+		}
+		.bookmarksym:hover{
+			display: inline-block;
+			cursor: pointer;
+		}
+		.panel-info > .panel-heading
+		{
+			background-color:#19b8bb 
+		}
 	</style>
+
+	<script>
+
+		function bookmarkFunction()
+		{
+			alert("hello")
+		}
+		
+		$(document).ready(function(){
+			$('[data-toggle="popover"]').popover({
+				placement : 'top',
+				trigger : 'hover'
+			});
+		});
+
+	</script>
 </head>
 {% endblock %}
 {% block body %}
 <br>
-<div class="quebox">
-	<div class="panel panel-info">
-		<div class="panel-heading">
-			<span class="panel-title">
-				<span>
-					<span style="font-size:24px">
-							Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-					</span>
-					<button type="button" class="btn btn-default bookmark">
-							<span class="glyphicon glyphicon-star" aria-hidden="true"></span> Bookmark
-					</button>
-				</span>
-				
-			</span>
-			
-		</div>
-		<div class="panel-body">
-
-			A hash function that maps names to integers from 0 to 15. There is a collision between keys "John Smith" and "Sandra
-			Dee".
-			A hash function is any function that can be used to map data of arbitrary size to data of a fixed size. The values
-			returned by a hash function are called hash values, hash codes, digests, or simply hashes. Hash functions are often
-			used in combination with a hash table, a common data structure used in computer software for rapid data lookup. Hash
-			functions accelerate table or database lookup by detecting duplicated records in a large file. One such application
-			<br>
-			<hr>
-			<span class="tag">
-				<a class="label label-info">HTML</a>
-				<a class="label label-info">CSS</a>
-				<a class="label label-info">Javascript</a>
-				<a class="label label-info">Angularjs</a>
-			</span>
-
-			<span class="askerinfo">
-				<div>
-					Posted on :
-					<span>22-Jan-2018</span>
-				</div>
-				<div>
-					By :
-					<span>Darshan</span>
-				</div>
-			</span>
-
-		</div>
-	</div>
-</div>
-
+{% for i in range(10)%}
 <div class="quebox">
 	<div class="panel panel-info">
 		<div class="panel-heading">
 			<span class="panel-title quetitle">
-				<a href="{{url_for('todo')}}">
+				<a href="{{url_for('que_page')}}">
 					<span >
 						Question title A hash function that maps names to
 						integers from 0
@@ -94,17 +80,13 @@
 					</span>
 				</a>
 			</span>
-			<!-- ISSUE : when line fill up bookmark goes below heading area -->
-			<span class="bookmark">
-				<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-			</span>
 		</div>
 		<div class="panel-body">
 			<span class="tag">
-				<a class="label label-info">HTML</a>
-				<a class="label label-info">CSS</a>
-				<a class="label label-info">Javascript</a>
-				<a class="label label-info">Angularjs</a>
+				<a class="label label-info taglable" href="#" >HTML</a>
+				<a class="label label-info taglable" href="#">CSS</a>
+				<a class="label label-info taglable" href="#">Javascript</a>
+				<a class="label label-info taglable" href="#">Angularjs</a>
 			</span>
 
 			<span class="askerinfo">
@@ -112,7 +94,7 @@
 					Posted on : <span>22-Jan-2018</span>
 				</div>
 				<div>
-					By : <span>Darshan</span>
+					By : <span><a href="#">Darshan Kansagara</a></span>
 				</div>
 			</span>
 		</div>
@@ -121,11 +103,23 @@
 				<span class="viewansvotes">View : </span><span>12</span>
 				<span class="viewansvotes">Ans : </span><span>10</span>
 				<span class="viewansvotes">Votes : </span><span>0</span>
+				<span style="float:right">
+					<span class="bookmarksym" data-toggle="popover" data-content="answer later">
+							<span class="glyphicon glyphicon-tasks" aria-hidden="true" onclick="bookmarkFunction()"></span>
+					</span>	
+					<span class="bookmarksym" data-toggle="popover" data-content="bookmark">
+						<span class="glyphicon glyphicon-star-empty" aria-hidden="true" onclick="bookmarkFunction()"></span>
+					</span>
+					<span class="bookmarksym" data-toggle="popover" data-content="remove bookmark">
+						<span class="glyphicon glyphicon-star" aria-hidden="true" onclick="bookmarkFunction()"></span>
+					</span>	
+				</span>
 			</span>
+			
 		</div>
 	</div>
 
 </div>
-
+{% endfor %}
 
 {% endblock %}
