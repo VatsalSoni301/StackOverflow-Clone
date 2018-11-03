@@ -15,6 +15,7 @@ function fun(){
 	var password=document.getElementById("pass1")
 	var confirm=document.getElementById("cpass1")
 	var file=document.getElementById("file1")
+	var country_id=document.getElementById('countrty')
 	x=file.value.split(".")
 	 var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 	if(fname.value=='')
@@ -57,6 +58,11 @@ function fun(){
 		document.getElementById("msg").innerHTML="Password and Confirm Password must be Same"
 		$('#myModal11').modal('show');
 	}
+	else if(country_id.value==0)
+	{
+		document.getElementById("msg").innerHTML="Please select a country"
+		$('#myModal11').modal('show');
+	}
 	else if(date.value=='')
 	{
 		document.getElementById("msg").innerHTML="Please Enter D.O.B"
@@ -95,7 +101,7 @@ function fun(){
 <div class="contac1t">
 	<div class="container">
 		<div class="w3-heading-grid">
-			<div class="w3layouts_head">
+			<div>
 				<h3 class="tittle">Sign Up</h3>
 				<div class="border"></div>
 			</div>
@@ -155,8 +161,8 @@ function fun(){
 				<input type="text" class="form-control" placeholder="College name" id="college" name="collegename">
 			</div>
 			<div class="col-md-8 form-group group-mail">
-				<label class="control-label">Country</label>
-				<select name="country" class="form-control">
+				<label class="control-label">Country<strong style="color:red">*</strong></label>
+				<select name="country" id="countrty" class="form-control">
 						<option value="0">Select Country</option>
 					{% for i in country %}
 					<option value="{{i['id']}}">{{i['name']}}</option>
