@@ -67,34 +67,31 @@
 {% endblock %}
 {% block body %}
 <br>
-{% for i in range(10)%}
+{% for i in questionList%}
 <div class="quebox">
 	<div class="panel panel-info">
 		<div class="panel-heading">
 			<span class="panel-title quetitle">
 				<a href="{{url_for('que_page')}}">
-					<span >
-						Question title A hash function that maps names to
-						integers from 0
-						to 15. There is a collision 
+					<span>
+						{{i['title']}}
 					</span>
 				</a>
 			</span>
 		</div>
 		<div class="panel-body">
 			<span class="tag">
-				<a class="label label-info taglable" href="#" >HTML</a>
-				<a class="label label-info taglable" href="#">CSS</a>
-				<a class="label label-info taglable" href="#">Javascript</a>
-				<a class="label label-info taglable" href="#">Angularjs</a>
+				{% for tagname in i['tags'] %}
+				<a class="label label-info taglable" href="#" >{{tagname['name']}}</a>
+				{% endfor %}
 			</span>
 
 			<span class="askerinfo">
 				<div>
-					Posted on : <span>22-Jan-2018</span>
+					Posted on : <span>{{i['date']}}</span>
 				</div>
 				<div>
-					By : <span><a href="#">Darshan Kansagara</a></span>
+					By : <span><a href="#">{{i['fname']}} {{i['lname']}}</a></span>
 				</div>
 			</span>
 		</div>
