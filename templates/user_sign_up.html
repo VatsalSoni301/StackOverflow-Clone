@@ -157,10 +157,10 @@ function fun(){
 			<div class="col-md-8 form-group group-mail">
 				<label class="control-label">Country</label>
 				<select name="country" class="form-control">
-					<!-- {% for i in c %}
-					<option value="{{i['name']}}">{{i['name']}}</option>
-					{% endfor %} -->
-					<option value="abc">ABC</option>
+						<option value="0">Select Country</option>
+					{% for i in country %}
+					<option value="{{i['id']}}">{{i['name']}}</option>
+					{% endfor %}
 				</select>
 			</div>
 			<div class="col-md-8 form-group group-mail">

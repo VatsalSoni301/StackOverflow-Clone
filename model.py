@@ -81,6 +81,11 @@ class comment(db.Model):
 	comment_content = db.Column('comment_content',db.String,nullable=False)
 	comment_date = db.Column('comment_date',db.DateTime,nullable=False)
 
+class country(db.Model):
+	__tablename__ = 'country'
+	country_id = db.Column('country_id',db.Integer,primary_key=True)
+	country_name = db.Column('country_name',db.String,nullable=False)
+
 class admin(db.Model):
 	__tablename__ = 'admin'
 	admin_id = db.Column('admin_id',db.Integer,primary_key=True)

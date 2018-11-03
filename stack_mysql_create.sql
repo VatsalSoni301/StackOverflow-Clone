@@ -100,6 +100,12 @@ CREATE TABLE `answer_later` (
 	PRIMARY KEY (`later_id`)
 );
 
+CREATE TABLE `country` (
+	`country_id` INT(8) NOT NULL AUTO_INCREMENT,
+	`country_name` VARCHAR(30) NOT NULL UNIQUE,
+	PRIMARY KEY (`country_id`)
+);
+
 ALTER TABLE `questions` ADD CONSTRAINT `questions_fk0` FOREIGN KEY (`user_id`) REFERENCES `user`(`user_id`);
 
 ALTER TABLE `answer` ADD CONSTRAINT `answer_fk0` FOREIGN KEY (`user_id`) REFERENCES `user`(`user_id`);

@@ -82,13 +82,35 @@ def user_sign_in():
 
 @app.route("/user_sign_up")
 def user_sign_up():
-	return render_template('user_sign_up.html')
+	cn = country.query.all()
+	con = [{}]
+	del con[:]
+	for i in cn:
+		con.append({'id':i.country_id,'name':i.country_name})
+	return render_template('user_sign_up.html',country=con)
 
 @app.route("/view_profile")
 def view_profile():
 	uid= request.args.get('uid', default='', type=str)
-	usr = user.query.filter_by(user_id=uid)
-	return render_template('view_profile.html')
+	usr = user.query.filter_by(user_id=uid).first()
+	user_dict={'fname':usr.first_name,'lname':usr.last_name,'email':usr.email_id,\
+	'country':usr.country,'current':usr.current_position,'college':usr.college,\
+	'date':usr.date_of_birth,'pic':usr.profile_pic,'gn':usr.gender}
+
+	ques_obj = questions.query.filter_by(user_id=uid)
+	ques_set = [{}]
+	del ques_set[:]
+	for item in ques_obj:
+		ques_set.append({'id':item.question_id,'title':item.title})
+
+	ans_obj = answer.query.filter_by(user_id=uid)
+	ques_ans_set = [{}]
+	del ques_ans_set[:]
+	for item in ans_obj:
+		que_detail = questions.query.filter_by(question_id=item.question_id).first()
+		ques_ans_set.append({'title':que_detail.title,'id':que_detail.question_id})
+	
+	return render_template('view_profile.html',usr_dict=user_dict,qset=ques_set,ansset=ques_ans_set)
 
 @app.route("/user_sign_up_1",methods=['POST'])
 def user_sign_up_1():
