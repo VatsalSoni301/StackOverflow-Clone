@@ -66,6 +66,22 @@
         {
             alert("downvote")  
         }
+        function addtodo()
+        {
+            alert("Add todo")
+        }
+        function removetodo()
+        {
+            alert("remove todo")
+        }
+        function addbookmark()
+        {
+            alert("add bookmark")
+        }
+        function removebookmark()
+        {
+            alert("remove bookmark")
+        }
 
     </script>
 </head>
@@ -140,23 +156,27 @@
                     {% endif %}
 
                     <span style="float:right">
-                        {% if 0 %}
+                        {% if 0  %}
                         <span class="bookmarksym" data-toggle="popover" data-content="answer later">
-                                <span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
+                                <span class="fa fa-plus-square-o" onclick="addtodo()"></span>
                         </span>	
                         {% else %}
                         <span class="bookmarksym" data-toggle="popover" data-content="remove from TODO">
-                                <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+                                <span class="fa fa-plus-square" onclick="removetodo()"></span>
+                        </span>	
+                        
+                        <span class="bookmarksym" data-toggle="popover" data-content="answered">
+                                <span  class="glyphicon glyphicon-check" aria-hidden="true"></span>   
                         </span>	
                         {% endif %}
 
                         {% if 0 %}
                         <span class="bookmarksym" data-toggle="popover" data-content="bookmark">
-                            <span class="glyphicon glyphicon-star-empty" aria-hidden="true" onclick="bookmarkFunction()"></span>
+                            <span class="glyphicon glyphicon-star-empty" aria-hidden="true" onclick="addbookmark()"></span>
                         </span>
                         {% else %}
                         <span class="bookmarksym" data-toggle="popover" data-content="remove bookmark">
-                            <span class="glyphicon glyphicon-star" aria-hidden="true" onclick="bookmarkFunction()"></span>
+                            <span class="glyphicon glyphicon-star" aria-hidden="true" onclick="removebookmark()"></span>
                         </span>	
                         {% endif %}
                     </span>
