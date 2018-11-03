@@ -27,9 +27,9 @@ class user(db.Model):
 	city = db.Column('city',db.String)
 	current_position = db.Column('current_position',db.String)
 	college = db.Column('college',db.String)
-	date_of_birth = db.Column('date_of_birth',db.DateTime)
-	up_votes = db.Column('up_votes',db.Integer)
-	down_votes = db.Column('down_votes',db.Integer)
+	date_of_birth = db.Column('date_of_birth',db.DateTime,nullable=False)
+	up_votes = db.Column('up_votes',db.Integer,default=0)
+	down_votes = db.Column('down_votes',db.Integer,default=0)
 	date_of_reg = db.Column('date_of_reg',db.DateTime,nullable=False)
 	profile_pic = db.Column('profile_pic',db.String)
 

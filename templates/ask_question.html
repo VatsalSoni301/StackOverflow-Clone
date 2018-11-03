@@ -1,8 +1,112 @@
 {% extends 'home_base.html' %}
 {% block head %}
+
 <head>
 	<title>AskQuestion</title>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.css" rel="stylesheet">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.js"></script>
+
+	<script>
+
+		$(document).ready(function() {
+			$('#summernote').summernote();
+		});
+
+		function fun() {
+			
+			var title = document.getElementById("title")
+			var markupStr = $('#summernote').val()
+			var tag1 = document.getElementById("tag_1")
+			var tag2 = document.getElementById("tag_2")
+			var tag3 = document.getElementById("tag_3")
+			var tag4 = document.getElementById("tag_4")
+			var tag5 = document.getElementById("tag_5")
+
+			if (title.value == '') {
+				document.getElementById("msg").innerHTML = "Please Enter Title"
+				$('#myModal11').modal('show');
+			}
+			else if(markupStr == ''){
+				document.getElementById("msg").innerHTML = "Please Enter Content"
+				$('#myModal11').modal('show');
+			}
+			else if(tag1.value == ''){
+				document.getElementById("msg").innerHTML = "Atleast one tag is compulsory"
+				$('#myModal11').modal('show');
+			}
+			else{
+				document.form1.submit();
+			}
+		}
+	</script>
 </head>
 {% endblock %}
 {% block body %}
+<br />
+<div class="contac1t">
+	<div class="container">
+		<div class="w3-heading-grid">
+			<div class="w3layouts_head">
+				<h3 class="tittle">ASK Question</h3>
+				<div class="border"></div>
+			</div>
+		</div>
+		{{content}}
+		<form action="{{ url_for('ask_question_1') }}" method="POST" enctype="multipart/form-data" name="form1">
+			<p style="color:red">* - Required Fields... </p>
+
+			<div class="col-md-12 form-group group-mail">
+				<label>Title <strong style="color:red">*</strong></label>
+				<input type="text" class="form-control" placeholder="Title" id="title" name="title">
+			</div>
+			<div class="clearfix"></div>
+			<div class="col-md-12 form-group group-mail">
+				<label>Content <strong style="color:red">*</strong></label>
+				<!-- <div id="summernote"></div> -->
+				<textarea class="summernote" id="summernote" name="editordata"></textarea>
+			</div>
+			<div class="clearfix"></div>
+			<div class="col-md-8 form-group group-mail">
+				<label>Tag-1 <strong style="color:red">*</strong></label>
+				<input type="text" class="form-control" placeholder="Tag-1" id="tag_1" name="tag_1">
+			</div>
+			<div class="col-md-8 form-group group-mail">
+				<label>Tag-2</label>
+				<input type="text" class="form-control" placeholder="Tag-2" id="tag_2" name="tag_2">
+			</div>
+			<div class="col-md-8 form-group group-mail">
+				<label>Tag-3</label>
+				<input type="text" class="form-control" placeholder="Tag-3" id="tag_3" name="tag_3">
+			</div>
+			<div class="col-md-8 form-group group-mail">
+				<label>Tag-4</label>
+				<input type="text" class="form-control" placeholder="Tag-4" id="tag_4" name="tag_4">
+			</div>
+			<div class="col-md-8 form-group group-mail">
+				<label>Tag-5</label>
+				<input type="text" class="form-control" placeholder="Tag-5" id="tag_5" name="tag_5">
+			</div>
+			<div class="col-md-12 form-group">
+				<button type="button" class="btn btn-primary" onclick="fun()">Submit</button>
+				<button type="reset" class="btn btn-default">Reset</button>
+			</div>
+			<div class="clearfix"> </div>
+		</form>
+	</div>
+</div>
+<script>
+	$('#summernote').summernote({
+		toolbar: [
+			['style', ['bold', 'italic', 'underline', 'clear']],
+			['insert', ['link', 'picture']],
+			['para', ['ol']],
+		],
+		placeholder: 'Question Content',
+		tabsize: 2,
+		height: 300,
+		width: 1000
+	});
+</script>
+
 {% endblock %}
