@@ -7,14 +7,13 @@ import os
 
 @app.route("/")
 def index():
-	return render_template('index.html')
+	return render_template('index.html',name="xyz")
 
 @app.route("/user_sign_in_1",methods=['POST'])
 def user_sign_in_1():
 	email = request.form['email']
 	password = request.form['password']
 	usr = user.query.filter_by(email_id=email,password=password).first()
-	print usr
 	if usr:
 		return "success"
 	else:
