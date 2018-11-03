@@ -1,0 +1,64 @@
+{% extends 'home_base.html' %}
+{% block head %}
+
+<head>
+</head>
+{% endblock %}
+{% block body %}
+<br />
+<!-- start-->
+
+<div class="container">
+    <span>
+        <img src="/static/Img/{{usr_dict['pic']}}" style="height:20%;width:20%" />
+    </span>
+    <span style="width:78%;float:right;">
+        <h1>{{usr_dict['fname']}} {{usr_dict['lname']}}</h1>
+        <h2>{{usr_dict['current']}}</h2>
+        <h2>{{usr_dict['college']}}</h2>
+        <h2>{{usr_dict['date']}}</h2>
+        <h2>{{usr_dict['gn']}}</h2>
+        <h2>{{usr_dict['email']}}</h2>
+    </span>
+    <br /><br />
+    <span style="width:100%">
+        <span style="width:50%;float: left;">
+            <h2 style="text-align:center">Asked Questions</h2>
+            <hr>
+            {% if qset %}
+            <ol type="1">
+                {% for i in qset %}
+                <li>
+                    <b><a style="text-decoration:none;" href="{{url_for('que_page')}}">{{i['title']}}</a></b>
+                </li>
+                <hr>
+            {% endfor %}
+            </ol>
+            {% else %}
+            <h3 style="text-align:center">No Questions yet.</h3>
+            {% endif %}
+        </span>
+        <span style="width:49%;float:right">
+            <h2 style="text-align:center">Answered Questions</h2>
+            <hr>
+            {% if ansset %}
+            <ol type="1">
+                {% for i in ansset %}
+                <li>
+                    <b><a style="text-decoration:none;" href="{{url_for('que_page')}}">{{i['title']}}</a></b>
+                </li>
+                <hr>
+            {% endfor %}
+            </ol>
+            {% else %}
+                <h3 style="text-align:center">No Answers yet.</h3>
+            {% endif %}
+        </span>
+    </span>
+    <span style="width:100%;float: right">
+        <hr>
+    </span>
+</div>
+
+<!-- end -->
+{% endblock %}

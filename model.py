@@ -58,6 +58,8 @@ class answer(db.Model):
 	ans_date = db.Column('ans_date',db.DateTime,nullable=False)
 	user_id = db.Column(db.ForeignKey('user.user_id'))
 	question_id = db.Column(db.ForeignKey('questions.question_id'))
+	#def count(self,qid):
+
 
 class bookmark(db.Model):
 	__tablename__ = 'bookmark'
@@ -78,6 +80,11 @@ class comment(db.Model):
 	ans_id = db.Column(db.ForeignKey('answer.ans_id'))
 	comment_content = db.Column('comment_content',db.String,nullable=False)
 	comment_date = db.Column('comment_date',db.DateTime,nullable=False)
+
+class country(db.Model):
+	__tablename__ = 'country'
+	country_id = db.Column('country_id',db.Integer,primary_key=True)
+	country_name = db.Column('country_name',db.String,nullable=False)
 
 class admin(db.Model):
 	__tablename__ = 'admin'

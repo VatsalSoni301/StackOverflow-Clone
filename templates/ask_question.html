@@ -8,23 +8,35 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.js"></script>
 
 	<script>
-		function add_data() {
 
-			var email = document.getElementById("title")
-			var password = document.getElementById("pass1_lg")
+		$(document).ready(function() {
+			$('#summernote').summernote();
+		});
 
-			var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-			if (email.value == '') {
-				document.getElementById("msg").innerHTML = "Please Enter EmailID"
+		function fun() {
+			
+			var title = document.getElementById("title")
+			var markupStr = $('#summernote').val()
+			var tag1 = document.getElementById("tag_1")
+			var tag2 = document.getElementById("tag_2")
+			var tag3 = document.getElementById("tag_3")
+			var tag4 = document.getElementById("tag_4")
+			var tag5 = document.getElementById("tag_5")
+
+			if (title.value == '') {
+				document.getElementById("msg").innerHTML = "Please Enter Title"
 				$('#myModal11').modal('show');
 			}
-			else if (reg.test(email.value) == false) {
-				document.getElementById("msg").innerHTML = "Please Enter Valid EmailID"
+			else if(markupStr == ''){
+				document.getElementById("msg").innerHTML = "Please Enter Content"
 				$('#myModal11').modal('show');
 			}
-			else if (password.value == '') {
-				document.getElementById("msg").innerHTML = "Please Enter Password"
+			else if(tag1.value == ''){
+				document.getElementById("msg").innerHTML = "Atleast one tag is compulsory"
 				$('#myModal11').modal('show');
+			}
+			else{
+				document.form1.submit();
 			}
 		}
 	</script>
@@ -40,7 +52,8 @@
 				<div class="border"></div>
 			</div>
 		</div>
-		<form action="{{ url_for('') }}" method="POST" enctype="multipart/form-data" name="form1">
+		{{content}}
+		<form action="{{ url_for('ask_question_1') }}" method="POST" enctype="multipart/form-data" name="form1">
 			<p style="color:red">* - Required Fields... </p>
 
 			<div class="col-md-12 form-group group-mail">
@@ -50,7 +63,8 @@
 			<div class="clearfix"></div>
 			<div class="col-md-12 form-group group-mail">
 				<label>Content <strong style="color:red">*</strong></label>
-				<div id="summernote"></div>
+				<!-- <div id="summernote"></div> -->
+				<textarea class="summernote" id="summernote" name="editordata"></textarea>
 			</div>
 			<div class="clearfix"></div>
 			<div class="col-md-8 form-group group-mail">
@@ -86,7 +100,7 @@
 		toolbar: [
 			['style', ['bold', 'italic', 'underline', 'clear']],
 			['insert', ['link', 'picture']],
-			['para', ['ol']]
+			['para', ['ol']],
 		],
 		placeholder: 'Question Content',
 		tabsize: 2,

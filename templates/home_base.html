@@ -27,48 +27,6 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 	<link href="//fonts.googleapis.com/css?family=Federo" rel="stylesheet">
 	<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
 	<!--//fonts-->
-	<style>
-		/* caret style */
-.caret {
-  position: relative;
-}
-
-/* dropdown style */
-.dropdown.open .caret:before,
-.dropdown.open .caret:after {
-  content: "";
-  position: absolute;
-  display: block;
-  width: 0;
-  height: 0;
-  border-width: 7px 8px;
-  border-style: solid;
-  border-color: transparent;
-  z-index: 1001;
-}
-.dropdown.open .caret:before {
-  bottom: -17px;
-  right: -8px;
-  border-bottom-color: #ccc;
-}
-.dropdown.open .caret:after {
-  bottom: -18px;
-  right: -8px;
-  border-bottom-color: #fff;
-}
-
-/* navbar style */
-.navbar-nav > li > .dropdown-menu {
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-}
-.navbar-nav > .open > a .caret:before {
-  bottom: -23px;
-}
-.navbar-nav > .open > a .caret:after {
-  bottom: -24px;
-}
-</style>
 	<script>
 		function add_data() {
 
@@ -175,50 +133,6 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 	<form name="tempform" method="post">
 	</form>
 	<!-- header -->
-	<div class="banner-top">
-		<div class="social-bnr-agileits">
-			<ul class="social-icons3">
-				<li><a href="#" class="fa fa-facebook icon-border facebook"> </a></li>
-				<li><a href="#" class="fa fa-twitter icon-border twitter"> </a></li>
-				<li><a href="#" class="fa fa-google-plus icon-border googleplus"> </a></li>
-				<li><a href="#" class="fa fa-rss icon-border rss"> </a></li>
-			</ul>
-		</div>
-		<div class="contact-bnr-w3-agile">
-			<ul>
-				<li>
-					<input class="form-control" type="text" id="search_global1" name="search_global" placeholder="Search" aria-label="Search">
-				</li>
-				<li>
-					<button type="button" class="btn btn-default" onclick="searchGlobal()">
-						<span class="glyphicon glyphicon-search"></span> Search
-					</button>
-				</li>
-				{% if name=="xyz" %}
-				<li>
-					<a href="#" data-toggle="modal" data-target="#myModal">Signin</a>
-				</li>
-				<li>
-					<a href="/user_sign_up"> Sign Up</a>
-				</li>
-				{% else %}
-
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						Menu
-						<b class="caret"></b>
-					</a>
-					<ul class="dropdown-menu dropdown-menu-right">
-						<li><a href="/User_Personal_Info"><i class="fa fa-user"></i>Edit Profile</a></li>
-						<li><a href="/user_change_pass"><i class="fa fa-key"></i>Change Password</a></li>
-						<li><a href="/signout_user"><i class="fa fa-sign-out"></i>SignOut</a></li>
-					</ul>
-				</li>
-				{% endif %}
-			</ul>
-		</div>
-		<div class="clearfix"></div>
-	</div>
 	<div class="w3_navigation">
 		<div class="container">
 			<nav class="navbar navbar-default">
@@ -239,10 +153,27 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 						<ul class="nav navbar-nav menu__list">
 							<li class="menu__item"><a href="/" class="menu__link">Home</a></li>
 							<li class="menu__item"><a href="/ask_question" class="menu__link">ASKQuestion</a></li>
-							<li class="menu__item"><a href="/bookmark" class="menu__link">BookMark</a></li>
-							<li class="menu__item"><a href="/todo" class="menu__link">TODO</a></li>
+							<li class="dropdown menu__item">
+									<a href="#" class="dropdown-toggle menu__link" data-toggle="dropdown">Activity<b class="caret"></b></a>
+									<ul class="dropdown-menu agile_short_dropdown">
+										<li><a href="/bookmark">Bookmark</a></li>
+										<li><a href="/todo">Answer Later</a></li>
+									</ul>
+								</li>
 							<li class="menu__item"><a href="/about_us" class="menu__link">AboutUS</a></li>
 							<li class="menu__item"><a href="/contact_us" class="menu__link">ContactUs</a></li>
+							{% if name=="xyz" %}
+							<li class="dropdown menu__item">
+									<a href="#" class="dropdown-toggle menu__link" data-toggle="dropdown">{{name}}<b class="caret"></b></a>
+									<ul class="dropdown-menu agile_short_dropdown">
+											<li><a href="/User_Personal_Info">Edit Profile</a></li>
+											<li><a href="/user_change_pass">Change Password</a></li>
+											<li><a href="/signout_user">SignOut</a></li>
+									</ul>
+								</li>
+							{% else %}
+							<li class="menu__item"><a href="#" class="menu__link" data-toggle="modal" data-target="#myModal">Signin</a></li>
+							{% endif %}
 						</ul>
 					</nav>
 				</div>
