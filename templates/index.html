@@ -104,16 +104,31 @@
 				<span class="viewansvotes">Ans : </span><span>10</span>
 				<span class="viewansvotes">Votes : </span><span>0</span>
 				<span style="float:right">
+					{% if 0  %}
 					<span class="bookmarksym" data-toggle="popover" data-content="answer later">
-							<span class="glyphicon glyphicon-tasks" aria-hidden="true" onclick="bookmarkFunction()"></span>
+							<span class="fa fa-plus-square-o" onclick="addtodo()"></span>
 					</span>	
+					{% else %}
+					<span class="bookmarksym" data-toggle="popover" data-content="remove from TODO">
+							<span class="fa fa-plus-square" onclick="removetodo()"></span>
+					</span>	
+					
+					<span class="bookmarksym" data-toggle="popover" data-content="answered">
+							<span  class="glyphicon glyphicon-check" aria-hidden="true"></span>   
+					</span>	
+					{% endif %}
+
+					{% if 0 %}
 					<span class="bookmarksym" data-toggle="popover" data-content="bookmark">
-						<span class="glyphicon glyphicon-star-empty" aria-hidden="true" onclick="bookmarkFunction()"></span>
+						<span class="glyphicon glyphicon-star-empty" aria-hidden="true" onclick="addbookmark()"></span>
 					</span>
+					{% else %}
 					<span class="bookmarksym" data-toggle="popover" data-content="remove bookmark">
-						<span class="glyphicon glyphicon-star" aria-hidden="true" onclick="bookmarkFunction()"></span>
+						<span class="glyphicon glyphicon-star" aria-hidden="true" onclick="removebookmark()"></span>
 					</span>	
+					{% endif %}
 				</span>
+
 			</span>
 			
 		</div>
