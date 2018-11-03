@@ -7,7 +7,20 @@ import os
 
 @app.route("/")
 def index():
-	return render_template('index.html',name="xyz")
+	set_questions_obj = questions.query.all()
+	set_questions = [{}]
+	for item in set_questions_obj:
+		tg_id = que_tag.query.filter_by(question_id=item.question_id)
+		tagName = []
+		for it in tg_id:
+			tgNameObj=tag.query.filter_by(tag_id=it.tag_id).first()
+			tagName.append(tgNameObj.tag_name)
+		usr = user.query.filter_by(user_id = item.user_id).first()
+		#book = bookmark.query.filter_by(user_id = id,question_id=item.question_id).first()
+		set_questions.append({'id':item.question_id,'title':item.title,'votes':item.votes,\
+		'views':item.views,'date':item.que_date,'fname':usr.first_name,'lname':usr.last_name,\
+		'tags':tagName,'BID':1})
+	return render_template('index.html',name="xyz",questionList=set_questions)
 
 @app.route("/user_sign_in_1",methods=['POST'])
 def user_sign_in_1():
