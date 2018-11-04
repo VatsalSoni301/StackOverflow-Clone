@@ -6,109 +6,85 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<title>StackOverflow</title>
-<!-- for-mobile-apps -->
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="keywords" content="Discipline Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
-Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony Ericsson, Motorola web design" />
-<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
-function hideURLbar(){ window.scrollTo(0,1); } </script>
-<!-- //for-mobile-apps -->
-<link href="/static/static_1/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
-<link href="/static/static_1/css/font-awesome.css" rel="stylesheet"> 
-<link rel="stylesheet" href="/static/static_1/css/flexslider.css" type="text/css" media="screen" property="" />
-<link href="/static/static_1/css/style.css" rel="stylesheet" type="text/css" media="all" />
-<script type="text/javascript" src="/static/static_1/js/modernizr-2.6.2.min.js"></script>
-<!--fonts-->
-<link href="//fonts.googleapis.com/css?family=Oswald:300,400,700" rel="stylesheet">
-<link href="//fonts.googleapis.com/css?family=Federo" rel="stylesheet">
-<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
-<!--//fonts-->
-<style>
-hr.style17 {
-	border-top: 1px solid #8c8b8b;
-	text-align: center;
-	float:left;
-	width:45%
-	}
-hr.style17:after {
-	
-	content: 'OR';
-	display: inline-block;
-	position: relative;
-	top: -14px;
-	padding: 0 10px;
-	background: #f0f0f0;
-	color: #8c8b8b;
-	font-size: 18px;
-	
-}
-</style>
-<script>
-		function add_data(){
-			
-			var email=document.getElementById("email1_lg")
-			var password=document.getElementById("pass1_lg")
-			
-			 var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-			if(email.value=='')
-			{
-				document.getElementById("msg").innerHTML="Please Enter EmailID"
-				$('#myModal11').modal('show');
-			}
-			else if(reg.test(email.value) == false)
-			{
-				document.getElementById("msg").innerHTML="Please Enter Valid EmailID"
-				$('#myModal11').modal('show');
-			}
-			else if(password.value=='')
-			{
-				document.getElementById("msg").innerHTML="Please Enter Password"
-				$('#myModal11').modal('show');
-			}
-			else{
-				
-				$.post("/signin_1",
-				{
-				  email:email.value,
-				  password:password.value,
-				},
-				function(data,status){
-					if(data=="wrong")
-					{
-						document.getElementById("msg").innerHTML="Unauthorized user"
-						$('#myModal11').modal('show');
-					}
-					else{
-						document.form11.submit();
-					}
-					
-				}
-				);
-			}	
-			
-		}
-</script>
-<script>
-	function searchGlobal()
-	{
-		searchText=document.getElementById("search_global1").value;
-		$.ajax({
-  		type: "POST",
-  		url: "/searchGlobalLink",
-  		data: { search: searchText}
-		}).done(function( o ) {
-			document.tempform.submit();
-		});	
-	}
-</script>
- {% block head %}
- {% endblock %}
-</head>
-<body>
 
+<head>
+	<title>StackOverflow</title>
+	<!-- for-mobile-apps -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="keywords" content="Discipline Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony Ericsson, Motorola web design" />
+	<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+function hideURLbar(){ window.scrollTo(0,1); } </script>
+	<!-- //for-mobile-apps -->
+	<link href="/static/static_1/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="/static/static_1/css/font-awesome.css" rel="stylesheet">
+	<link rel="stylesheet" href="/static/static_1/css/flexslider.css" type="text/css" media="screen" property="" />
+	<link href="/static/static_1/css/style.css" rel="stylesheet" type="text/css" media="all" />
+	<script type="text/javascript" src="/static/static_1/js/modernizr-2.6.2.min.js"></script>
+	<!--fonts-->
+	<link href="//fonts.googleapis.com/css?family=Oswald:300,400,700" rel="stylesheet">
+	<link href="//fonts.googleapis.com/css?family=Federo" rel="stylesheet">
+	<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
+	<!--//fonts-->
+	<script>
+		function add_data1() {
+
+			var email = document.getElementById("email1_lg")
+			var password = document.getElementById("pass1_lg")
+			
+			var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+			if (email.value == '') {
+				document.getElementById("msg").innerHTML = "Please Enter EmailID"
+				$('#myModal11').modal('show');
+			}
+			else if (reg.test(email.value) == false) {
+				document.getElementById("msg").innerHTML = "Please Enter Valid EmailID"
+				$('#myModal11').modal('show');
+			}
+			else if (password.value == '') {
+				document.getElementById("msg").innerHTML = "Please Enter Password"
+				$('#myModal11').modal('show');
+			}
+			else {
+
+				$.post("/user_sign_in_1",
+					{
+						email: email.value,
+						password: password.value,
+					},
+					function (data, status) {
+						if (data == "wrong") {
+							document.getElementById("msg").innerHTML = "Unauthorized user"
+							$('#myModal11').modal('show');
+						}
+						else {
+							document.form11.submit();
+						}
+
+					}
+				);
+			}
+
+		}
+	</script>
+	<script>
+		function searchGlobal() {
+			searchText = document.getElementById("search_global1").value;
+			$.ajax({
+				type: "POST",
+				url: "/searchGlobalLink",
+				data: { search: searchText }
+			}).done(function (o) {
+				document.tempform.submit();
+			});
+		}
+	</script>
+	{% block head %}
+	{% endblock %}
+</head>
+
+<body>
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
 		<!-- Modal1 -->
 		<div class="modal-dialog">
@@ -119,7 +95,7 @@ hr.style17:after {
 					<h4>Sign in</h4>
 
 					<div class="container">
-						<form" method="post" name="form11">
+						<form action="{{url_for('user_sign_in')}}" method="post" name="form11">
 
 							<div class="input-group" style="width:45%">
 								<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
@@ -131,23 +107,22 @@ hr.style17:after {
 								<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
 								<input id="pass1_lg" type="password" class="form-control" name="password" placeholder="Password">
 							</div>
-
-							<input type="button" class="btn btn-primary" value="Signin" onclick="add_data()">
-							</br>
-							<hr class="style17"></br></br>
+							<div class="input-group">
+								<input type="button" class="btn btn-primary" value="Signin" onclick="add_data1()">
+							</div>
 							<div class="input-group">
 								<a href="/google" class="fa fa-google  fa-2x" style="color:white;background: #dd4b39;padding:10px"></a>
 							</div>
 
 							<div class="input-group">
 								<p>Do not have an account?</p>
-								<a href="/user_sign_up">Signup</a>
+								<a href="{{url_for('user_sign_up')}}">Signup</a>
 							</div>
 
 							<div class="input-group"><a href="/password">Forget Password?</a>
 							</div>
 
-							</form>
+						</form>
 
 					</div>
 				</div>
@@ -157,38 +132,7 @@ hr.style17:after {
 
 	<form name="tempform" method="post">
 	</form>
-<!-- header -->
-		<div class="banner-top">
-			<div class="social-bnr-agileits">
-				<ul class="social-icons3">
-					<li><a href="#" class="fa fa-facebook icon-border facebook"> </a></li>
-					<li><a href="#" class="fa fa-twitter icon-border twitter"> </a></li>
-					<li><a href="#" class="fa fa-google-plus icon-border googleplus"> </a></li> 
-					<li><a href="#" class="fa fa-rss icon-border rss"> </a></li>
-				</ul>
-			</div>
-			<div class="contact-bnr-w3-agile">
-				<ul>
-					<li>
-						<input class="form-control" type="text" id="search_global1" name="search_global" placeholder="Search" aria-label="Search">
-					</li>
-					<li>
-							<button type="button" class="btn btn-default" onclick="searchGlobal()">
-									<span class="glyphicon glyphicon-search"></span> Search
-							</button>
-					</li>
-					<li>
-					<a href="#" data-toggle="modal" data-target="#myModal">Signin</a>                       
-                   </li>			
-					<li> 
-					 <a href="/user_sign_up" > Sign Up</a>
-                   </li>
-				<!-- <li>International Journal of Next-Generation Computing </li>	 -->
-					
-				</ul>
-			</div>
-			<div class="clearfix"></div>
-		</div>
+	<!-- header -->
 	<div class="w3_navigation">
 		<div class="container">
 			<nav class="navbar navbar-default">
@@ -199,9 +143,9 @@ hr.style17:after {
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					
+
 					<h1><a class="navbar-brand" href="/">StackOverflow</a></h1>
-					
+
 				</div>
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
@@ -209,10 +153,27 @@ hr.style17:after {
 						<ul class="nav navbar-nav menu__list">
 							<li class="menu__item"><a href="/" class="menu__link">Home</a></li>
 							<li class="menu__item"><a href="/ask_question" class="menu__link">ASKQuestion</a></li>
-							<li class="menu__item"><a href="/bookmark" class="menu__link">BookMark</a></li>
-							<li class="menu__item"><a href="/todo" class="menu__link">TODO</a></li>
+							<li class="dropdown menu__item">
+									<a href="#" class="dropdown-toggle menu__link" data-toggle="dropdown">Activity<b class="caret"></b></a>
+									<ul class="dropdown-menu agile_short_dropdown">
+										<li><a href="/bookmark">Bookmark</a></li>
+										<li><a href="/todo">Answer Later</a></li>
+									</ul>
+								</li>
 							<li class="menu__item"><a href="/about_us" class="menu__link">AboutUS</a></li>
 							<li class="menu__item"><a href="/contact_us" class="menu__link">ContactUs</a></li>
+							{% if name=="xyz" %}
+							<li class="dropdown menu__item">
+									<a href="#" class="dropdown-toggle menu__link" data-toggle="dropdown">{{name}}<b class="caret"></b></a>
+									<ul class="dropdown-menu agile_short_dropdown">
+											<li><a href="/User_Personal_Info">Edit Profile</a></li>
+											<li><a href="/user_change_pass">Change Password</a></li>
+											<li><a href="/signout_user">SignOut</a></li>
+									</ul>
+								</li>
+							{% else %}
+							<li class="menu__item"><a href="#" class="menu__link" data-toggle="modal" data-target="#myModal">Signin</a></li>
+							{% endif %}
 						</ul>
 					</nav>
 				</div>
@@ -221,27 +182,27 @@ hr.style17:after {
 	</div>
 	{% block body %}
 	{% endblock %}
-	
-   <!-- Footer -->
+
+	<!-- Footer -->
 	<div class="w3l-footer">
 		<div class="container">
-         <div class="1footer-info-agile">
+			<div class="1footer-info-agile">
 				<div class="col-md-4 footer-info-grid links">
 					<h4>Quick links</h4>
-					<ul>	
-						      <!--  <li><a href="/">Home</a></li>  -->
-								<li style="color:#fff"><a href="/ask_question">ASKQuestion</a></li> 
-								<li style="color:#fff"><a href="/bookmark">BookMark</a></li> 
-								<li style="color:#fff"><a href="/todo">TODO</a></li> 
-								<li style="color:#fff"><a href="/about_us">AboutUs</a></li>
-								<li style="color:#fff"><a href="/contact_us">ContactUs</a></li> 
+					<ul>
+						<!--  <li><a href="/">Home</a></li>  -->
+						<li style="color:#fff"><a href="/ask_question">ASKQuestion</a></li>
+						<li style="color:#fff"><a href="/bookmark">BookMark</a></li>
+						<li style="color:#fff"><a href="/todo">TODO</a></li>
+						<li style="color:#fff"><a href="/about_us">AboutUs</a></li>
+						<li style="color:#fff"><a href="/contact_us">ContactUs</a></li>
 					</ul>
 				</div>
 				<div class="col-md-4 footer-info-grid address">
 					<h4>Address</h4>
 					<address>
 						<ul>
-							
+
 							<li style="color:#fff">Telephone : +91 (8511) 112501 </li>
 							<li style="color:#fff">Email : <a class="mail" href="mailto:mail@example.com">admin@empty_flask.com</a></li>
 						</ul>
@@ -264,24 +225,24 @@ hr.style17:after {
 					<div class="clearfix"> </div>
 				</div> -->
 				<div class="col-md-4 footer-info-grid">
-				<div class="connect-social">
-					<h4>Connect with us</h4>
-					<section class="social">
-                        <ul>
-							<li><a class="icon fb" href="#"><i class="fa fa-facebook"></i></a></li>
-							<li><a class="icon tw" href="#"><i class="fa fa-twitter"></i></a></li>
-							
-							
-							<li><a class="icon pin" href="#"><i class="fa fa-pinterest"></i></a></li>
-							<li><a class="icon db" href="#"><i class="fa fa-dribbble"></i></a></li>
-							<li><a class="icon gp" href="#"><i class="fa fa-google-plus"></i></a></li>
-						</ul>
-					</section>
+					<div class="connect-social">
+						<h4>Connect with us</h4>
+						<section class="social">
+							<ul>
+								<li><a class="icon fb" href="#"><i class="fa fa-facebook"></i></a></li>
+								<li><a class="icon tw" href="#"><i class="fa fa-twitter"></i></a></li>
 
-				</div>
-					
 
-					
+								<li><a class="icon pin" href="#"><i class="fa fa-pinterest"></i></a></li>
+								<li><a class="icon db" href="#"><i class="fa fa-dribbble"></i></a></li>
+								<li><a class="icon gp" href="#"><i class="fa fa-google-plus"></i></a></li>
+							</ul>
+						</section>
+
+					</div>
+
+
+
 				</div>
 				<div class="clearfix"></div>
 			</div>
@@ -295,88 +256,88 @@ hr.style17:after {
 						<input type="submit" class="submit" value="Subscribe">
 					</form>
 			</div> -->
-	   </div>
-     </div>
+		</div>
+	</div>
 	<div class="copy">
 		<p> &copy;All Rights Reserved | Designed by empty_flask</p>
 	</div>
-<!--/footer -->
-<!-- js -->
-<script type="text/javascript" src="/static/static_1/js/jquery-2.1.4.min.js"></script>
-<!-- start-smoth-scrolling -->
-<script type="text/javascript" src="/static/static_1/js/move-top.js"></script>
-<script type="text/javascript" src="/static/static_1/js/easing.js"></script>
-<script type="text/javascript">
-	jQuery(document).ready(function($) {
-		$(".scroll").click(function(event){		
-			event.preventDefault();
-			$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+	<!--/footer -->
+	<!-- js -->
+	<script type="text/javascript" src="/static/static_1/js/jquery-2.1.4.min.js"></script>
+	<!-- start-smoth-scrolling -->
+	<script type="text/javascript" src="/static/static_1/js/move-top.js"></script>
+	<script type="text/javascript" src="/static/static_1/js/easing.js"></script>
+	<script type="text/javascript">
+		jQuery(document).ready(function ($) {
+			$(".scroll").click(function (event) {
+				event.preventDefault();
+				$('html,body').animate({ scrollTop: $(this.hash).offset().top }, 1000);
+			});
 		});
-	});
-</script>
-<!-- start-smoth-scrolling -->
-<!-- flexSlider -->
-				<script defer src="/static/static_1/js/jquery.flexslider.js"></script>
-				<script type="text/javascript">
-				$(window).load(function(){
-				  $('.flexslider').flexslider({
-					animation: "slide",
-					start: function(slider){
-					  $('body').removeClass('loading');
-					}
-				  });
-				});
-			  </script>
-			<!-- //flexSlider -->
-		<script src="/static/static_1/js/responsiveslides.min.js"></script>
-			<script>
-						// You can also use "$(window).load(function() {"
-						$(function () {
-						  // Slideshow 4
-						  $("#slider4").responsiveSlides({
-							auto: true,
-							pager:true,
-							nav:false,
-							speed: 500,
-							namespace: "callbacks",
-							before: function () {
-							  $('.events').append("<li>before event fired.</li>");
-							},
-							after: function () {
-							  $('.events').append("<li>after event fired.</li>");
-							}
-						  });
-					
-						});
-			</script>
-		<!--search-bar-->
-		<script src="/static/static_1/js/main.js"></script>	
-<!--//search-bar-->
-	
+	</script>
+	<!-- start-smoth-scrolling -->
+	<!-- flexSlider -->
+	<script defer src="/static/static_1/js/jquery.flexslider.js"></script>
+	<script type="text/javascript">
+		$(window).load(function () {
+			$('.flexslider').flexslider({
+				animation: "slide",
+				start: function (slider) {
+					$('body').removeClass('loading');
+				}
+			});
+		});
+	</script>
+	<!-- //flexSlider -->
+	<script src="/static/static_1/js/responsiveslides.min.js"></script>
+	<script>
+		// You can also use "$(window).load(function() {"
+		$(function () {
+			// Slideshow 4
+			$("#slider4").responsiveSlides({
+				auto: true,
+				pager: true,
+				nav: false,
+				speed: 500,
+				namespace: "callbacks",
+				before: function () {
+					$('.events').append("<li>before event fired.</li>");
+				},
+				after: function () {
+					$('.events').append("<li>after event fired.</li>");
+				}
+			});
+
+		});
+	</script>
+	<!--search-bar-->
+	<script src="/static/static_1/js/main.js"></script>
+	<!--//search-bar-->
+
 	<!-- js for Counter -->
-		<script type="text/javascript" src="/static/static_1/js/numscroller-1.0.js"></script>
+	<script type="text/javascript" src="/static/static_1/js/numscroller-1.0.js"></script>
 	<!-- /js for Counter -->
 
-<!-- smooth scrolling -->
+	<!-- smooth scrolling -->
 	<script type="text/javascript">
-		$(document).ready(function() {
-		/*
-			var defaults = {
-			containerID: 'toTop', // fading element id
-			containerHoverID: 'toTopHover', // fading element hover id
-			scrollSpeed: 1200,
-			easingType: 'linear' 
-			};
-		*/								
-		$().UItoTop({ easingType: 'easeOutQuart' });
+		$(document).ready(function () {
+			/*
+				var defaults = {
+				containerID: 'toTop', // fading element id
+				containerHoverID: 'toTopHover', // fading element hover id
+				scrollSpeed: 1200,
+				easingType: 'linear' 
+				};
+			*/
+			$().UItoTop({ easingType: 'easeOutQuart' });
 		});
 	</script>
 	<div class="arr-w3ls">
 		<a href="#home" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
 	</div>
-<!-- //smooth scrolling -->
+	<!-- //smooth scrolling -->
 
-<!-- Error Message modal-->
+	<!-- Error Message modal-->
 	<div class="modal fade" id="myModal11" role="dialog">
 		<div class="modal-dialog">
 
@@ -395,6 +356,7 @@ hr.style17:after {
 		</div>
 	</div>
 
-<script type="text/javascript" src="/static/static_1/js/bootstrap-3.1.1.min.js"></script>
+	<script type="text/javascript" src="/static/static_1/js/bootstrap-3.1.1.min.js"></script>
 </body>
+
 </html>

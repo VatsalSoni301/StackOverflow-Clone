@@ -1,0 +1,87 @@
+.quebox{
+    margin: 10px;
+}
+.quetitle{
+    font-size:18px;
+    color:white;
+    font-weight: bold;
+}
+.tag{
+
+    width: 60%;
+}
+.taglable{
+    color:black;
+    margin-left:5px;
+    background: #7edadb;
+}
+.askerinfo{
+    float: right;
+    font-size: 14px;
+    color: #9199a1;
+}
+.bookmark{
+    float:right;
+    font-size:12px;
+}
+.bookmarksym{
+    margin-left: 20px;
+}
+.bookmarksym:hover{
+    display: inline-block;
+    cursor: pointer;
+}
+.updownvotesym{
+    margin-left: 20px;
+    display: inline-block;
+}
+.updownvotesym :hover{
+    cursor: pointer;
+}
+.quebox .panel-info > .panel-heading
+{
+    background-color:#19b8bb;
+}
+
+/* Answer css */
+
+.queanscontainer{
+    width: 75%;
+    float: left;
+}
+.sidebar{
+    margin-top:15px; 
+    width:25%;
+    float:left;
+}
+.ansbox {
+    margin: 10px;
+}
+
+.answertitle {
+    font-size: 16px;
+    color: white;
+}
+
+.ansby {
+    text-decoration: none;
+    color:#0f4d4e;
+}
+.ansbox .panel-info > .panel-heading
+{
+    background-color:#7cd1d1;
+}
+.comment {
+    display: block;
+    margin-left: 40px;
+    font-size: 14px;
+}
+.commentposterinfo{
+    font-style: oblique;
+    margin-left: 10px; 
+    color: #9199a1;
+}
+.commenthr{
+    margin-top:5px;
+    margin-bottom: 5px;
+}
