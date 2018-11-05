@@ -294,7 +294,6 @@ def ask_question_1():
 
 	return redirect(url_for('.index'))
 
-
 @app.route("/todo")
 def todo():
 	return render_template('todo.html')
@@ -318,6 +317,15 @@ def contact_us_1():
 	db.session.add(cu)
 	db.session.commit()
 	return redirect(url_for('.index'))
+
+@app.route("/post_answer",methods=['POST'])
+def post_answer():
+	ans_content = request.form['editordata']
+	ans_date = datetime.utcnow()
+	ans = answer(ans_content=ans_content,votes=0,user_id=1,question_id=1,ans_date=ans_date) 
+	db.session.add(ans)
+	db.session.commit()
+	return redirect(url_for('que_page'))
 
 if __name__=='__main__':
 	app.run(port=5000,debug=True,threaded=True,host="127.0.0.1")
