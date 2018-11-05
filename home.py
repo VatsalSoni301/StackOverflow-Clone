@@ -227,12 +227,13 @@ def admin_login():
 
 @app.route("/Bookmark")
 def Bookmark():
+	set_questions=[]
 	if 'uid' not in session:
-		pass
+		return render_template('bookmark.html',name="#",questionList=set_questions,uuid="")	
 	else:
 		bookmark_objs = bookmark.query.filter_by(user_id = session['uid'])
 		que_set = []
-		set_questions=[]
+		
 		for bookmark_obj in bookmark_objs:
 			b_que_id = bookmark_obj.question_id
 			ques = questions.query.filter_by(question_id = b_que_id ).first()

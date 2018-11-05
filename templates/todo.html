@@ -120,14 +120,14 @@
 <br>
 <div class="queanscontainer">
 	
-	{% if name=="" %}
+	{% if name=="#" %}
 		<div class="w3-heading-grid">
 			<h3 class="text-center" style="color:red">You need to be logged in for this</h3>
 		</div>
 	{% else %}
 			{% if questionList %}		
 				{% for i in questionList%}
-				<input type="hidden" value="{{i['uid']}}" id="usr_id">
+					<input type="hidden" value="{{i['uid']}}" id="usr_id">
 					<div class="quebox">
 						<div class="panel panel-info">
 							<div class="panel-heading">
