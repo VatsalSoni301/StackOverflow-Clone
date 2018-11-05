@@ -159,66 +159,82 @@
 {% endblock %}
 {% block body %}
 <br>
-{% for i in questionList%}
-<input type="hidden" value="{{i['uid']}}" id="usr_id">
-<div class="quebox">
-	<div class="panel panel-info">
-		<div class="panel-heading">
-			<span class="panel-title quetitle">
-				<a href="{{url_for('que_page',qid=i['id'])}}">
-					<span>
-						{{i['title']}}
+<div class="queanscontainer">
+	{% for i in questionList%}
+	<input type="hidden" value="{{i['uid']}}" id="usr_id">
+	<div class="quebox">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<span class="panel-title quetitle">
+					<a href="{{url_for('que_page',qid=i['id'])}}">
+						<span>
+							{{i['title']}}
+						</span>
+					</a>
+				</span>
+			</div>
+			<div class="panel-body">
+				<span class="tag">
+					{% for tagname in i['tags'] %}
+					<a class="label label-info taglable" href="#">{{tagname['name']}}</a>
+					{% endfor %}
+				</span>
+				<span class="askerinfo">
+					<div>
+						Posted on : <span>{{i['date']}}</span>
+					</div>
+					<div>
+						By : <span><a href="{{url_for('view_profile',uid=i['uid'])}}">{{i['fname']}} {{i['lname']}}</a></span>
+					</div>
+				</span>
+			</div>
+			<div class="panel-footer">
+				<span>
+					<span class="viewansvotes">View : </span><span>{{i['views']}}</span>
+					<span class="viewansvotes">Ans : </span><span>{{i['ans']}}</span>
+					<span class="viewansvotes">Votes : </span><span>{{i['votes']}}</span>
+					<span style="float:right">
+						{% if i['answered']==1 %}
+						<span class="bookmarksym" data-toggle="popover" data-content="answered">
+							<span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+						</span>
+						{% else %}
+
+						<span class="bookmarksym" data-toggle="popover" data-content="answer later" id="{{i['id']}}+add" name="{{i['id']}}"
+						 onclick="addtodo(this)" {% if i['ans_later']==0 %}style="display:inline" {% else %} style="display:none" {%
+						 endif %}>
+							<span class="fa fa-plus-square-o"></span>
+						</span>
+
+						<span class="bookmarksym" data-toggle="popover" data-content="remove from answer later" id="{{i['id']}}+remove"
+						 name="{{i['id']}}" onclick="removetodo(this)" {% if i['ans_later']==1 %}style="display:inline" {% else %} style="display:none"
+						 {% endif %}>
+							<span class="fa fa-plus-square"></span>
+						</span>
+
+						{% endif %}
+
+						<span class="bookmarksym" data-toggle="popover" id="{{i['id']}}+addbook" name="{{i['id']}}" onclick="addbookmark(this)"
+						 data-content="add bookmark" {% if i['BID']==0 %}style="display:inline" {% else %} style="display:none" {% endif
+						 %}>
+							<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+						</span>
+
+						<span class="bookmarksym" data-toggle="popover" id="{{i['id']}}+removebook" name="{{i['id']}}" onclick="removebookmark(this)"
+						 data-content="remove bookmark" {% if i['BID']==1 %}style="display:inline" {% else %} style="display:none" {%
+						 endif %}>
+							<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+						</span>
+
 					</span>
-				</a>
-			</span>
+
+			</div>
 		</div>
-	</div>
-	<div class="panel-footer">
-		<span>
-			<span class="viewansvotes">View : </span><span>{{i['views']}}</span>
-			<span class="viewansvotes">Ans : </span><span>{{i['ans']}}</span>
-			<span class="viewansvotes">Votes : </span><span>{{i['votes']}}</span>
-			<span style="float:right">
-				{% if i['answered']==1 %}
-				<span class="bookmarksym" data-toggle="popover" data-content="answered">
-					<span class="glyphicon glyphicon-check" aria-hidden="true"></span>
-				</span>
-				{% else %}
-
-				<span class="bookmarksym" data-toggle="popover" data-content="answer later" id="{{i['id']}}+add" name="{{i['id']}}"
-				 onclick="addtodo(this)" {% if i['ans_later']==0 %}style="display:inline" {% else %} style="display:none" {% endif
-				 %}>
-					<span class="fa fa-plus-square-o"></span>
-				</span>
-
-				<span class="bookmarksym" data-toggle="popover" data-content="remove from answer later" id="{{i['id']}}+remove"
-				 name="{{i['id']}}" onclick="removetodo(this)" {% if i['ans_later']==1 %}style="display:inline" {% else %} style="display:none"
-				 {% endif %}>
-					<span class="fa fa-plus-square"></span>
-				</span>
-
-				{% endif %}
-
-				<span class="bookmarksym" data-toggle="popover" id="{{i['id']}}+addbook" name="{{i['id']}}" onclick="addbookmark(this)"
-				 data-content="add bookmark" {% if i['BID']==0 %}style="display:inline" {% else %} style="display:none" {% endif %}>
-					<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-				</span>
-
-				<span class="bookmarksym" data-toggle="popover" id="{{i['id']}}+removebook" name="{{i['id']}}" onclick="removebookmark(this)"
-				 data-content="remove bookmark" {% if i['BID']==1 %}style="display:inline" {% else %} style="display:none" {% endif
-				 %}>
-					<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-				</span>
-
-			</span>
 
 	</div>
+	{% endfor %}
 </div>
-
 </div>
-{% endfor %}
-</div>
-
 <div class="sidebar">
 	<fieldset>
 		<legend>Search</legend>
