@@ -233,7 +233,7 @@ def Bookmark():
 		pass
 	else:
 		return render_template('bookmark.html',name=session['fname'])
-		
+
 @app.route("/admin")
 def admin():
 	cu_obj = contact_us.query.filter_by(cu_resolve=0)
@@ -252,13 +252,15 @@ def admin():
 @app.route("/que_page")
 def que_page():
 	qid = request.args.get('qid', default='', type=str)
-	
-	return render_template('que_page.html',name=session['fname'])
+	if 'uid' not in session:
+		return render_template('que_page.html',name="#")
+	else:
+		return render_template('que_page.html',name=session['fname'])
 
 @app.route("/ask_question")
 def ask_question():
 	if 'uid' not in session:
-		pass
+		return render_template('ask_question.html',name="#")
 	else:
 		return render_template('ask_question.html',name=session['fname'])
 
@@ -373,11 +375,17 @@ def todo():
 
 @app.route("/about_us")
 def about_us():
-	return render_template('about_us.html',name=session['fname'])
+	if 'uid' not in session:
+		return render_template('about_us.html',name="#")
+	else:
+		return render_template('about_us.html',name=session['fname'])
 
 @app.route("/contact_us")
 def contact():
-	return render_template('contact_us.html',name=session['fname'])
+	if 'uid' not in session:
+		return render_template('contact_us.html',name="#")	
+	else:
+		return render_template('contact_us.html',name=session['fname'])
 
 @app.route("/contact_us_1",methods=['POST'])
 def contact_us_1():
