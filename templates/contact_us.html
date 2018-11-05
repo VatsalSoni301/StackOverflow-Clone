@@ -66,7 +66,7 @@
 		</div>
 		<div class="contact-form">
 			<h4 style="color:#f36371">Contact Form</h4><br />
-			<form method="post" name="form1">
+			<form name="form1" action="{{ url_for('contact_us_1') }}" method="POST" enctype="multipart/form-data">
 
 				<input class="col-1" type="text" placeholder="Name" id="name1" name="name">
 				<input type="email" placeholder="Email" id="email_ct1" name="email_ct">

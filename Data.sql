@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.24, for Linux (x86_64)
 --
--- Host: 127.0.0.1    Database: stackoverflow
+-- Host: localhost    Database: stackoverflow
 -- ------------------------------------------------------
 -- Server version	5.7.24-0ubuntu0.18.04.1
 
@@ -99,7 +99,7 @@ CREATE TABLE `answer_later` (
   KEY `answer_later_fk1` (`user_id`),
   CONSTRAINT `answer_later_fk0` FOREIGN KEY (`question_id`) REFERENCES `questions` (`question_id`),
   CONSTRAINT `answer_later_fk1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -108,6 +108,7 @@ CREATE TABLE `answer_later` (
 
 LOCK TABLES `answer_later` WRITE;
 /*!40000 ALTER TABLE `answer_later` DISABLE KEYS */;
+INSERT INTO `answer_later` VALUES (1,1,1),(2,1,1),(3,1,1);
 /*!40000 ALTER TABLE `answer_later` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -170,6 +171,34 @@ LOCK TABLES `comment` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `contact_us`
+--
+
+DROP TABLE IF EXISTS `contact_us`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `contact_us` (
+  `cu_id` int(11) NOT NULL AUTO_INCREMENT,
+  `cu_name` varchar(30) NOT NULL,
+  `cu_email_id` varchar(45) NOT NULL,
+  `cu_mobile_no` varchar(45) NOT NULL,
+  `cu_msg` varchar(500) NOT NULL,
+  `cu_resolve` int(11) NOT NULL,
+  PRIMARY KEY (`cu_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `contact_us`
+--
+
+LOCK TABLES `contact_us` WRITE;
+/*!40000 ALTER TABLE `contact_us` DISABLE KEYS */;
+INSERT INTO `contact_us` VALUES (1,'Darshan','14ce049@charusat.edu.in','9558817087','hello\r\nlike your site\r\nthank you',0),(2,'Darshan','14ce049@charusat.edu.in','9558817087','hello\r\nlike your site\r\nthank you',0);
+/*!40000 ALTER TABLE `contact_us` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `country`
 --
 
@@ -210,7 +239,7 @@ CREATE TABLE `que_tag` (
   KEY `que_tag_fk1` (`tag_id`),
   CONSTRAINT `que_tag_fk0` FOREIGN KEY (`question_id`) REFERENCES `questions` (`question_id`),
   CONSTRAINT `que_tag_fk1` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`tag_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -219,7 +248,7 @@ CREATE TABLE `que_tag` (
 
 LOCK TABLES `que_tag` WRITE;
 /*!40000 ALTER TABLE `que_tag` DISABLE KEYS */;
-INSERT INTO `que_tag` VALUES (1,1,1),(2,1,2),(3,1,3),(4,1,4),(5,2,1),(6,2,5),(7,2,6),(8,3,7),(9,3,6);
+INSERT INTO `que_tag` VALUES (1,1,1),(2,1,2),(3,1,3),(4,1,4),(5,2,1),(6,2,5),(7,2,6),(8,3,7),(9,3,6),(10,4,8),(11,5,8),(12,6,9);
 /*!40000 ALTER TABLE `que_tag` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -244,7 +273,7 @@ CREATE TABLE `questions` (
   PRIMARY KEY (`question_id`),
   KEY `questions_fk0` (`user_id`),
   CONSTRAINT `questions_fk0` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -253,7 +282,7 @@ CREATE TABLE `questions` (
 
 LOCK TABLES `questions` WRITE;
 /*!40000 ALTER TABLE `questions` DISABLE KEYS */;
-INSERT INTO `questions` VALUES (1,1,'<p>dsakhasdjkhasjkdhkjashdjkadshjkashdjkhasdjk</p>','Problem in MYSQL',0,0,'2018-11-03 19:35:02.312203',0,NULL,NULL),(2,1,'<p>asdlkjasdljaslkdjlaskjdlkasjdklajdklajsdlkajsdklasjdlkasjdlkjasdkljasdkljklasjdklasjdklasjdklasjdklajskdljaskdljaskdljaskldjaskldjaskldjkasldjsakljdklasjdklsadjklasdjaskldjksaldjaskldjsadlkjaslkds</p>','Problem in MYSQL flask SQLAlchemy',0,0,'2018-11-03 19:35:35.707721',0,NULL,NULL),(3,2,'<p>askjdhaskjajsdhkjashdkjhdgjhghjgfdhagdsfhdadsgfhdghgdshfgahdsgfahjdsf</p>','SQL connection in python',0,0,'2018-11-03 19:37:48.843621',0,NULL,NULL);
+INSERT INTO `questions` VALUES (1,1,'<p>dsakhasdjkhasjkdhkjashdjkadshjkashdjkhasdjk</p>','Problem in MYSQL',0,0,'2018-11-03 19:35:02.312203',0,NULL,NULL),(2,1,'<p>asdlkjasdljaslkdjlaskjdlkasjdklajdklajsdlkajsdklasjdlkasjdlkjasdkljasdkljklasjdklasjdklasjdklasjdklajskdljaskdljaskdljaskldjaskldjaskldjkasldjsakljdklasjdklsadjklasdjaskldjksaldjaskldjsadlkjaslkds</p>','Problem in MYSQL flask SQLAlchemy',0,0,'2018-11-03 19:35:35.707721',0,NULL,NULL),(3,2,'<p>askjdhaskjajsdhkjashdkjhdgjhghjgfdhagdsfhdadsgfhdghgdshfgahdsgfahjdsf</p>','SQL connection in python',0,0,'2018-11-03 19:37:48.843621',0,NULL,NULL),(4,2,'<br>','abcd',0,0,'2018-11-03 20:28:35.527399',0,NULL,NULL),(5,2,'<br>','abcd',0,0,'2018-11-03 20:29:30.687421',0,NULL,NULL),(6,2,'<br>','dvjas',0,0,'2018-11-03 20:29:50.227097',0,NULL,NULL);
 /*!40000 ALTER TABLE `questions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -269,7 +298,7 @@ CREATE TABLE `tag` (
   `tag_name` varchar(50) NOT NULL,
   PRIMARY KEY (`tag_id`),
   UNIQUE KEY `tag_name` (`tag_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -278,7 +307,7 @@ CREATE TABLE `tag` (
 
 LOCK TABLES `tag` WRITE;
 /*!40000 ALTER TABLE `tag` DISABLE KEYS */;
-INSERT INTO `tag` VALUES (3,'AngularJS'),(4,'Flask'),(1,'JAVA'),(2,'JS'),(6,'Python'),(7,'SQL'),(5,'SQLAlchemy');
+INSERT INTO `tag` VALUES (3,'AngularJS'),(8,'bj'),(9,'bjadbskb'),(4,'Flask'),(1,'JAVA'),(2,'JS'),(6,'Python'),(7,'SQL'),(5,'SQLAlchemy');
 /*!40000 ALTER TABLE `tag` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -312,7 +341,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `email_id` (`email_id`),
   KEY `user_fk0` (`country_id`),
   CONSTRAINT `user_fk0` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -321,7 +350,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'sonivatsal111@gmail.com','abcd','Vatsal','R','Soni','Male','8511218967',1,NULL,NULL,'Developer','IIIT-H','2018-11-14 00:00:00.000000',0,0,'2018-11-03 19:33:45.316634','Screenshot (7).png'),(2,'darshan@gmail.com','abcd','Darshan','H','Kansagara','Male','',2,NULL,NULL,'Developer','IIIT-H','2018-11-13 00:00:00.000000',0,0,'2018-11-03 19:34:35.679112','Default.jpg');
+INSERT INTO `user` VALUES (1,'sonivatsal111@gmail.com','abcd','Vatsal','R','Soni','Male','8511218967',1,NULL,NULL,'Developer','IIIT-H','2018-11-14 00:00:00.000000',0,0,'2018-11-03 19:33:45.316634','Screenshot (7).png'),(2,'darshan@gmail.com','abcd','Darshan','H','Kansagara','Male','',2,NULL,NULL,'Developer','IIIT-H','2018-11-13 00:00:00.000000',0,0,'2018-11-03 19:34:35.679112','Default.jpg'),(4,'kansagara.darshan97@gmail.com','darshan','Darshan','Hemantlal','Kansagara','Male','5558817087',1,NULL,NULL,'','','2012-06-01 00:00:00.000000',0,0,'2018-11-03 20:40:03.827255','Default.jpg');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -334,4 +363,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-11-04  1:40:56
+-- Dump completed on 2018-11-05 15:53:23

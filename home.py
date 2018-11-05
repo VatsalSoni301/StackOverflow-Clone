@@ -224,7 +224,7 @@ def validate_email_user():
 			return "success"
 
 @app.route("/admin_login")
-def admin():
+def admin_login():
 	return render_template('admin_login.html')
 
 @app.route("/Bookmark")
@@ -233,6 +233,21 @@ def Bookmark():
 		pass
 	else:
 		return render_template('bookmark.html',name=session['fname'])
+		
+@app.route("/admin")
+def admin():
+	cu_obj = contact_us.query.filter_by(cu_resolve=0)
+	cu_dict=[{}]
+	del cu_dict[:]
+	for i in cu_obj:
+		cu_dict.append({ 
+			'name':i.cu_name,
+			'email':i.cu_email_id,
+			'mobile':i.cu_mobile_no,
+			'message':i.cu_msg
+			} ) 
+
+	return render_template('admin.html', contact_us_dict = cu_dict)
 
 @app.route("/que_page")
 def que_page():
@@ -349,7 +364,6 @@ def ask_question_1():
 
 	return redirect(url_for('.index'))
 
-
 @app.route("/todo")
 def todo():
 	if 'uid' not in session:
@@ -364,6 +378,27 @@ def about_us():
 @app.route("/contact_us")
 def contact():
 	return render_template('contact_us.html',name=session['fname'])
+
+@app.route("/contact_us_1",methods=['POST'])
+def contact_us_1():
+	name = request.form['name']
+	email = request.form['email_ct']
+	mobile = request.form['mobile']
+	message = request.form['message']
+
+	cu=contact_us(cu_name=name,cu_email_id=email,cu_mobile_no=mobile,cu_msg=message)
+	db.session.add(cu)
+	db.session.commit()
+	return redirect(url_for('.index'))
+
+@app.route("/post_answer",methods=['POST'])
+def post_answer():
+	ans_content = request.form['editordata']
+	ans_date = datetime.utcnow()
+	ans = answer(ans_content=ans_content,votes=0,user_id=1,question_id=1,ans_date=ans_date) 
+	db.session.add(ans)
+	db.session.commit()
+	return redirect(url_for('que_page'))
 
 if __name__=='__main__':
 	app.run(port=5000,debug=True,threaded=True,host="127.0.0.1")
