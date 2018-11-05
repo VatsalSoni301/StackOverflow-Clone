@@ -23,12 +23,16 @@
 			var tag4 = document.getElementById("tag_4")
 			var tag5 = document.getElementById("tag_5")
 
+			cleaned = jQuery(markupStr).text();
+
+			alert(markupStr+" \n "+cleaned)
+
 			if (title.value == '') {
 				document.getElementById("msg").innerHTML = "Please Enter Title"
 				$('#myModal11').modal('show');
 			}
-			else if(markupStr == '' || markupStr=="<br>"){
-				document.getElementById("msg").innerHTML = "Please Enter Content"
+			else if(markupStr == '' || markupStr == "<br>" || cleaned == ''){
+				document.getElementById("msg").innerHTML = "Please Enter Content or if you only have image, add some text for explanation";
 				$('#myModal11').modal('show');
 			}
 			else if(tag1.value == ''){
