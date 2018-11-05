@@ -4,30 +4,81 @@ from flask import render_template,request,redirect,url_for,session,flash,jsonify
 from model import *
 from datetime import datetime
 import os
+app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
 @app.route("/")
 def index():
-	set_questions_obj = questions.query.all()
-	set_questions = [{}]
-	del set_questions[:]
-	for item in set_questions_obj:
-		tg_id = que_tag.query.filter_by(question_id=item.question_id)
-		tagName = [{}]
-		for it in tg_id:
-			tgNameObj=tag.query.filter_by(tag_id=it.tag_id).first()
-			tagName.append({'id':tgNameObj.tag_id,'name':tgNameObj.tag_name})
-		usr = user.query.filter_by(user_id = item.user_id).first()
-		#book = bookmark.query.filter_by(user_id = cur_id,question_id=item.question_id).first()
-		ans = answer.query.filter_by(question_id=item.question_id)
-		ans_count=0
-		for answer_que in ans:
-			ans_count=ans_count+1
-		#ans_lat = answer_later.query.filter_by(question_id=item.question_id,user_id=cur_id)
-		#ans = answer.query.filter_by(question_id=item.question_id,user_id=cur_id)
-		set_questions.append({'id':item.question_id,'title':item.title,'votes':item.votes,\
-		'views':item.views,'date':item.que_date,'fname':usr.first_name,'lname':usr.last_name,\
-		'tags':tagName,'uid':item.user_id,'ans':ans_count,'BID':0,'ans_later':0,'answered':0})
-	return render_template('index.html',name="xyz",questionList=set_questions)
+	if 'uid' not in session:
+		
+		set_questions_obj = questions.query.all()
+		set_questions = [{}]
+		del set_questions[:]
+		for item in set_questions_obj:
+			tg_id = que_tag.query.filter_by(question_id=item.question_id)
+			tagName = [{}]
+			del tagName[:]
+			for it in tg_id:
+				tgNameObj=tag.query.filter_by(tag_id=it.tag_id).first()
+				tagName.append({'id':tgNameObj.tag_id,'name':tgNameObj.tag_name})
+			usr = user.query.filter_by(user_id = item.user_id).first()
+			# book = bookmark.query.filter_by(user_id = cur_id,question_id=item.question_id).first()
+			# if book == "None":
+			# 	bool_bid=0
+			# else:
+			# 	bool_bid=1
+			ans = answer.query.filter_by(question_id=item.question_id)
+			ans_count=0
+			for answer_que in ans:
+				ans_count=ans_count+1
+			# ans_lat = answer_later.query.filter_by(question_id=item.question_id,user_id=cur_id)
+			# if ans_lat == "None":
+			# 	bool_ans_lat=0
+			# else:
+			# 	bool_ans_lat=1
+			# ans = answer.query.filter_by(question_id=item.question_id,user_id=cur_id)
+			# if ans == "None":
+			# 	bool_ans=0
+			# else:
+			# 	bool_ans=1
+			set_questions.append({'id':item.question_id,'title':item.title,'votes':item.votes,\
+			'views':item.views,'date':item.que_date,'fname':usr.first_name,'lname':usr.last_name,\
+			'tags':tagName,'uid':0,'ans':ans_count,'BID':0,'ans_later':0,'answered':0})
+		return render_template('index.html',name="#",questionList=set_questions)
+	else:
+		cur_id = session['uid']
+		set_questions_obj = questions.query.all()
+		set_questions = [{}]
+		del set_questions[:]
+		for item in set_questions_obj:
+			tg_id = que_tag.query.filter_by(question_id=item.question_id)
+			tagName = [{}]
+			for it in tg_id:
+				tgNameObj=tag.query.filter_by(tag_id=it.tag_id).first()
+				tagName.append({'id':tgNameObj.tag_id,'name':tgNameObj.tag_name})
+			usr = user.query.filter_by(user_id = item.user_id).first()
+			book = bookmark.query.filter_by(user_id = cur_id,question_id=item.question_id).first()
+			if book is None:
+				bool_bid=0
+			else:
+				bool_bid=1
+			ans = answer.query.filter_by(question_id=item.question_id)
+			ans_count=0	# need to  check
+			for answer_que in ans:
+				ans_count=ans_count+1
+			ans_lat = answer_later.query.filter_by(question_id=item.question_id,user_id=cur_id).first()
+			if ans_lat is None:
+				bool_ans_lat=0
+			else:
+				bool_ans_lat=1
+			ans = answer.query.filter_by(question_id=item.question_id,user_id=cur_id).first()
+			if ans is None:
+				bool_ans=0
+			else:
+				bool_ans=1
+			set_questions.append({'id':item.question_id,'title':item.title,'votes':item.votes,\
+			'views':item.views,'date':item.que_date,'fname':usr.first_name,'lname':usr.last_name,\
+			'tags':tagName,'uid':item.user_id,'ans':ans_count,'BID':bool_bid,'ans_later':bool_ans_lat,'answered':bool_ans})
+		return render_template('index.html',name=session['fname'],questionList=set_questions)
 
 
 @app.route("/add_answer_later_1",methods=['POST'])
@@ -35,6 +86,7 @@ def add_answer_later_1():
 	usr = request.form['usr']
 	que = request.form['que']
 	ans_l = answer_later(user_id=usr,question_id=que)
+	#answer_later.query.filter(User.id == 123).delete()
 	db.session.add(ans_l)
 	db.session.commit()
 	return "success"
@@ -43,8 +95,9 @@ def add_answer_later_1():
 def rm_answer_later_1():
 	usr = request.form['usr']
 	que = request.form['que']
-	ans_l = answer_later(user_id=usr,question_id=que)
-	db.session.delete(ans_l)
+	# ans_l = answer_later(user_id=usr,question_id=que)
+	# db.session.delete(ans_l)
+	answer_later.query.filter_by(question_id=que,user_id=usr).delete()
 	db.session.commit()
 	return "success"
 
@@ -61,8 +114,9 @@ def add_bookmark_1():
 def rm_bookmark_1():
 	usr = request.form['usr']
 	que = request.form['que']
-	bk = bookmark(user_id=usr,question_id=que)
-	db.session.delete(bk)
+	# bk = bookmark(user_id=usr,question_id=que)
+	# db.session.delete(bk)
+	bookmark.query.filter_by(question_id=que,user_id=usr).delete()
 	db.session.commit()
 	return "success"
 
@@ -71,6 +125,8 @@ def user_sign_in_1():
 	email = request.form['email']
 	password = request.form['password']
 	usr = user.query.filter_by(email_id=email,password=password).first()
+	session['uid'] = usr.user_id
+	session['fname'] = usr.first_name
 	if usr!="None":
 		return "success"
 	else:
@@ -78,7 +134,7 @@ def user_sign_in_1():
 
 @app.route("/user_sign_in",methods=['POST'])
 def user_sign_in():
-	return render_template('index.html')
+	return redirect(url_for('.index'))
 
 @app.route("/user_sign_up")
 def user_sign_up():
@@ -87,7 +143,13 @@ def user_sign_up():
 	del con[:]
 	for i in cn:
 		con.append({'id':i.country_id,'name':i.country_name})
-	return render_template('user_sign_up.html',country=con)
+	return render_template('user_sign_up.html',name="#",country=con)
+
+@app.route('/signout_user')
+def signout_user():
+		session.pop('uid', None)
+		session.pop('fname', None)
+		return redirect(url_for('.index'))
 
 @app.route("/view_profile")
 def view_profile():
@@ -111,7 +173,7 @@ def view_profile():
 		que_detail = questions.query.filter_by(question_id=item.question_id).first()
 		ques_ans_set.append({'title':que_detail.title,'id':que_detail.question_id})
 	
-	return render_template('view_profile.html',usr_dict=user_dict,qset=ques_set,ansset=ques_ans_set)
+	return render_template('view_profile.html',name=session['fname'],usr_dict=user_dict,qset=ques_set,ansset=ques_ans_set)
 
 @app.route("/user_sign_up_1",methods=['POST'])
 def user_sign_up_1():
@@ -165,17 +227,25 @@ def validate_email_user():
 def admin():
 	return render_template('admin_login.html')
 
-@app.route("/bookmark")
-def bookmark():
-	return render_template('bookmark.html')
+@app.route("/Bookmark")
+def Bookmark():
+	if 'uid' not in session:
+		pass
+	else:
+		return render_template('bookmark.html',name=session['fname'])
 
 @app.route("/que_page")
 def que_page():
-	return render_template('que_page.html')
+	qid = request.args.get('qid', default='', type=str)
+	
+	return render_template('que_page.html',name=session['fname'])
 
 @app.route("/ask_question")
 def ask_question():
-	return render_template('ask_question.html')
+	if 'uid' not in session:
+		pass
+	else:
+		return render_template('ask_question.html',name=session['fname'])
 
 @app.route("/ask_question_1",methods=['POST'])
 def ask_question_1():
@@ -282,15 +352,18 @@ def ask_question_1():
 
 @app.route("/todo")
 def todo():
-	return render_template('todo.html')
+	if 'uid' not in session:
+		pass
+	else:
+		return render_template('todo.html',name=session['fname'])
 
 @app.route("/about_us")
 def about_us():
-	return render_template('about_us.html')
+	return render_template('about_us.html',name=session['fname'])
 
 @app.route("/contact_us")
 def contact():
-	return render_template('contact_us.html')
+	return render_template('contact_us.html',name=session['fname'])
 
 if __name__=='__main__':
 	app.run(port=5000,debug=True,threaded=True,host="127.0.0.1")

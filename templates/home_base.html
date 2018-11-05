@@ -156,13 +156,13 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 							<li class="dropdown menu__item">
 									<a href="#" class="dropdown-toggle menu__link" data-toggle="dropdown">Activity<b class="caret"></b></a>
 									<ul class="dropdown-menu agile_short_dropdown">
-										<li><a href="/bookmark">Bookmark</a></li>
+										<li><a href="/Bookmark">Bookmark</a></li>
 										<li><a href="/todo">Answer Later</a></li>
 									</ul>
 								</li>
 							<li class="menu__item"><a href="/about_us" class="menu__link">AboutUS</a></li>
 							<li class="menu__item"><a href="/contact_us" class="menu__link">ContactUs</a></li>
-							{% if name=="xyz" %}
+							{% if name!="#" %}
 							<li class="dropdown menu__item">
 									<a href="#" class="dropdown-toggle menu__link" data-toggle="dropdown">{{name}}<b class="caret"></b></a>
 									<ul class="dropdown-menu agile_short_dropdown">
@@ -192,7 +192,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 					<ul>
 						<!--  <li><a href="/">Home</a></li>  -->
 						<li style="color:#fff"><a href="/ask_question">ASKQuestion</a></li>
-						<li style="color:#fff"><a href="/bookmark">BookMark</a></li>
+						<li style="color:#fff"><a href="/Bookmark">BookMark</a></li>
 						<li style="color:#fff"><a href="/todo">TODO</a></li>
 						<li style="color:#fff"><a href="/about_us">AboutUs</a></li>
 						<li style="color:#fff"><a href="/contact_us">ContactUs</a></li>

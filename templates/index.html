@@ -50,57 +50,94 @@
 
 	<script>
 
-		function addtodo(obj) 
-		{
+		function addtodo(obj) {
 			uid = document.getElementById("usr_id").value;
 			qid = obj.getAttribute("name");
-			alert(uid);
-			alert(qid);
-			$.post("/add_answer_later_1",
-				{
-					usr: uid,
-					que: qid
-				}
-			);
+			if (uid == 0) {
+				document.getElementById("msg").innerHTML = "Please Login"
+				$('#myModal11').modal('show');
+			}
+			else {
+				$.post("/add_answer_later_1",
+					{
+						usr: uid,
+						que: qid
+					},
+					function (data, status) {
+						q_id = obj.getAttribute("id");
+						qid_1=qid+"+remove";
+						document.getElementById(q_id).style.display = 'none';
+						document.getElementById(qid_1).style.display = 'inline';
+
+					}
+				);
+			}
 		}
-		function removetodo(obj) 
-		{
+		function removetodo(obj) {
 			uid = document.getElementById("usr_id").value;
 			qid = obj.getAttribute("name");
-			alert(uid);
-			alert(qid);
-			$.post("/rm_answer_later_1",
-				{
-					usr: uid,
-					que: qid
-				}
-			);
+			if (uid == 0) {
+				document.getElementById("msg").innerHTML = "Please Login"
+				$('#myModal11').modal('show');
+			}
+			else {
+				$.post("/rm_answer_later_1",
+					{
+						usr: uid,
+						que: qid
+					},
+					function (data, status) {
+						q_id = obj.getAttribute("id");
+						qid_1=qid+"+add";
+						document.getElementById(q_id).style.display = 'none';
+						document.getElementById(qid_1).style.display = 'inline';
+					}
+				);
+			}
 		}
-		function addbookmark(obj) 
-		{
+		function addbookmark(obj) {
 			uid = document.getElementById("usr_id").value;
 			qid = obj.getAttribute("name");
-			alert(uid);
-			alert(qid);
-			$.post("/add_bookmark_1",
-				{
-					usr: uid,
-					que: qid
-				}
-			);
+			if (uid == 0) {
+				document.getElementById("msg").innerHTML = "Please Login"
+				$('#myModal11').modal('show');
+			}
+			else {
+				$.post("/add_bookmark_1",
+					{
+						usr: uid,
+						que: qid
+					},
+					function (data, status) {
+						q_id = obj.getAttribute("id");
+						document.getElementById(q_id).style.display = "none";
+						qid_1=qid+"+removebook";
+						document.getElementById(qid_1).style.display = "inline";
+					}
+				);
+			}
 		}
-		function removebookmark(obj) 
-		{
+		function removebookmark(obj) {
 			uid = document.getElementById("usr_id").value;
 			qid = obj.getAttribute("name");
-			alert(uid);
-			alert(qid);
-			$.post("/rm_bookmark_1",
-				{
-					usr: uid,
-					que: qid
-				}
-			);
+			if (uid == 0) {
+				document.getElementById("msg").innerHTML = "Please Login"
+				$('#myModal11').modal('show');
+			}
+			else {
+				$.post("/rm_bookmark_1",
+					{
+						usr: uid,
+						que: qid
+					},
+					function (data, status) {
+						q_id = obj.getAttribute("id");
+						qid_1=qid+"+addbook";
+						document.getElementById(q_id).style.display = 'none';
+						document.getElementById(qid_1).style.display = 'inline';
+					}
+				);
+			}
 		}
 		$(document).ready(function () {
 			$('[data-toggle="popover"]').popover({
@@ -120,7 +157,7 @@
 	<div class="panel panel-info">
 		<div class="panel-heading">
 			<span class="panel-title quetitle">
-				<a href="{{url_for('que_page')}}">
+				<a href="{{url_for('que_page',qid=i['id'])}}">
 					<span>
 						{{i['title']}}
 					</span>
@@ -149,30 +186,30 @@
 				<span class="viewansvotes">Ans : </span><span>{{i['ans']}}</span>
 				<span class="viewansvotes">Votes : </span><span>{{i['votes']}}</span>
 				<span style="float:right">
-					{% if i['answered'] %}
+					{% if i['answered']==1 %}
 					<span class="bookmarksym" data-toggle="popover" data-content="answered">
 						<span class="glyphicon glyphicon-check" aria-hidden="true"></span>
 					</span>
 					{% else %}
-					{% if i['ans_later']==0 %}
-					<span class="bookmarksym" data-toggle="popover" data-content="answer later">
-						<span class="fa fa-plus-square-o" name="{{i['id']}}" onclick="addtodo(this)"></span>
+					
+					<span class="bookmarksym" data-toggle="popover" data-content="answer later" id="{{i['id']}}+add" name="{{i['id']}}" onclick="addtodo(this)" {% if i['ans_later']==0 %}style="display:inline" {% else %} style="display:none"{% endif %}>
+						<span class="fa fa-plus-square-o"></span>
 					</span>
-					{% else %}
-					<span class="bookmarksym" data-toggle="popover" data-content="remove from TODO">
-						<span class="fa fa-plus-square" name="{{i['id']}}" onclick="removetodo(this)"></span>
+					
+					<span class="bookmarksym" data-toggle="popover" data-content="remove from answer later" id="{{i['id']}}+remove" name="{{i['id']}}" onclick="removetodo(this)" {% if i['ans_later']==1 %}style="display:inline" {% else %} style="display:none"{% endif %}>
+						<span class="fa fa-plus-square"></span>
 					</span>
+					
 					{% endif %}
-					{% endif %}
-					{% if i['BID']==0 %}
-					<span class="bookmarksym" data-toggle="popover" data-content="bookmark">
-						<span class="glyphicon glyphicon-star-empty" aria-hidden="true" name="{{i['id']}}" onclick="addbookmark(this)"></span>
+					
+					<span class="bookmarksym" data-toggle="popover" id="{{i['id']}}+addbook" name="{{i['id']}}" onclick="addbookmark(this)" data-content="add bookmark" {% if i['BID'] == 0 %}style="display:inline" {% else %} style="display:none"{% endif %}>
+						<span class="glyphicon glyphicon-star-empty" aria-hidden="true" ></span>
 					</span>
-					{% else %}
-					<span class="bookmarksym" data-toggle="popover" data-content="remove bookmark">
-						<span class="glyphicon glyphicon-star" aria-hidden="true" name="{{i['id']}}" onclick="removebookmark(this)"></span>
+					
+					<span class="bookmarksym" data-toggle="popover" id="{{i['id']}}+removebook" name="{{i['id']}}" onclick="removebookmark(this)" data-content="remove bookmark" {% if i['BID'] == 1 %}style="display:inline" {% else %} style="display:none"{% endif %}>
+						<span class="glyphicon glyphicon-star" aria-hidden="true" ></span>
 					</span>
-					{% endif %}
+					
 				</span>
 
 			</span>
