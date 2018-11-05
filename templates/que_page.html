@@ -42,43 +42,28 @@
             <div class="panel-heading">
                 <span class="panel-title">
                     <span class="quetitle">
-                        Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                        {{quedict['title']}}
                     </span>
                 </span>
 
             </div>
             <div class="panel-body">
-
-                A hash function that maps names to integers from 0 to 15. There is a collision between keys "John
-                Smith"
-                and "Sandra
-                Dee".
-                A hash function is any function that can be used to map data of arbitrary size to data of a fixed size.
-                The
-                values
-                returned by a hash function are called hash values, hash codes, digests, or simply hashes. Hash
-                functions
-                are often
-                used in combination with a hash table, a common data structure used in computer software for rapid data
-                lookup. Hash
-                functions accelerate table or database lookup by detecting duplicated records in a large file. One such
-                application
+                {{quedict['question_content']}}
                 <br>
                 <hr>
                 <span class="tag">
-                    <a class="label label-info taglable" href="#">HTML</a>
-                    <a class="label label-info taglable" href="#">CSS</a>
-                    <a class="label label-info taglable" href="#">Javascript</a>
-                    <a class="label label-info taglable" href="#">Angularjs</a>
+                    {% for tgitem in quedict['tag'] %}
+                    <a class="label label-info taglable" href="#">{{tgitem['name']}}</a>
+                    {% endfor %}
                 </span>
 
                 <span class="askerinfo">
                     <div>
                         Posted on :
-                        <span>22-Jan-2018</span>
+                        <span>{{quedict['date']}}</span>
                     </div>
                     <div>
-                        By : <span><a href="#">Darshan Kansagara</a></span>
+                        By : <span><a href="{{url_for('view_profile',uid=quedict['uid'])}}">{{quedict['ufname']}} {{quedict['ulname']}}</a></span>
                     </div>
                 </span>
 
@@ -95,7 +80,7 @@
                     </span>
                     {% endif %}
 
-                    <span class="updownvotesym">12</span>
+                    <span class="updownvotesym">{{quedict['votes']}}</span>
 
                     {% if 0 %}
                     <span class="updownvotesym" data-toggle="popover" data-content="downvote">
@@ -137,14 +122,14 @@
             </div>
         </div>
     </div>
-    {% for i in range(1) %}
+    {% for i in anslist %}
     <div class="ansbox">
         <div class="panel panel-info">
             <div class="panel-heading">
                 <span class="panel-title">
                     <span class="answertitle">
                         <span>
-                            Answer by : <span><a class="ansby" href="#">Darshan Kansagara</a></span>
+                            Answer by : <span><a class="ansby" href="{{url_for('view_profile',uid=i['uid'])}}">{{i['ufname']}} {{i['ulname']}}</a></span>
                         </span>
                     </span>
                 </span>
@@ -152,38 +137,22 @@
             </div>
             <div class="panel-body">
 
-                A hash function that maps names to integers from 0 to 15. There is a collision between keys "John
-                Smith"
-                and "Sandra
-                Dee".
-                A hash function is any function that can be used to map data of arbitrary size to data of a fixed size.
-                The
-                values
-                returned by a hash function are called hash values, hash codes, digests, or simply hashes. Hash
-                functions
-                are often
-                used in combination with a hash table, a common data structure used in computer software for rapid data
-                lookup. Hash
-                functions accelerate table or database lookup by detecting duplicated records in a large file. One such
-                application
+                {{i['content']}}
                 <br>
 
                 <span class="comment">
-                    {% for i in range(4) %}
+                    {% for j in i['comments'] %}
                     <span>
                         <hr class="commenthr">
                         <span>
-                            comment dbaDb functions accelerate table or database lookup by detecting duplicated records
-                            in a
-                            large file. One such
-                            application
+                            {{j['content']}}
                             <span class="commentposterinfo">
                                 <span>
-                                    -- by : <span><a href="#">Darshan Kansagara</a></span>
+                                    -- by : <span><a href="#">{{j['ufname']}} {{j['ulname']}}</a></span>
                                 </span>
                                 <span>
                                     on :
-                                    <span>22-Jan-2018</span>
+                                    <span>{{j['date']}}</span>
                                 </span>
                             </span>
                         </span>
@@ -213,7 +182,7 @@
                     </span>
                     {% endif %}
 
-                    <span class="updownvotesym">12</span>
+                    <span class="updownvotesym">{{i['votes']}}</span>
 
                     {% if 0 %}
                     <span class="updownvotesym" data-toggle="popover" data-content="downvote">
@@ -228,7 +197,7 @@
                     <span style="float:right">
                         <span>
                             Posted on :
-                            <span>22-Jan-2018</span>
+                            <span>{{i['date']}}</span>
                         </span>
                     </span>
 
@@ -237,11 +206,12 @@
         </div>
     </div>
     {% endfor %}
-    <form action="{{ url_for('post_answer') }}" method="POST" enctype="multipart/form-data" name="form1">
+    <form action="{{ url_for('post_answer',qid=quedict['id']) }}" method="POST" enctype="multipart/form-data" name="form1">
         <div class="col-md-12 form-group group-mail">
             <!-- <div id="summernote"></div> -->
             <textarea class="summernote" id="summernote" name="editordata"></textarea>
         </div>
+        <input type="hidden" value="{{qid}}" name="qid">
         <div class="col-md-12 form-group group-mail">
             <button type="button" class="btn btn-primary" onclick="validate()">Post Answer</button>
         </div>        
