@@ -71,7 +71,6 @@ def user_sign_in_1():
 	email = request.form['email']
 	password = request.form['password']
 	usr = user.query.filter_by(email_id=email,password=password).first()
-	print "@@@@@@@@@@@@@",usr.user_id
 	if usr!="None":
 		return "success"
 	else:
