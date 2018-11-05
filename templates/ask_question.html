@@ -89,7 +89,7 @@
 				<input type="text" class="form-control" placeholder="Tag-5" id="tag_5" name="tag_5">
 			</div>
 			<div class="col-md-12 form-group">
-				<button type="button" class="btn btn-primary" onclick="fun()">Submit</button>
+				<button type="button" class="btn btn-primary" onclick="fun()" {% if name=="#" %} disabled {% endif %}>Post</button>
 				<button type="reset" class="btn btn-default">Reset</button>
 			</div>
 			<div class="clearfix"> </div>

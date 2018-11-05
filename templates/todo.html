@@ -124,7 +124,7 @@
 			<div class="panel panel-info">
 				<div class="panel-heading">
 					<span class="panel-title quetitle">
-						<a href="{{url_for('que_page')}}">
+						<a href="{{url_for('que_page',qid=i['id'])}}">
 							<span>
 								{{i['title']}}
 							</span>
@@ -230,7 +230,7 @@
 	</fieldset>
 	<br>
 	<div>
-		<button type="button" class="btn btn-primary">Ask Question</button>
+		<a href="{{ url_for('ask_question') }}" class="btn btn-primary">Ask Question</a>
 	</div>
 
 </div>

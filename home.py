@@ -525,6 +525,10 @@ def post_answer():
 	ans = answer(ans_content=ans_content,votes=0,user_id=cur_id,question_id=qid,ans_date=ans_date) 
 	db.session.add(ans)
 	db.session.commit()
+	ans_l = answer_later.query.filter_by(user_id=cur_id,question_id=qid).first()
+	if ans_l is not None:
+		db.session.delete(ans_l)
+		db.session.commit()
 	return redirect(url_for('.que_page',qid=qid))
 
 @app.route("/post_comment_1",methods=['POST'])
