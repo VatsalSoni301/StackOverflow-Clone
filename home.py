@@ -79,7 +79,6 @@ def index():
 			'tags':tagName,'uid':item.user_id,'ans':ans_count,'BID':bool_bid,'ans_later':bool_ans_lat,'answered':bool_ans})
 		return render_template('index.html',name=session['fname'],questionList=set_questions,uuid=cur_id)
 
-
 @app.route("/add_answer_later_1",methods=['POST'])
 def add_answer_later_1():
 	usr = request.form['usr']
@@ -228,22 +227,20 @@ def admin_login():
 
 @app.route("/Bookmark")
 def Bookmark():
+	set_questions=[]
 	if 'uid' not in session:
-		pass
+		return render_template('bookmark.html',name="#",questionList=set_questions,uuid="")	
 	else:
 		bookmark_objs = bookmark.query.filter_by(user_id = session['uid'])
 		que_set = []
-		set_questions=[]
+		
 		for bookmark_obj in bookmark_objs:
 			b_que_id = bookmark_obj.question_id
 			ques = questions.query.filter_by(question_id = b_que_id ).first()
 			que_set.append(ques)
 		cur_id = session['uid']
 		
-		print que_set
-
 		for item in que_set:
-			print type(item)
 			tg_id = que_tag.query.filter_by(question_id=item.question_id)
 			tagName = [{}]
 			for it in tg_id:
@@ -445,10 +442,53 @@ def ask_question_1():
 
 @app.route("/todo")
 def todo():
+
+	set_questions = [{}]
+	del set_questions[:]
+
 	if 'uid' not in session:
-		pass
+		return render_template('todo.html',name="#",questionList=set_questions)
 	else:
-		return render_template('todo.html',name=session['fname'])
+
+		cur_id = session['uid']
+		
+		later_ques = answer_later.query.filter_by(user_id=cur_id)
+		set_questions_obj = []
+		for q in later_ques:
+			ques = questions.query.filter_by(question_id=q.question_id).first()
+			set_questions_obj.append(ques)
+
+		for item in set_questions_obj:
+			tg_id = que_tag.query.filter_by(question_id=item.question_id)
+			tagName = [{}]
+			for it in tg_id:
+				tgNameObj=tag.query.filter_by(tag_id=it.tag_id).first()
+				tagName.append({'id':tgNameObj.tag_id,'name':tgNameObj.tag_name})
+			usr = user.query.filter_by(user_id = item.user_id).first()
+			book = bookmark.query.filter_by(user_id = cur_id,question_id=item.question_id).first()
+			if book is None:
+				bool_bid=0
+			else:
+				bool_bid=1
+			ans = answer.query.filter_by(question_id=item.question_id)
+			ans_count=0	# need to  check
+			for answer_que in ans:
+				ans_count=ans_count+1
+			ans_lat = answer_later.query.filter_by(question_id=item.question_id,user_id=cur_id).first()
+			if ans_lat is None:
+				bool_ans_lat=0
+			else:
+				bool_ans_lat=1
+			ans = answer.query.filter_by(question_id=item.question_id,user_id=cur_id).first()
+			if ans is None:
+				bool_ans=0
+			else:
+				bool_ans=1
+			set_questions.append({'id':item.question_id,'title':item.title,'votes':item.votes,\
+			'views':item.views,'date':item.que_date,'fname':usr.first_name,'lname':usr.last_name,\
+			'tags':tagName,'uid':item.user_id,'ans':ans_count,'BID':bool_bid,'ans_later':bool_ans_lat,'answered':bool_ans})
+		return render_template('todo.html',name=session['fname'],questionList=set_questions,uuid=cur_id)
+
 
 @app.route("/about_us")
 def about_us():
