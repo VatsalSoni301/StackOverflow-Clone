@@ -240,10 +240,7 @@ def Bookmark():
 			que_set.append(ques)
 		cur_id = session['uid']
 		
-		print que_set
-
 		for item in que_set:
-			print type(item)
 			tg_id = que_tag.query.filter_by(question_id=item.question_id)
 			tagName = [{}]
 			for it in tg_id:

@@ -58,18 +58,6 @@
 
 	<script>
 
-		function addtodo(obj) {
-			uid = document.getElementById("usr_id").value;
-			qid = obj.getAttribute("name");
-			alert(uid);
-			alert(qid);
-			$.post("/add_answer_later_1",
-				{
-					usr: uid,
-					que: qid
-				}
-			);
-		}
 		function removetodo(obj) {
 			uid = document.getElementById("usr_id").value;
 			qid = obj.getAttribute("name");
