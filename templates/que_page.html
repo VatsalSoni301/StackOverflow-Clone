@@ -7,27 +7,27 @@
     <link rel="stylesheet" type="text/css" href="/static/ques_ans.css">
     <script type="text/javascript" src="{{ url_for('static', filename='static_1/js/que_ans.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.css" rel="stylesheet">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.js"></script>
 
     <script>
-		$(document).ready(function() {
-			$('#summernote').summernote();
-		});
+        $(document).ready(function () {
+            $('#summernote').summernote();
+        });
 
         function validate() {
-			
-			var markupStr = $('#summernote').val()
-			cleaned = jQuery(markupStr).text();
 
-			if(markupStr == '' || markupStr == "<br>" || cleaned == ''){
-				document.getElementById("msg").innerHTML = "Please Enter Content or if you only have image, add some text for explanation";
-				$('#myModal11').modal('show');
-			}
-			else{
-				document.form1.submit();
-			}
-		}
+            var markupStr = $('#summernote').val()
+            cleaned = jQuery(markupStr).text();
+
+            if (markupStr == '' || markupStr == "<br>" || cleaned == '') {
+                document.getElementById("msg").innerHTML = "Please Enter Content or if you only have image, add some text for explanation";
+                $('#myModal11').modal('show');
+            }
+            else {
+                document.form1.submit();
+            }
+        }
 
 
     </script>
@@ -63,7 +63,8 @@
                         <span>{{quedict['date']}}</span>
                     </div>
                     <div>
-                        By : <span><a href="{{url_for('view_profile',uid=quedict['uid'])}}">{{quedict['ufname']}} {{quedict['ulname']}}</a></span>
+                        By : <span><a href="{{url_for('view_profile',uid=quedict['uid'])}}">{{quedict['ufname']}}
+                                {{quedict['ulname']}}</a></span>
                     </div>
                 </span>
 
@@ -129,7 +130,8 @@
                 <span class="panel-title">
                     <span class="answertitle">
                         <span>
-                            Answer by : <span><a class="ansby" href="{{url_for('view_profile',uid=i['uid'])}}">{{i['ufname']}} {{i['ulname']}}</a></span>
+                            Answer by : <span><a class="ansby" href="{{url_for('view_profile',uid=i['uid'])}}">{{i['ufname']}}
+                                    {{i['ulname']}}</a></span>
                         </span>
                     </span>
                 </span>
@@ -148,7 +150,7 @@
                             {{j['content']}}
                             <span class="commentposterinfo">
                                 <span>
-                                    -- by : <span><a href="#">{{j['ufname']}} {{j['ulname']}}</a></span>
+                                    -- by : <span><a href="{{url_for('view_profile',uid=j['uid'])}}">{{j['ufname']}} {{j['ulname']}}</a></span>
                                 </span>
                                 <span>
                                     on :
@@ -160,12 +162,16 @@
                     {% endfor %}
                     <br><br>
                     <div>
-                        <div style="width:60%;float: left;">
-                            <input type="text" class="form-control" placeholder="Comment here">
-                        </div>
-                        <div style="float:left;margin-left: 12px">
-                            <button class="btn btn-primary">comment</button>
-                        </div>
+                        <form action="{{url_for('post_comment_1')}}" method="POST">
+                            <input type="hidden" name="que__id" value="{{quedict['id']}}">
+                            <input type="hidden" name="ans__id" value="{{i['a_id']}}">
+                            <div style="width:60%;float: left;">
+                                <input type="text" class="form-control" name="commentbox" placeholder="Comment here">
+                            </div>
+                            <div style="float:left;margin-left: 12px">
+                                <input type="submit" class="btn btn-primary" value="comment" {% if uid==0 %}disabled {% endif %}>
+                            </div>
+                        </form>
                     </div>
                 </span>
 
@@ -213,11 +219,13 @@
         </div>
         <input type="hidden" value="{{qid}}" name="qid">
         <div class="col-md-12 form-group group-mail">
-            <button type="button" class="btn btn-primary" onclick="validate()">Post Answer</button>
-        </div>        
+            <button type="button" class="btn btn-primary" onclick="validate()" {% if chkbtn == 1 or uid==0 %}disabled {% endif %}>
+                Post Answer
+            </button>
+        </div>
     </form>
-    
-        
+
+
 </div>
 
 <div class="sidebar">
@@ -256,8 +264,8 @@
     </fieldset>
     <br>
     <div>
-		<button type="button" class="btn btn-primary">Ask Question</button>
-	</div>
+        <button type="button" class="btn btn-primary">Ask Question</button>
+    </div>
 </div>
 <div class="clearfix"></div>
 
@@ -272,7 +280,7 @@
         tabsize: 2,
         height: 250,
         width: 1000
-});
+    });
 
 </script>
 

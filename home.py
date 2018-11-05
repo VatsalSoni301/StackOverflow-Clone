@@ -124,12 +124,12 @@ def user_sign_in_1():
 	email = request.form['email']
 	password = request.form['password']
 	usr = user.query.filter_by(email_id=email,password=password).first()
-	session['uid'] = usr.user_id
-	session['fname'] = usr.first_name
-	if usr!="None":
-		return "success"
-	else:
+	if usr is None:
 		return "wrong"
+	else:
+		session['uid'] = usr.user_id
+		session['fname'] = usr.first_name
+		return "success"
 
 @app.route("/user_sign_in",methods=['POST'])
 def user_sign_in():
@@ -291,6 +291,10 @@ def admin():
 
 @app.route("/que_page")
 def que_page():
+	if 'uid' not in session:
+		cur_id=0
+	else:
+		cur_id = session['uid']
 	qid = request.args.get('qid', default='', type=str)
 	qobj = questions.query.filter_by(question_id=qid).first()
 	usr = user.query.filter_by(user_id=qobj.user_id).first()
@@ -304,10 +308,13 @@ def que_page():
 	qobj.votes,'date':qobj.que_date,'views':qobj.views,'uid':usr.user_id,'ufname':usr.first_name,\
 	'ulname':usr.last_name,'tag':tglist}
 	
+	chk=0
 	ansobj = answer.query.filter_by(question_id=qid)
 	anslist=[{}]
 	del anslist[:]
 	for item in ansobj:
+		if item.user_id == cur_id:
+			chk=1
 		usr = user.query.filter_by(user_id=item.user_id).first()
 		commentlist = [{}]
 		del commentlist[:]
@@ -322,9 +329,9 @@ def que_page():
 		,'comments':commentlist})
 
 	if 'uid' not in session:
-		return render_template('que_page.html',name="#",qid=qid,quedict=quedict,anslist=anslist)
+		return render_template('que_page.html',name="#",uid=cur_id,qid=qid,quedict=quedict,anslist=anslist)
 	else:
-		return render_template('que_page.html',name=session['fname'],qid=qid,quedict=quedict,anslist=anslist)
+		return render_template('que_page.html',name=session['fname'],uid=cur_id,qid=qid,quedict=quedict,anslist=anslist,chkbtn=chk)
 
 @app.route("/ask_question")
 def ask_question():
@@ -477,6 +484,18 @@ def post_answer():
 	ans_date = datetime.utcnow()
 	ans = answer(ans_content=ans_content,votes=0,user_id=cur_id,question_id=qid,ans_date=ans_date) 
 	db.session.add(ans)
+	db.session.commit()
+	return redirect(url_for('.que_page',qid=qid))
+
+@app.route("/post_comment_1",methods=['POST'])
+def post_comment_1():
+	uid=session['uid']
+	aid = request.form['ans__id']
+	qid = request.form['que__id']
+	comment_content = request.form['commentbox']
+	cmnt_date = datetime.utcnow()
+	cmnt = comment(user_id=uid,ans_id=aid,comment_content=comment_content,comment_date=cmnt_date)
+	db.session.add(cmnt)
 	db.session.commit()
 	return redirect(url_for('.que_page',qid=qid))
 
