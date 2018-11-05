@@ -9,7 +9,6 @@ app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 @app.route("/")
 def index():
 	if 'uid' not in session:
-		
 		set_questions_obj = questions.query.all()
 		set_questions = [{}]
 		del set_questions[:]
@@ -43,7 +42,7 @@ def index():
 			set_questions.append({'id':item.question_id,'title':item.title,'votes':item.votes,\
 			'views':item.views,'date':item.que_date,'fname':usr.first_name,'lname':usr.last_name,\
 			'tags':tagName,'uid':0,'ans':ans_count,'BID':0,'ans_later':0,'answered':0})
-		return render_template('index.html',name="#",questionList=set_questions)
+		return render_template('index.html',name="#",questionList=set_questions,uuid=0)
 	else:
 		cur_id = session['uid']
 		set_questions_obj = questions.query.all()
@@ -78,7 +77,7 @@ def index():
 			set_questions.append({'id':item.question_id,'title':item.title,'votes':item.votes,\
 			'views':item.views,'date':item.que_date,'fname':usr.first_name,'lname':usr.last_name,\
 			'tags':tagName,'uid':item.user_id,'ans':ans_count,'BID':bool_bid,'ans_later':bool_ans_lat,'answered':bool_ans})
-		return render_template('index.html',name=session['fname'],questionList=set_questions)
+		return render_template('index.html',name=session['fname'],questionList=set_questions,uuid=cur_id)
 
 @app.route("/add_answer_later_1",methods=['POST'])
 def add_answer_later_1():
@@ -231,7 +230,48 @@ def Bookmark():
 	if 'uid' not in session:
 		pass
 	else:
-		return render_template('bookmark.html',name=session['fname'])
+		bookmark_objs = bookmark.query.filter_by(user_id = session['uid'])
+		que_set = []
+		set_questions=[]
+		for bookmark_obj in bookmark_objs:
+			b_que_id = bookmark_obj.question_id
+			ques = questions.query.filter_by(question_id = b_que_id ).first()
+			que_set.append(ques)
+		cur_id = session['uid']
+		
+		print que_set
+
+		for item in que_set:
+			print type(item)
+			tg_id = que_tag.query.filter_by(question_id=item.question_id)
+			tagName = [{}]
+			for it in tg_id:
+				tgNameObj=tag.query.filter_by(tag_id=it.tag_id).first()
+				tagName.append({'id':tgNameObj.tag_id,'name':tgNameObj.tag_name})
+			usr = user.query.filter_by(user_id = item.user_id).first()
+			book = bookmark.query.filter_by(user_id = cur_id,question_id=item.question_id).first()
+			if book is None:
+				bool_bid=0
+			else:
+				bool_bid=1
+			ans = answer.query.filter_by(question_id=item.question_id)
+			ans_count=0	# need to  check
+			for answer_que in ans:
+				ans_count=ans_count+1
+			ans_lat = answer_later.query.filter_by(question_id=item.question_id,user_id=cur_id).first()
+			if ans_lat is None:
+				bool_ans_lat=0
+			else:
+				bool_ans_lat=1
+			ans = answer.query.filter_by(question_id=item.question_id,user_id=cur_id).first()
+			if ans is None:
+				bool_ans=0
+			else:
+				bool_ans=1
+			set_questions.append({'id':item.question_id,'title':item.title,'votes':item.votes,\
+			'views':item.views,'date':item.que_date,'fname':usr.first_name,'lname':usr.last_name,\
+			'tags':tagName,'uid':item.user_id,'ans':ans_count,'BID':bool_bid,'ans_later':bool_ans_lat,'answered':bool_ans})
+		return render_template('bookmark.html',name=session['fname'],questionList=set_questions,uuid=session['uid'])	
 
 @app.route("/admin")
 def admin():
@@ -251,10 +291,39 @@ def admin():
 @app.route("/que_page")
 def que_page():
 	qid = request.args.get('qid', default='', type=str)
+	qobj = questions.query.filter_by(question_id=qid).first()
+	usr = user.query.filter_by(user_id=qobj.user_id).first()
+	tags = que_tag.query.filter_by(question_id=qid)
+	tglist = [{}]
+	del tglist[:]
+	for tg in tags:
+		tname = tag.query.filter_by(tag_id=tg.tag_id).first()
+		tglist.append({'id':tg.tag_id,'name':tname.tag_name})
+	quedict = {'id':qid,'title':qobj.title,'question_content':qobj.question_content,'votes':\
+	qobj.votes,'date':qobj.que_date,'views':qobj.views,'uid':usr.user_id,'ufname':usr.first_name,\
+	'ulname':usr.last_name,'tag':tglist}
+	
+	ansobj = answer.query.filter_by(question_id=qid)
+	anslist=[{}]
+	del anslist[:]
+	for item in ansobj:
+		usr = user.query.filter_by(user_id=item.user_id).first()
+		commentlist = [{}]
+		del commentlist[:]
+		cmnt = comment.query.filter_by(ans_id=item.ans_id)
+		for cmntitem in cmnt:
+			usr_1 = user.query.filter_by(user_id=cmntitem.user_id).first()
+			commentlist.append({'id':cmntitem.comment_id,'content':cmntitem.comment_content,\
+			'uid':usr_1.user_id,'ufname':usr_1.first_name,'ulname':usr_1.last_name,'date':\
+			cmntitem.comment_date})
+		anslist.append({'a_id':item.ans_id,'content':item.ans_content,'date':item.ans_date,\
+		'votes':item.votes,'uid':item.user_id,'ufname':usr.first_name,'ulname':usr.last_name\
+		,'comments':commentlist})
+
 	if 'uid' not in session:
-		return render_template('que_page.html',name="#")
+		return render_template('que_page.html',name="#",qid=qid,quedict=quedict,anslist=anslist)
 	else:
-		return render_template('que_page.html',name=session['fname'])
+		return render_template('que_page.html',name=session['fname'],qid=qid,quedict=quedict,anslist=anslist)
 
 @app.route("/ask_question")
 def ask_question():
@@ -265,6 +334,7 @@ def ask_question():
 
 @app.route("/ask_question_1",methods=['POST'])
 def ask_question_1():
+	cur_id = session['uid']
 	title = request.form['title']
 	sn = request.form['editordata']
 	tag1 = request.form['tag_1']
@@ -333,7 +403,7 @@ def ask_question_1():
 			tagid5=tg.tag_id
 
 
-	que=questions(user_id=2,question_content=sn,title=title,votes=0,delete_votes=0,views=0,que_date=date_of_question)
+	que=questions(user_id=cur_id,question_content=sn,title=title,votes=0,delete_votes=0,views=0,que_date=date_of_question)
 	db.session.add(que)
 	db.session.commit()
 	qid = que.question_id 
@@ -444,12 +514,14 @@ def contact_us_1():
 
 @app.route("/post_answer",methods=['POST'])
 def post_answer():
+	cur_id = session['uid']
 	ans_content = request.form['editordata']
+	qid = request.form['qid']
 	ans_date = datetime.utcnow()
-	ans = answer(ans_content=ans_content,votes=0,user_id=1,question_id=1,ans_date=ans_date) 
+	ans = answer(ans_content=ans_content,votes=0,user_id=cur_id,question_id=qid,ans_date=ans_date) 
 	db.session.add(ans)
 	db.session.commit()
-	return redirect(url_for('que_page'))
+	return redirect(url_for('.que_page',qid=qid))
 
 if __name__=='__main__':
 	app.run(port=5000,debug=True,threaded=True,host="127.0.0.1")

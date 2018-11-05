@@ -3,7 +3,7 @@
 
 <head>
 	<!-- <script src='https://www.google.com/recaptcha/api.js'></script> -->
-
+	<title> Contact us </title>
 	<script>
 		function add_ct() {
 			var name = document.getElementById("name1").value;
@@ -11,7 +11,7 @@
 			var mobile = document.getElementById("mobile1").value;
 			var message = document.getElementById("message1").value;
 			var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-			var reg1 = /^[A-Za-z]+$/;
+			var reg1 = /^[A-Za-z][A-Za-z ]+$/;
 			var reg2 = /^[0-9]+$/;
 			if (name == '') {
 				document.getElementById("msg").innerHTML = "Please Enter Name"

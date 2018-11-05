@@ -14,8 +14,15 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="keywords" content="Discipline Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony Ericsson, Motorola web design" />
-	<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
-function hideURLbar(){ window.scrollTo(0,1); } </script>
+	<script type="application/x-javascript">
+		addEventListener("load", function () {
+			setTimeout(hideURLbar, 0);
+		}, false);
+
+		function hideURLbar() {
+			window.scrollTo(0, 1);
+		}
+	</script>
 	<!-- //for-mobile-apps -->
 	<link href="/static/static_1/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 	<link href="/static/static_1/css/font-awesome.css" rel="stylesheet">
@@ -154,23 +161,23 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 							<li class="menu__item"><a href="/" class="menu__link">Home</a></li>
 							<li class="menu__item"><a href="/ask_question" class="menu__link">ASKQuestion</a></li>
 							<li class="dropdown menu__item">
-									<a href="#" class="dropdown-toggle menu__link" data-toggle="dropdown">Activity<b class="caret"></b></a>
-									<ul class="dropdown-menu agile_short_dropdown">
-										<li><a href="/Bookmark">Bookmark</a></li>
-										<li><a href="/todo">Answer Later</a></li>
-									</ul>
-								</li>
+								<a href="#" class="dropdown-toggle menu__link" data-toggle="dropdown">Activity<b class="caret"></b></a>
+								<ul class="dropdown-menu agile_short_dropdown">
+									<li><a href="/Bookmark">Bookmark</a></li>
+									<li><a href="/todo">Answer Later</a></li>
+								</ul>
+							</li>
 							<li class="menu__item"><a href="/about_us" class="menu__link">AboutUS</a></li>
 							<li class="menu__item"><a href="/contact_us" class="menu__link">ContactUs</a></li>
 							{% if name!="#" %}
 							<li class="dropdown menu__item">
-									<a href="#" class="dropdown-toggle menu__link" data-toggle="dropdown">{{name}}<b class="caret"></b></a>
-									<ul class="dropdown-menu agile_short_dropdown">
-											<li><a href="/User_Personal_Info">Edit Profile</a></li>
-											<li><a href="/user_change_pass">Change Password</a></li>
-											<li><a href="/signout_user">SignOut</a></li>
-									</ul>
-								</li>
+								<a href="#" class="dropdown-toggle menu__link" data-toggle="dropdown">{{name}}<b class="caret"></b></a>
+								<ul class="dropdown-menu agile_short_dropdown">
+									<li><a href="/User_Personal_Info">Edit Profile</a></li>
+									<li><a href="/user_change_pass">Change Password</a></li>
+									<li><a href="/signout_user">SignOut</a></li>
+								</ul>
+							</li>
 							{% else %}
 							<li class="menu__item"><a href="#" class="menu__link" data-toggle="modal" data-target="#myModal">Signin</a></li>
 							{% endif %}
@@ -202,9 +209,8 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 					<h4>Address</h4>
 					<address>
 						<ul>
-
 							<li style="color:#fff">Telephone : +91 (8511) 112501 </li>
-							<li style="color:#fff">Email : <a class="mail" href="mailto:mail@example.com">admin@empty_flask.com</a></li>
+							<li style="color:#fff">Email : <a class="mail" href="mailto:admin@empty_flask.com">admin@empty_flask.com</a></li>
 						</ul>
 					</address>
 				</div>
@@ -271,7 +277,9 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 		jQuery(document).ready(function ($) {
 			$(".scroll").click(function (event) {
 				event.preventDefault();
-				$('html,body').animate({ scrollTop: $(this.hash).offset().top }, 1000);
+				$('html,body').animate({
+					scrollTop: $(this.hash).offset().top
+				}, 1000);
 			});
 		});
 	</script>
@@ -329,7 +337,9 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 				easingType: 'linear' 
 				};
 			*/
-			$().UItoTop({ easingType: 'easeOutQuart' });
+			$().UItoTop({
+				easingType: 'easeOutQuart'
+			});
 		});
 	</script>
 	<div class="arr-w3ls">
@@ -350,7 +360,6 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				</div>
-
 			</div>
 
 		</div>
