@@ -1550,7 +1550,7 @@ figure.effect-apollo:hover p {
   outline: none;
   padding:.5em;
   font-size: .9em;
-  color: #999999;
+  color: #000000;
   margin-bottom: 1.5em;
 }
 .contact-form input[type="email"] {
@@ -1561,7 +1561,7 @@ figure.effect-apollo:hover p {
   outline: none;
   padding:.5em;
   font-size: .9em;
-  color: #999999;
+  color: #000000;
   margin-bottom: 1.5em;
   margin: 0 1.25em;
 }
@@ -1573,7 +1573,7 @@ figure.effect-apollo:hover p {
   outline: none;
   padding:.5em;
   font-size: .9em;
-  color: #999999;
+  color: #000000;
   margin-bottom: 1.5em;
   min-height:150px;
 }
