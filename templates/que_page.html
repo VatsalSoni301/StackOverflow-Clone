@@ -48,7 +48,7 @@
 
             </div>
             <div class="panel-body">
-                {{quedict['question_content']}}
+                {{quedict['question_content'] | safe }}
                 <br>
                 <hr>
                 <span class="tag">
@@ -138,10 +138,8 @@
 
             </div>
             <div class="panel-body">
-
-                {{i['content']}}
+                {{ i['content'] | safe }}
                 <br>
-
                 <span class="comment">
                     {% for j in i['comments'] %}
                     <span>
