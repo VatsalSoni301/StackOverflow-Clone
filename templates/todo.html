@@ -79,6 +79,9 @@
 				{
 					usr: uid,
 					que: qid
+				},
+				function (data, status) {
+					$("#queanscontainerid").load(location.href + " #queanscontainerid");
 				}
 			);
 		}
@@ -118,90 +121,91 @@
 {% endblock %}
 {% block body %}
 <br>
-<div class="queanscontainer">
-	
-	{% if name=="#" %}
+<div id="queanscontainerid">
+	<div class="queanscontainer">
+
+		{% if name=="#" %}
 		<div class="w3-heading-grid">
 			<h3 class="text-center" style="color:red">You need to be logged in for this</h3>
 		</div>
-	{% else %}
-			{% if questionList %}		
-				{% for i in questionList%}
-					<input type="hidden" value="{{i['uid']}}" id="usr_id">
-					<div class="quebox">
-						<div class="panel panel-info">
-							<div class="panel-heading">
-								<span class="panel-title quetitle">
-									<a href="{{url_for('que_page')}}">
-										<span>
-											{{i['title']}}
-										</span>
-									</a>
-								</span>
-							</div>
-							<div class="panel-body">
-								<span class="tag">
-									{% for tagname in i['tags'] %}
-									<a class="label label-info taglable" href="#">{{tagname['name']}}</a>
-									{% endfor %}
-								</span>
-
-								<span class="askerinfo">
-									<div>
-										Posted on : <span>{{i['date']}}</span>
-									</div>
-									<div>
-										By : <span><a href="{{url_for('view_profile',uid=i['uid'])}}">{{i['fname']}} {{i['lname']}}</a></span>
-									</div>
-								</span>
-							</div>
-							<div class="panel-footer">	
-								<span>
-									<span class="viewansvotes">View : </span><span>{{i['views']}}</span>
-									<span class="viewansvotes">Ans : </span><span>{{i['ans']}}</span>
-									<span class="viewansvotes">Votes : </span><span>{{i['votes']}}</span>
-									<span style="float:right">
-										{% if i['answered'] %}
-										<span class="bookmarksym" data-toggle="popover" data-content="answered">
-											<span class="glyphicon glyphicon-check" aria-hidden="true"></span>
-										</span>
-										{% else %}
-										{% if i['ans_later']==0 %}
-										<span class="bookmarksym" data-toggle="popover" data-content="answer later">
-											<span class="fa fa-plus-square-o" name="{{i['id']}}" onclick="addtodo(this)"></span>
-										</span>
-										{% else %}
-										<span class="bookmarksym" data-toggle="popover" data-content="remove from TODO">
-											<span class="fa fa-plus-square" name="{{i['id']}}" onclick="removetodo(this)"></span>
-										</span>
-										{% endif %}
-										{% endif %}
-										{% if i['BID']==0 %}
-										<span class="bookmarksym" data-toggle="popover" data-content="bookmark">
-											<span class="glyphicon glyphicon-star-empty" aria-hidden="true" name="{{i['id']}}" onclick="addbookmark(this)"></span>
-										</span>
-										{% else %}
-										<span class="bookmarksym" data-toggle="popover" data-content="remove bookmark">
-											<span class="glyphicon glyphicon-star" aria-hidden="true" name="{{i['id']}}" onclick="removebookmark(this)"></span>
-										</span>
-										{% endif %}
-									</span>
-
-								</span>
-
-							</div>
-						</div>
-
-					</div>
-				{% endfor %}	
-			{% else %}
-				<div class="w3-heading-grid">
-					<h3 class="text-center" style="color:red">No questions added to answer later</h3>
+		{% else %}
+		{% if questionList %}
+		<input type="hidden" value="{{uuid}}" id="usr_id">
+		{% for i in questionList%}
+		<div class="quebox">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<span class="panel-title quetitle">
+						<a href="{{url_for('que_page')}}">
+							<span>
+								{{i['title']}}
+							</span>
+						</a>
+					</span>
 				</div>
-			{% endif %}			
-	{% endif %}
-</div>
+				<div class="panel-body">
+					<span class="tag">
+						{% for tagname in i['tags'] %}
+						<a class="label label-info taglable" href="#">{{tagname['name']}}</a>
+						{% endfor %}
+					</span>
 
+					<span class="askerinfo">
+						<div>
+							Posted on : <span>{{i['date']}}</span>
+						</div>
+						<div>
+							By : <span><a href="{{url_for('view_profile',uid=i['uid'])}}">{{i['fname']}} {{i['lname']}}</a></span>
+						</div>
+					</span>
+				</div>
+				<div class="panel-footer">
+					<span>
+						<span class="viewansvotes">View : </span><span>{{i['views']}}</span>
+						<span class="viewansvotes">Ans : </span><span>{{i['ans']}}</span>
+						<span class="viewansvotes">Votes : </span><span>{{i['votes']}}</span>
+						<span style="float:right">
+							{% if i['answered'] %}
+							<span class="bookmarksym" data-toggle="popover" data-content="answered">
+								<span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+							</span>
+							{% else %}
+							{% if i['ans_later']==0 %}
+							<span class="bookmarksym" data-toggle="popover" data-content="answer later">
+								<span class="fa fa-plus-square-o" name="{{i['id']}}" onclick="addtodo(this)"></span>
+							</span>
+							{% else %}
+							<span class="bookmarksym" data-toggle="popover" data-content="remove from TODO">
+								<span class="fa fa-plus-square" name="{{i['id']}}" onclick="removetodo(this)"></span>
+							</span>
+							{% endif %}
+							{% endif %}
+							{% if i['BID']==0 %}
+							<span class="bookmarksym" data-toggle="popover" data-content="bookmark">
+								<span class="glyphicon glyphicon-star-empty" aria-hidden="true" name="{{i['id']}}" onclick="addbookmark(this)"></span>
+							</span>
+							{% else %}
+							<span class="bookmarksym" data-toggle="popover" data-content="remove bookmark">
+								<span class="glyphicon glyphicon-star" aria-hidden="true" name="{{i['id']}}" onclick="removebookmark(this)"></span>
+							</span>
+							{% endif %}
+						</span>
+
+					</span>
+
+				</div>
+			</div>
+
+		</div>
+		{% endfor %}
+		{% else %}
+		<div class="w3-heading-grid">
+			<h3 class="text-center" style="color:red">No questions added to answer later</h3>
+		</div>
+		{% endif %}
+		{% endif %}
+	</div>
+</div>
 <div class="sidebar">
 	<fieldset>
 		<legend>Search</legend>
@@ -240,7 +244,7 @@
 	<div>
 		<button type="button" class="btn btn-primary">Ask Question</button>
 	</div>
-	
+
 </div>
 <div class="clearfix"></div>
 
