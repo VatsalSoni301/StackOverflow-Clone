@@ -102,7 +102,14 @@ class admin(db.Model):
 	date_of_reg = db.Column('date_of_reg',db.DateTime,nullable=False)
 	profile_pic = db.Column('profile_pic',db.String)
 
-
+class contact_us(db.Model):
+	__tablename__ = 'contact_us'
+	cu_id = db.Column('cu_id',db.Integer,primary_key=True)
+	cu_name = db.Column('cu_name',db.String,nullable=False)
+	cu_email_id = db.Column('cu_email_id',db.String,nullable=False)
+	cu_mobile_no = db.Column('cu_mobile_no',db.String,nullable=False)
+	cu_msg = db.Column('cu_msg',db.String,nullable=False)
+	cu_resolve = db.Column('cu_resolve',db.Integer,default=0)
 
 # tg = tag.query.all() # Retrieve all data
 # 	ll = [{'id':1,'name':"sad"}]

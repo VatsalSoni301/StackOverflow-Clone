@@ -293,5 +293,16 @@ def about_us():
 def contact():
 	return render_template('contact_us.html')
 
+@app.route("/contact_us_1",methods=['POST'])
+def contact_us_1():
+	name = request.form['name']
+	email = request.form['email_ct']
+	mobile = request.form['mobile']
+	message = request.form['message']
+
+	cu=contact_us(cu_name=name,cu_email_id=email,cu_mobile_no=mobile,cu_msg=message)
+	db.session.add(cu)
+	db.session.commit()
+
 if __name__=='__main__':
 	app.run(port=5000,debug=True,threaded=True,host="127.0.0.1")
