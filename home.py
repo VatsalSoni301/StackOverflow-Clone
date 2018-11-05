@@ -252,10 +252,39 @@ def admin():
 @app.route("/que_page")
 def que_page():
 	qid = request.args.get('qid', default='', type=str)
+	qobj = questions.query.filter_by(question_id=qid).first()
+	usr = user.query.filter_by(user_id=qobj.user_id).first()
+	tags = que_tag.query.filter_by(question_id=qid)
+	tglist = [{}]
+	del tglist[:]
+	for tg in tags:
+		tname = tag.query.filter_by(tag_id=tg.tag_id).first()
+		tglist.append({'id':tg.tag_id,'name':tname.tag_name})
+	quedict = {'id':qid,'title':qobj.title,'question_content':qobj.question_content,'votes':\
+	qobj.votes,'date':qobj.que_date,'views':qobj.views,'uid':usr.user_id,'ufname':usr.first_name,\
+	'ulname':usr.last_name,'tag':tglist}
+	
+	ansobj = answer.query.filter_by(question_id=qid)
+	anslist=[{}]
+	del anslist[:]
+	for item in ansobj:
+		usr = user.query.filter_by(user_id=item.user_id).first()
+		commentlist = [{}]
+		del commentlist[:]
+		cmnt = comment.query.filter_by(ans_id=item.ans_id)
+		for cmntitem in cmnt:
+			usr_1 = user.query.filter_by(user_id=cmntitem.user_id).first()
+			commentlist.append({'id':cmntitem.comment_id,'content':cmntitem.comment_content,\
+			'uid':usr_1.user_id,'ufname':usr_1.first_name,'ulname':usr_1.last_name,'date':\
+			cmntitem.comment_date})
+		anslist.append({'a_id':item.ans_id,'content':item.ans_content,'date':item.ans_date,\
+		'votes':item.votes,'uid':item.user_id,'ufname':usr.first_name,'ulname':usr.last_name\
+		,'comments':commentlist})
+
 	if 'uid' not in session:
-		return render_template('que_page.html',name="#")
+		return render_template('que_page.html',name="#",qid=qid,quedict=quedict,anslist=anslist)
 	else:
-		return render_template('que_page.html',name=session['fname'])
+		return render_template('que_page.html',name=session['fname'],qid=qid,quedict=quedict,anslist=anslist)
 
 @app.route("/ask_question")
 def ask_question():
@@ -266,6 +295,7 @@ def ask_question():
 
 @app.route("/ask_question_1",methods=['POST'])
 def ask_question_1():
+	cur_id = session['uid']
 	title = request.form['title']
 	sn = request.form['editordata']
 	tag1 = request.form['tag_1']
@@ -334,7 +364,7 @@ def ask_question_1():
 			tagid5=tg.tag_id
 
 
-	que=questions(user_id=2,question_content=sn,title=title,votes=0,delete_votes=0,views=0,que_date=date_of_question)
+	que=questions(user_id=cur_id,question_content=sn,title=title,votes=0,delete_votes=0,views=0,que_date=date_of_question)
 	db.session.add(que)
 	db.session.commit()
 	qid = que.question_id 
@@ -401,12 +431,14 @@ def contact_us_1():
 
 @app.route("/post_answer",methods=['POST'])
 def post_answer():
+	cur_id = session['uid']
 	ans_content = request.form['editordata']
+	qid = request.form['qid']
 	ans_date = datetime.utcnow()
-	ans = answer(ans_content=ans_content,votes=0,user_id=1,question_id=1,ans_date=ans_date) 
+	ans = answer(ans_content=ans_content,votes=0,user_id=cur_id,question_id=qid,ans_date=ans_date) 
 	db.session.add(ans)
 	db.session.commit()
-	return redirect(url_for('que_page'))
+	return redirect(url_for('.que_page',qid=qid))
 
 if __name__=='__main__':
 	app.run(port=5000,debug=True,threaded=True,host="127.0.0.1")
