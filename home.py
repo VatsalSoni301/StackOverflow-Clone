@@ -480,9 +480,8 @@ def todo():
 			set_questions.append({'id':item.question_id,'title':item.title,'votes':item.votes,\
 			'views':item.views,'date':item.que_date,'fname':usr.first_name,'lname':usr.last_name,\
 			'tags':tagName,'uid':item.user_id,'ans':ans_count,'BID':bool_bid,'ans_later':bool_ans_lat,'answered':bool_ans})
-		return render_template('todo.html',name=session['fname'],questionList=set_questions)
+		return render_template('todo.html',name=session['fname'],questionList=set_questions,uuid=cur_id)
 
-		# return render_template('todo.html',name=session['fname'])
 
 @app.route("/about_us")
 def about_us():
