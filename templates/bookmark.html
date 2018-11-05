@@ -103,49 +103,21 @@
 				);
 			}
 		}
-		function addbookmark(obj) {
-			uid = document.getElementById("usr_id").value;
-			qid = obj.getAttribute("name");
-			if (uid == 0) {
-				document.getElementById("msg").innerHTML = "Please Login"
-				$('#myModal11').modal('show');
-			}
-			else {
-				$.post("/add_bookmark_1",
-					{
-						usr: uid,
-						que: qid
-					},
-					function (data, status) {
-						q_id = obj.getAttribute("id");
-						document.getElementById(q_id).style.display = "none";
-						qid_1 = qid + "+removebook";
-						document.getElementById(qid_1).style.display = "inline";
-					}
-				);
-			}
-		}
 		function removebookmark(obj) {
 			uid = document.getElementById("usr_id").value;
 			qid = obj.getAttribute("name");
-			if (uid == 0) {
-				document.getElementById("msg").innerHTML = "Please Login"
-				$('#myModal11').modal('show');
-			}
-			else {
+			
+		
 				$.post("/rm_bookmark_1",
 					{
 						usr: uid,
 						que: qid
 					},
 					function (data, status) {
-						q_id = obj.getAttribute("id");
-						qid_1 = qid + "+addbook";
-						document.getElementById(q_id).style.display = 'none';
-						document.getElementById(qid_1).style.display = 'inline';
+						$("#queanscontainerid").load(location.href + " #queanscontainerid");
 					}
 				);
-			}
+		
 		}
 		$(document).ready(function () {
 			$('[data-toggle="popover"]').popover({
@@ -159,6 +131,7 @@
 {% endblock %}
 {% block body %}
 <br>
+<div id="queanscontainerid">
 <div class="queanscontainer">
 	<input type="hidden" value="{{uuid}}" id="usr_id">
 	{% for i in questionList%}
