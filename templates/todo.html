@@ -61,8 +61,6 @@
 		function removetodo(obj) {
 			uid = document.getElementById("usr_id").value;
 			qid = obj.getAttribute("name");
-			alert(uid);
-			alert(qid);
 			$.post("/rm_answer_later_1",
 				{
 					usr: uid,
@@ -76,8 +74,6 @@
 		function addbookmark(obj) {
 			uid = document.getElementById("usr_id").value;
 			qid = obj.getAttribute("name");
-			alert(uid);
-			alert(qid);
 			$.post("/add_bookmark_1",
 				{
 					usr: uid,
@@ -88,8 +84,6 @@
 		function removebookmark(obj) {
 			uid = document.getElementById("usr_id").value;
 			qid = obj.getAttribute("name");
-			alert(uid);
-			alert(qid);
 			$.post("/rm_bookmark_1",
 				{
 					usr: uid,
@@ -232,7 +226,7 @@
 	<div>
 		<a href="{{ url_for('ask_question') }}" class="btn btn-primary">Ask Question</a>
 	</div>
-
+	<br>
 </div>
 <div class="clearfix"></div>
 
