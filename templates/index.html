@@ -2,7 +2,7 @@
 {% block head %}
 
 <head>
-	<title>Bookmark</title>
+	<title>Stackoverflow</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<style>
 		.quebox{
@@ -160,8 +160,8 @@
 {% block body %}
 <br>
 <div class="queanscontainer">
+	<input type="hidden" value="{{uuid}}" id="usr_id">
 	{% for i in questionList%}
-	<input type="hidden" value="{{i['uid']}}" id="usr_id">
 	<div class="quebox">
 		<div class="panel panel-info">
 			<div class="panel-heading">
