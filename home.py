@@ -9,7 +9,6 @@ app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 @app.route("/")
 def index():
 	if 'uid' not in session:
-		
 		set_questions_obj = questions.query.all()
 		set_questions = [{}]
 		del set_questions[:]
@@ -43,7 +42,7 @@ def index():
 			set_questions.append({'id':item.question_id,'title':item.title,'votes':item.votes,\
 			'views':item.views,'date':item.que_date,'fname':usr.first_name,'lname':usr.last_name,\
 			'tags':tagName,'uid':0,'ans':ans_count,'BID':0,'ans_later':0,'answered':0})
-		return render_template('index.html',name="#",questionList=set_questions)
+		return render_template('index.html',name="#",questionList=set_questions,uuid=0)
 	else:
 		cur_id = session['uid']
 		set_questions_obj = questions.query.all()
@@ -78,7 +77,7 @@ def index():
 			set_questions.append({'id':item.question_id,'title':item.title,'votes':item.votes,\
 			'views':item.views,'date':item.que_date,'fname':usr.first_name,'lname':usr.last_name,\
 			'tags':tagName,'uid':item.user_id,'ans':ans_count,'BID':bool_bid,'ans_later':bool_ans_lat,'answered':bool_ans})
-		return render_template('index.html',name=session['fname'],questionList=set_questions)
+		return render_template('index.html',name=session['fname'],questionList=set_questions,uuid=cur_id)
 
 
 @app.route("/add_answer_later_1",methods=['POST'])
@@ -232,7 +231,48 @@ def Bookmark():
 	if 'uid' not in session:
 		pass
 	else:
-		return render_template('bookmark.html',name=session['fname'])
+		bookmark_objs = bookmark.query.filter_by(user_id = session['uid'])
+		que_set = []
+		set_questions=[]
+		for bookmark_obj in bookmark_objs:
+			b_que_id = bookmark_obj.question_id
+			ques = questions.query.filter_by(question_id = b_que_id ).first()
+			que_set.append(ques)
+		cur_id = session['uid']
+		
+		print que_set
+
+		for item in que_set:
+			print type(item)
+			tg_id = que_tag.query.filter_by(question_id=item.question_id)
+			tagName = [{}]
+			for it in tg_id:
+				tgNameObj=tag.query.filter_by(tag_id=it.tag_id).first()
+				tagName.append({'id':tgNameObj.tag_id,'name':tgNameObj.tag_name})
+			usr = user.query.filter_by(user_id = item.user_id).first()
+			book = bookmark.query.filter_by(user_id = cur_id,question_id=item.question_id).first()
+			if book is None:
+				bool_bid=0
+			else:
+				bool_bid=1
+			ans = answer.query.filter_by(question_id=item.question_id)
+			ans_count=0	# need to  check
+			for answer_que in ans:
+				ans_count=ans_count+1
+			ans_lat = answer_later.query.filter_by(question_id=item.question_id,user_id=cur_id).first()
+			if ans_lat is None:
+				bool_ans_lat=0
+			else:
+				bool_ans_lat=1
+			ans = answer.query.filter_by(question_id=item.question_id,user_id=cur_id).first()
+			if ans is None:
+				bool_ans=0
+			else:
+				bool_ans=1
+			set_questions.append({'id':item.question_id,'title':item.title,'votes':item.votes,\
+			'views':item.views,'date':item.que_date,'fname':usr.first_name,'lname':usr.last_name,\
+			'tags':tagName,'uid':item.user_id,'ans':ans_count,'BID':bool_bid,'ans_later':bool_ans_lat,'answered':bool_ans})
+		return render_template('bookmark.html',name=session['fname'],questionList=set_questions,uuid=session['uid'])	
 
 @app.route("/admin")
 def admin():
