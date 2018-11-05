@@ -162,8 +162,23 @@ def validate_email_user():
 			return "success"
 
 @app.route("/admin_login")
-def admin():
+def admin_login():
 	return render_template('admin_login.html')
+
+@app.route("/admin")
+def admin():
+	cu_obj = contact_us.query.filter_by(cu_resolve=0)
+	cu_dict=[{}]
+	del cu_dict[:]
+	for i in cu_obj:
+		cu_dict.append({ 
+			'name':i.cu_name,
+			'email':i.cu_email_id,
+			'mobile':i.cu_mobile_no,
+			'message':i.cu_msg
+			} ) 
+
+	return render_template('admin.html', contact_us_dict = cu_dict)
 
 @app.route("/bookmark")
 def bookmark():
@@ -302,6 +317,7 @@ def contact_us_1():
 	cu=contact_us(cu_name=name,cu_email_id=email,cu_mobile_no=mobile,cu_msg=message)
 	db.session.add(cu)
 	db.session.commit()
+	return redirect(url_for('.index'))
 
 if __name__=='__main__':
 	app.run(port=5000,debug=True,threaded=True,host="127.0.0.1")
