@@ -76,7 +76,6 @@
             </div>
             <div class="panel-body">
                 {{quedict['question_content'] | safe }}
-                <br>
                 <hr>
                 <span class="tag">
                     {% for tgitem in quedict['tag'] %}
@@ -167,11 +166,8 @@
             </div>
             <div class="panel-body">
                 {{ i['content'] | safe }}
-                <br>
                 <span class="comment">
                     {% for j in i['comments'] %}
-                    <span>
-                        <hr class="commenthr">
                         <span>
                             <hr class="commenthr">
                             <span>
@@ -204,7 +200,7 @@
                                 </div>
                             </form>
                         </div>
-                    </span>
+                </span>
 
                 </div>
                 <div class="panel-footer">
