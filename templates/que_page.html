@@ -73,31 +73,29 @@
                         <span class="quetitle">
                             {{quedict['title']}}
                         </span>
-                    </span>
+            </div>
+            <div class="panel-body">
+                {{quedict['question_content'] | safe }}
+                <br>
+                <hr>
+                <span class="tag">
+                    {% for tgitem in quedict['tag'] %}
+                    <a class="label label-info taglable" href="#">{{tgitem['name']}}</a>
+                    {% endfor %}
+                </span>
 
-                </div>
-                <div class="panel-body">
-                    {{quedict['question_content']}}
-                    <br>
-                    <hr>
-                    <span class="tag">
-                        {% for tgitem in quedict['tag'] %}
-                        <a class="label label-info taglable" href="#">{{tgitem['name']}}</a>
-                        {% endfor %}
-                    </span>
+                <span class="askerinfo">
+                    <div>
+                        Posted on :
+                        <span>{{quedict['date']}}</span>
+                    </div>
+                    <div>
+                        By : <span><a href="{{url_for('view_profile',uid=quedict['uid'])}}">{{quedict['ufname']}}
+                                {{quedict['ulname']}}</a></span>
+                    </div>
+                </span>
 
-                    <span class="askerinfo">
-                        <div>
-                            Posted on :
-                            <span>{{quedict['date']}}</span>
-                        </div>
-                        <div>
-                            By : <span><a href="{{url_for('view_profile',uid=quedict['uid'])}}">{{quedict['ufname']}}
-                                    {{quedict['ulname']}}</a></span>
-                        </div>
-                    </span>
-
-                </div>
+            </div>    
                 <div class="panel-footer">
                     <span>
                         {% if 1 %}
@@ -166,14 +164,14 @@
                         </span>
                     </span>
 
-                </div>
-                <div class="panel-body">
-
-                    {{i['content']}}
-                    <br>
-
-                    <span class="comment">
-                        {% for j in i['comments'] %}
+            </div>
+            <div class="panel-body">
+                {{ i['content'] | safe }}
+                <br>
+                <span class="comment">
+                    {% for j in i['comments'] %}
+                    <span>
+                        <hr class="commenthr">
                         <span>
                             <hr class="commenthr">
                             <span>
