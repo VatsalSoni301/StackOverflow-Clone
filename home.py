@@ -1090,5 +1090,10 @@ def getQuestionDict(questionlist, isguest):
         return render_template('error.html')
 
 
+@app.errorhandler(404)
+def http_404_handler(error):
+	return render_template('error.html')
+
+
 if __name__ == '__main__':
     app.run(port=5000, debug=True, threaded=True, host='127.0.0.1')
