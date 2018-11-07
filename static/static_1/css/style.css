@@ -60,12 +60,13 @@ ul.social-icons3 {
 }
 .social-icons3 li{
 	display:inline-block;
+	margin-right:-11px;
 }
 .social-icons3 li a{  
     display: block;
     height: 30px;
     width: 30px;
-    margin-right: 1em;
+    margin-right: 5em;
     -webkit-transition: .5s all;
     transition: .5s all;
     -moz-transition: .5s all;
