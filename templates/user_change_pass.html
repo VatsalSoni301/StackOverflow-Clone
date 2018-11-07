@@ -1,0 +1,209 @@
+{% extends 'home_base.html' %}
+{% block head %}
+
+<head>
+	<title>Change Password</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<style>
+		.quebox{
+			margin: 10px;
+		}
+		.tag{
+			width: 60%;
+		}
+		.taglable{
+			color:black;
+			margin-left:5px;
+			background: #7edadb;
+		}
+		.askerinfo{
+			float: right;
+			font-size: 12px;
+			color: #9199a1;
+		}
+		.viewansvotes{
+			margin-left: 20px;
+		}
+		.quetitle{
+			font-size:16px;
+			text-decoration: none;
+			color:white;
+			font-weight: bold;
+		}
+		.bookmark{
+			float:right;
+			font-size:12px;
+		}
+		.bookmarksym{
+			margin-left: 15px;
+		}
+		.bookmarksym:hover{
+			display: inline-block;
+			cursor: pointer;
+		}
+		.panel-info > .panel-heading
+		{
+			background-color:#19b8bb 
+		}
+		.queanscontainer{
+			width: 75%;
+			float: left;
+		}
+		.sidebar{
+			margin-top:15px; 
+			width:25%;
+			float:left;
+		}
+		.password{
+			margin-left:20%;
+
+		}
+        .pass_show{position: relative} 
+
+        .pass_show .ptxt { 
+            position: absolute; 
+            top: 50%; 
+            right: 10px; 
+            z-index: 1; 
+            color: #333333; 
+            margin-top: -10px; 
+            cursor: pointer; 
+            transition: .3s ease all; 
+        } 
+
+        .pass_show .ptxt:hover{color: #333333;} 
+    </style>
+	<script>
+
+		function validate() {
+			var cur_psd = document.getElementById("cur_psd");
+			var password = document.getElementById("new_psd");
+			var confirm = document.getElementById("new_psd_1");
+			if (cur_psd.value == '') {
+				document.getElementById("msg").innerHTML = "Please enter your current password"
+				$('#myModal11').modal('show');
+			}
+			else if (password.value == '') {
+				document.getElementById("msg").innerHTML = "Please Enter Password"
+				$('#myModal11').modal('show');
+			}
+			else if (confirm.value == '') {
+				document.getElementById("msg").innerHTML = "Please Enter Confirm Password"
+				$('#myModal11').modal('show');
+			}
+			else if (password.value != confirm.value) {
+				document.getElementById("msg").innerHTML = "Password and Confirm Password must be Same"
+				$('#myModal11').modal('show');
+			}
+			else {
+				$.post("/check_cur_psd",
+					{
+						cur_psd: cur_psd.value,
+					},
+					function (data, status) {
+						if (data == "wrong") {
+							document.getElementById("msg").innerHTML = "Current password is incorrect"
+							$('#myModal11').modal('show');
+						}
+						else {
+							document.form1.submit();
+
+						}
+
+					}
+				);
+			}
+		}
+
+		$(document).ready(function () {
+			$('.pass_show').append('<span class="ptxt">Show</span>');
+		});
+
+		$(document).on('click', '.pass_show .ptxt', function () {
+			$(this).text($(this).text() == "Show" ? "Hide" : "Show");
+			$(this).prev().attr('type', function (index, attr) {
+				return attr == 'password' ? 'text' : 'password';
+			});
+		});  
+	</script>
+</head>
+{% endblock %}
+
+{% block body %}
+<br>
+<div class="queanscontainer">
+	<div class="password">
+		<div class="row">
+			<div class="col-md-8">
+				<div class="w3-heading-grid">
+					<h3 class="text-center" style="color:green">Change Password</h3>
+				</div>
+				<hr>
+				<form action="{{ url_for('user_change_pass_1') }}" method="POST" name="form1">
+					<label>Current Password</label>
+					<div class="form-group pass_show">
+						<input type="password" id="cur_psd" name="cur_psd" class="form-control" placeholder="Current Password">
+					</div>
+					<label>New Password</label>
+					<div class="form-group pass_show">
+						<input type="password" id="new_psd" name="new_psd" class="form-control" placeholder="New Password">
+					</div>
+					<label>Confirm Password</label>
+					<div class="form-group pass_show">
+						<input type="password" id="new_psd_1" name="new_psd_1" class="form-control" placeholder="Confirm Password">
+					</div>
+					<div class="form-group group-mail">
+						<button type="button" class="btn btn-primary" onclick="validate()">
+							Submit
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="sidebar">
+	<fieldset>
+		<legend>Search</legend>
+		<div>
+			<form action="{{url_for('search_question')}}" method="post" name="search_que_form">
+				<div style="width:80%;float:left">
+					<input class="form-control" type="text" name="search_question_input" id="search_question_input1" placeholder="Search Question"
+					 required>
+				</div>
+				<div style="width:15%;float:left;margin-left: 5px;">
+
+					<button type="submit" class="btn btn-default">
+						<span class="glyphicon glyphicon-search"></span>
+					</button>
+				</div>
+			</form>
+
+			<br><br>
+
+			<form action="{{url_for('search_tag')}}" method="post" name="search_tag_form">
+				<div style="width:80%;float:left">
+					<input class="form-control" type="text" name="search_tag_input" id="search_tag_input1" placeholder="Search by Tag"
+					 required>
+				</div>
+				<div style="width:15%;float:left;margin-left: 5px;">
+					<button type="submit" class="btn btn-default">
+						<span class="glyphicon glyphicon-search"></span>
+					</button>
+				</div>
+			</form>
+			<br>
+		</div>
+	</fieldset>
+	<br>
+	<div>
+		<a href="{{ url_for('ask_question') }}" class="btn btn-primary">Ask Question</a>
+	</div>
+	<br>
+</div>
+<div class="clearfix"></div>
+
+{% endblock %}

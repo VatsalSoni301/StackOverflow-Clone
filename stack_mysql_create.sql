@@ -25,10 +25,8 @@ CREATE TABLE `questions` (
 	`user_id` INT(8) NOT NULL,
 	`question_content` VARCHAR(3000) NOT NULL,
 	`title` VARCHAR(1000) NOT NULL,
-	`votes` INT(8) NOT NULL DEFAULT '0',
 	`delete_votes` INT(8) NOT NULL DEFAULT '0',
 	`que_date` DATETIME(6) NOT NULL,
-	`views` INT(8) NOT NULL DEFAULT '0',
 	`question_image` VARCHAR(100),
 	`question_code` VARCHAR(3000),
 	PRIMARY KEY (`question_id`)
@@ -39,7 +37,6 @@ CREATE TABLE `answer` (
 	`user_id` INT(8) NOT NULL,
 	`question_id` INT(8) NOT NULL,
 	`ans_content` VARCHAR(3000) NOT NULL,
-	`votes` INT(8) NOT NULL DEFAULT '0',
 	`ans_date` DATETIME(6) NOT NULL,
 	`answer_code` VARCHAR(3000),
 	`answer_image` VARCHAR(100),
@@ -106,6 +103,42 @@ CREATE TABLE `country` (
 	PRIMARY KEY (`country_id`)
 );
 
+CREATE TABLE `contact_us` (
+	`cu_id` INT(8) NOT NULL AUTO_INCREMENT,
+	`cu_name` VARCHAR(50) NOT NULL,
+	`cu_email_id` VARCHAR(50) NOT NULL,
+	`cu_mobile_no` VARCHAR(10) NOT NULL,
+	`cu_msg` VARCHAR(500) NOT NULL,
+	`cu_resolve` INT(8) DEFAULT '0',
+	PRIMARY KEY (`cu_id`)
+);
+
+CREATE TABLE `user_que_vote` (
+	`que_vote_id` INT(8) NOT NULL AUTO_INCREMENT,
+	`user_id` INT(8) NOT NULL,
+	`question_id` INT(8) NOT NULL,
+	`upvote` INT(8) DEFAULT '0',
+	`downvote` INT(8) DEFAULT '0',
+	PRIMARY KEY (`que_vote_id`)
+);
+
+CREATE TABLE `user_ans_vote` (
+	`ans_vote_id` INT(8) NOT NULL AUTO_INCREMENT,
+	`user_id` INT(8) NOT NULL,
+	`ans_id` INT(8) NOT NULL,
+	`upvote` INT(8) DEFAULT '0',
+	`downvote` INT(8) DEFAULT '0',
+	PRIMARY KEY (`ans_vote_id`)
+);
+
+CREATE TABLE `user_views` (
+	`views_id` INT(8) NOT NULL AUTO_INCREMENT,
+	`user_id` INT(8) NOT NULL,
+	`question_id` INT(8) NOT NULL,
+	`views` INT(8) DEFAULT '0',
+	PRIMARY KEY (`views_id`)
+);
+
 ALTER TABLE `user` ADD CONSTRAINT `user_fk0` FOREIGN KEY (`country_id`) REFERENCES `country`(`country_id`);
 
 ALTER TABLE `questions` ADD CONSTRAINT `questions_fk0` FOREIGN KEY (`user_id`) REFERENCES `user`(`user_id`);
@@ -129,4 +162,16 @@ ALTER TABLE `que_tag` ADD CONSTRAINT `que_tag_fk1` FOREIGN KEY (`tag_id`) REFERE
 ALTER TABLE `answer_later` ADD CONSTRAINT `answer_later_fk0` FOREIGN KEY (`question_id`) REFERENCES `questions`(`question_id`);
 
 ALTER TABLE `answer_later` ADD CONSTRAINT `answer_later_fk1` FOREIGN KEY (`user_id`) REFERENCES `user`(`user_id`);
+
+ALTER TABLE `user_que_vote` ADD CONSTRAINT `user_que_vote_fk0` FOREIGN KEY (`user_id`) REFERENCES `user`(`user_id`);
+
+ALTER TABLE `user_que_vote` ADD CONSTRAINT `user_que_vote_fk1` FOREIGN KEY (`question_id`) REFERENCES `questions`(`question_id`);
+
+ALTER TABLE `user_ans_vote` ADD CONSTRAINT `user_ans_vote_fk0` FOREIGN KEY (`user_id`) REFERENCES `user`(`user_id`);
+
+ALTER TABLE `user_ans_vote` ADD CONSTRAINT `user_ans_vote_fk1` FOREIGN KEY (`ans_id`) REFERENCES `answer`(`ans_id`);
+
+ALTER TABLE `user_views` ADD CONSTRAINT `user_views_fk0` FOREIGN KEY (`user_id`) REFERENCES `user`(`user_id`);
+
+ALTER TABLE `user_views` ADD CONSTRAINT `user_views_fk1` FOREIGN KEY (`question_id`) REFERENCES `questions`(`question_id`);
 
