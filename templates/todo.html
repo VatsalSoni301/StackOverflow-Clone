@@ -131,7 +131,7 @@
 				<div class="panel-body">
 					<span class="tag">
 						{% for tagname in i['tags'] %}
-						<a class="label label-info taglable" href="#">{{tagname['name']}}</a>
+						<a class="label label-info taglable" href="{{url_for('search_perticular_tag',search_tid=tagname['id'])}}">{{tagname['name']}}</a>
 						{% endfor %}
 					</span>
 
