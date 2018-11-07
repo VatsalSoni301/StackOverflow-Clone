@@ -186,7 +186,7 @@ def view_profile():
 	con = country.query.filter_by(country_id=usr.country_id).first()
 	user_dict={'fname':usr.first_name,'lname':usr.last_name,'email':usr.email_id,\
 	'country':con.country_name,'current':usr.current_position,'college':usr.college,\
-	'date':usr.date_of_birth,'pic':usr.profile_pic,'gn':usr.gender}
+	'date':str(usr.date_of_birth)[:10],'pic':usr.profile_pic,'gn':usr.gender}
 
 	ques_obj = questions.query.filter_by(user_id=uid)
 	ques_set = [{}]
@@ -217,7 +217,7 @@ def user_sign_up_1():
 	current_pos = request.form['cur_pos']
 	college = request.form['collegename']
 	dob = request.form['date']
-	dd=datetime.utcnow()
+	dd=datetime.now()
 	destination='Default.jpg'
 	for f in request.files.getlist("file"):
 		if f.filename=='':
@@ -343,7 +343,7 @@ def que_page():
 			db.session.add(uvobj)
 			db.session.commit()
 	quedict = {'id':qid,'title':qobj.title,'question_content':qobj.question_content,'votes':\
-	votecount,'date':qobj.que_date,'views':viewcount,'uid':usr.user_id,'ufname':usr.first_name,\
+	votecount,'date':str(qobj.que_date)[:16],'views':viewcount,'uid':usr.user_id,'ufname':usr.first_name,\
 	'ulname':usr.last_name,'tag':tglist,'BID':bool_bid,'ans_later':bool_ans_lat,\
 	'answered':bool_ans,'upvote':up,'downvote':down}
 	
@@ -362,7 +362,7 @@ def que_page():
 			usr_1 = user.query.filter_by(user_id=cmntitem.user_id).first()
 			commentlist.append({'id':cmntitem.comment_id,'content':cmntitem.comment_content,\
 			'uid':usr_1.user_id,'ufname':usr_1.first_name,'ulname':usr_1.last_name,'date':\
-			cmntitem.comment_date})
+			str(cmntitem.comment_date)[:16]})
 		vtobj = user_ans_vote.query.filter_by(ans_id=item.ans_id)
 		votecount=0
 		for voteitem in vtobj:
@@ -373,7 +373,7 @@ def que_page():
 		if ansvoteobj is not None:
 			up = ansvoteobj.upvote
 			down = ansvoteobj.downvote
-		anslist.append({'a_id':item.ans_id,'content':item.ans_content,'date':item.ans_date,\
+		anslist.append({'a_id':item.ans_id,'content':item.ans_content,'date':str(item.ans_date)[:16],\
 		'votes':votecount,'uid':item.user_id,'ufname':usr.first_name,'ulname':usr.last_name\
 		,'comments':commentlist,'upvote':up,'downvote':down})
 
@@ -399,7 +399,9 @@ def ask_question_1():
 	tag3 = request.form['tag_3']
 	tag4 = request.form['tag_4']
 	tag5 = request.form['tag_5']
-	date_of_question = datetime.utcnow()
+	# datestring = str(datetime.datetime.now())
+	# date_of_question = datestring[:16]
+	date_of_question = datetime.now()
 	tagid1 = None
 	tagid2 = None
 	tagid3 = None
@@ -590,7 +592,7 @@ def post_answer():
 	cur_id = session['uid']
 	ans_content = request.form['editordata']
 	qid = request.form['qid']
-	ans_date = datetime.utcnow()
+	ans_date = datetime.now()
 	ans = answer(ans_content=ans_content,user_id=cur_id,question_id=qid,ans_date=ans_date) 
 	db.session.add(ans)
 	db.session.commit()
@@ -610,12 +612,44 @@ def post_comment_1():
 	aid = request.form['ans__id']
 	qid = request.form['que__id']
 	comment_content = request.form['commentbox']
-	cmnt_date = datetime.utcnow()
+	cmnt_date = datetime.now()
 	cmnt = comment(user_id=uid,ans_id=aid,comment_content=comment_content,comment_date=cmnt_date)
 	db.session.add(cmnt)
 	db.session.commit()
 	return redirect(url_for('.que_page',qid=qid))
 
+@app.route("/user_change_pass")
+def user_change_pass():
+	try:
+		uid = session['uid']
+		uname = session['fname'] 
+		return render_template('user_change_pass.html',name=uname)
+	except:
+		return "not logged in"
+		#render error page
+
+@app.route("/check_cur_psd",methods=['POST'])
+def check__cur_psd():
+	old_pass = request.form['cur_psd']
+	uid = session['uid']
+	usr = user.query.filter_by(user_id=uid).first()
+	if old_pass!=usr.password:
+		return "wrong"
+	else:
+		return "ok"	
+
+@app.route("/user_change_pass_1",methods=['POST'])
+def user_change_pass_1():
+	old_pass = request.form['cur_psd']
+	uid = session['uid']
+	usr = user.query.filter_by(user_id=uid).first()
+	new_pass = request.form['new_psd']
+	usr.password = new_pass
+	db.session.add(usr)
+	db.session.commit()
+	session.pop('uid', None)
+	session.pop('fname', None)
+	return redirect(url_for('.index'))
 def getQuestionDict(questionlist, isguest):
 	set_questions = []	
 	if isguest :
@@ -655,7 +689,7 @@ def getQuestionDict(questionlist, isguest):
 			for voteitem in vtobj:
 				votecount=votecount+voteitem.upvote+voteitem.downvote
 			set_questions.append({'id':item.question_id,'title':item.title,'votes':votecount,\
-			'views':viewcount,'date':item.que_date,'fname':usr.first_name,'lname':usr.last_name,\
+			'views':viewcount,'date':str(item.que_date)[:16],'fname':usr.first_name,'lname':usr.last_name,\
 			'tags':tagName,'uid':0,'ans':ans_count,'BID':0,'ans_later':0,'answered':0})
 		return set_questions
 	else :
@@ -695,7 +729,7 @@ def getQuestionDict(questionlist, isguest):
 			for voteitem in vtobj:
 				votecount=votecount+voteitem.upvote+voteitem.downvote
 			set_questions.append({'id':item.question_id,'title':item.title,'votes':votecount,\
-			'views':viewcount,'date':item.que_date,'fname':usr.first_name,'lname':usr.last_name,\
+			'views':viewcount,'date':str(item.que_date)[:16],'fname':usr.first_name,'lname':usr.last_name,\
 			'tags':tagName,'uid':item.user_id,'ans':ans_count,'BID':bool_bid,'ans_later':\
 			bool_ans_lat,'answered':bool_ans})
 		return set_questions
