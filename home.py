@@ -69,21 +69,95 @@ def user_sign_in_1():
 		return "success"
 
 @app.route("/upvote_que_1",methods=['POST'])
-def upvote_1():
+def upvote_que_1():
 	usr = request.form['usr']
 	que = request.form['que']
-	queobj = questions.query.filter_by(user_id=usr,question_id=que).first()
-	queobj.votes += 1
+	queobj = user_que_vote.query.filter_by(user_id=usr,question_id=que).first()
+	if queobj is not None:
+		queobj.upvote = 1
+		queobj.downvote = 0
+		db.session.commit()
+	else:
+		queobj = user_que_vote(user_id=usr,question_id=que,upvote=1,downvote=0)
+		db.session.add(queobj)
+		db.session.commit()
+	return "success"
+
+@app.route("/neutral_que_1",methods=['POST'])
+def neutral_que_1():
+	usr = request.form['usr']
+	que = request.form['que']
+	queobj = user_que_vote.query.filter_by(user_id=usr,question_id=que).first()
+	if queobj is not None:
+		queobj.upvote = 0
+		queobj.downvote = 0
+		db.session.commit()
+	else:
+		queobj = user_que_vote(user_id=usr,question_id=que,upvote=0,downvote=0)
+		db.session.add(queobj)
+		db.session.commit()
 	db.session.commit()
 	return "success"
 
 @app.route("/downvote_que_1",methods=['POST'])
-def downvote_1():
+def downvote_que_1():
 	usr = request.form['usr']
 	que = request.form['que']
-	queobj = questions.query.filter_by(user_id=usr,question_id=que).first()
-	queobj.votes -= 1
-	db.session.commit()
+	queobj = user_que_vote.query.filter_by(user_id=usr,question_id=que).first()
+	if queobj is not None:
+		queobj.upvote = 0
+		queobj.downvote = -1
+		db.session.commit()
+	else:
+		queobj = user_que_vote(user_id=usr,question_id=que,upvote=0,downvote=-1)
+		db.session.add(queobj)
+		db.session.commit()
+	return "success"
+	
+
+@app.route("/upvote_ans_1",methods=['POST'])
+def upvote_ans_1():
+	usr = request.form['usr']
+	ans = request.form['ans']
+	ansobj = user_ans_vote.query.filter_by(user_id=usr,ans_id=ans).first()
+	if ansobj is not None:
+		ansobj.upvote = 1
+		ansobj.downvote = 0
+		db.session.commit()
+	else:
+		ansobj = user_ans_vote(user_id=usr,ans_id=ans,upvote=1,downvote=0)
+		db.session.add(ansobj)
+		db.session.commit()
+	return "success"
+
+@app.route("/neutral_ans_1",methods=['POST'])
+def neutral_ans_1():
+	usr = request.form['usr']
+	ans = request.form['ans']
+	ansobj = user_ans_vote.query.filter_by(user_id=usr,ans_id=ans).first()
+	if ansobj is not None:
+		ansobj.upvote = 0
+		ansobj.downvote = 0
+		db.session.commit()
+	else:
+		ansobj = user_ans_vote(user_id=usr,ans_id=ans,upvote=0,downvote=0)
+		db.session.add(ansobj)
+		db.session.commit()
+	return "success"
+
+@app.route("/downvote_ans_1",methods=['POST'])
+def downvote_ans_1():
+	usr = request.form['usr']
+	ans = request.form['ans']
+	ansobj = user_ans_vote.query.filter_by(user_id=usr,ans_id=ans).first()
+	if ansobj is not None:
+		ansobj.upvote = 0
+		ansobj.downvote = -1
+		db.session.commit()
+	else:
+		ansobj = user_ans_vote(user_id=usr,ans_id=ans,upvote=0,downvote=-1)
+		db.session.add(ansobj)
+		db.session.commit()
 	return "success"
 
 @app.route("/user_sign_in",methods=['POST'])
@@ -255,7 +329,13 @@ def que_page():
 	vtobj = user_que_vote.query.filter_by(question_id=qid)
 	for voteitem in vtobj:
 		votecount=votecount+voteitem.upvote+voteitem.downvote
+	up = 0
+	down = 0
 	if cur_id!=0:
+		vtobj = user_que_vote.query.filter_by(question_id=qid,user_id=cur_id).first()
+		if vtobj is not None:
+			up = vtobj.upvote
+			down = vtobj.downvote
 		uvobj = user_views.query.filter_by(user_id=cur_id,question_id=qid).first()
 		if uvobj is None:
 			viewcount=viewcount+1
@@ -264,7 +344,8 @@ def que_page():
 			db.session.commit()
 	quedict = {'id':qid,'title':qobj.title,'question_content':qobj.question_content,'votes':\
 	votecount,'date':qobj.que_date,'views':viewcount,'uid':usr.user_id,'ufname':usr.first_name,\
-	'ulname':usr.last_name,'tag':tglist,'BID':bool_bid,'ans_later':bool_ans_lat,'answered':bool_ans}
+	'ulname':usr.last_name,'tag':tglist,'BID':bool_bid,'ans_later':bool_ans_lat,\
+	'answered':bool_ans,'upvote':up,'downvote':down}
 	
 	chk=0
 	ansobj = answer.query.filter_by(question_id=qid)
@@ -286,9 +367,15 @@ def que_page():
 		votecount=0
 		for voteitem in vtobj:
 			votecount=votecount+voteitem.upvote+voteitem.downvote
+		up = 0
+		down = 0
+		ansvoteobj = user_ans_vote.query.filter_by(user_id=cur_id,ans_id=item.ans_id).first()
+		if ansvoteobj is not None:
+			up = ansvoteobj.upvote
+			down = ansvoteobj.downvote
 		anslist.append({'a_id':item.ans_id,'content':item.ans_content,'date':item.ans_date,\
 		'votes':votecount,'uid':item.user_id,'ufname':usr.first_name,'ulname':usr.last_name\
-		,'comments':commentlist})
+		,'comments':commentlist,'upvote':up,'downvote':down})
 
 	if 'uid' not in session:
 		return render_template('que_page.html',name="#",uid=cur_id,qid=qid,quedict=quedict,anslist=anslist)
@@ -382,9 +469,9 @@ def ask_question_1():
 	db.session.add(quevote)
 	db.session.commit()
 
-	queview = user_views(user_id=cur_id,question_id=qid,views=0)
-	db.session.add(queview)
-	db.session.commit()
+	# queview = user_views(user_id=cur_id,question_id=qid,views=0)
+	# db.session.add(queview)
+	# db.session.commit()
 
 	if tagid1!=None and tagid1!="":
 		qt = que_tag(tag_id=tagid1,question_id=qid)
