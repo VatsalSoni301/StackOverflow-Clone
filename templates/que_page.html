@@ -16,7 +16,6 @@
         });
 
         function validate() {
-
             var markupStr = $('#summernote').val()
             cleaned = jQuery(markupStr).text();
 
@@ -25,18 +24,202 @@
                 $('#myModal11').modal('show');
             }
             else {
-                document.form1.submit();
+                qid1 = document.getElementById("qid").value;
+                $.post("/post_answer",
+                    {
+                        editordata: markupStr,
+                        qid: qid1
+                    },
+                    function (data, status) {
+                        document.getElementById("postansid").disabled=true
+                        $("#refreshid").load(location.href + " #refreshid");
+                        $('#summernote').summernote('insertText', '');
+                    }
+                );
             }
         }
+        function validatecomment(x) {
+            var qid = document.getElementById("que__id").value;
+            var aid = document.getElementById(x.getAttribute("id") + "ansid").value;
+            var cmntbox = document.getElementById(x.getAttribute("id") + "commentbox").value;
+            if (cmntbox == '') {
+                document.getElementById("msg").innerHTML = "Please Enter Content.";
+                $('#myModal11').modal('show');
+            }
+            else {
+                $.post("/post_comment_1",
+                    {
+                        ans__id: aid,
+                        que__id: qid,
+                        commentbox: cmntbox
+                    },
+                    function (data, status) {
+                        $("#refreshid").load(location.href + " #refreshid");
+                    }
+                );
+            }
+        }
+        function addtodo(obj) {
+            uid = document.getElementById("usr_id").value;
+            qid = obj.getAttribute("name");
+            if (uid == 0) {
+                document.getElementById("msg").innerHTML = "Please Login"
+                $('#myModal11').modal('show');
+            }
+            else {
+                $.post("/add_answer_later_1",
+                    {
+                        usr: uid,
+                        que: qid
+                    },
+                    function (data, status) {
+                        q_id = obj.getAttribute("id");
+                        qid_1 = qid + "+remove";
+                        document.getElementById(q_id).style.display = 'none';
+                        document.getElementById(qid_1).style.display = 'inline';
 
-
+                    }
+                );
+            }
+        }
+        function removetodo(obj) {
+            uid = document.getElementById("usr_id").value;
+            qid = obj.getAttribute("name");
+            if (uid == 0) {
+                document.getElementById("msg").innerHTML = "Please Login"
+                $('#myModal11').modal('show');
+            }
+            else {
+                $.post("/rm_answer_later_1",
+                    {
+                        usr: uid,
+                        que: qid
+                    },
+                    function (data, status) {
+                        q_id = obj.getAttribute("id");
+                        qid_1 = qid + "+add";
+                        document.getElementById(q_id).style.display = 'none';
+                        document.getElementById(qid_1).style.display = 'inline';
+                    }
+                );
+            }
+        }
+        function addbookmark(obj) {
+            uid = document.getElementById("usr_id").value;
+            qid = obj.getAttribute("name");
+            if (uid == 0) {
+                document.getElementById("msg").innerHTML = "Please Login"
+                $('#myModal11').modal('show');
+            }
+            else {
+                $.post("/add_bookmark_1",
+                    {
+                        usr: uid,
+                        que: qid
+                    },
+                    function (data, status) {
+                        q_id = obj.getAttribute("id");
+                        document.getElementById(q_id).style.display = "none";
+                        qid_1 = qid + "+removebook";
+                        document.getElementById(qid_1).style.display = "inline";
+                    }
+                );
+            }
+        }
+        function removebookmark(obj) {
+            uid = document.getElementById("usr_id").value;
+            qid = obj.getAttribute("name");
+            if (uid == 0) {
+                document.getElementById("msg").innerHTML = "Please Login"
+                $('#myModal11').modal('show');
+            }
+            else {
+                $.post("/rm_bookmark_1",
+                    {
+                        usr: uid,
+                        que: qid
+                    },
+                    function (data, status) {
+                        q_id = obj.getAttribute("id");
+                        qid_1 = qid + "+addbook";
+                        document.getElementById(q_id).style.display = 'none';
+                        document.getElementById(qid_1).style.display = 'inline';
+                    }
+                );
+            }
+        }
+        function upvote(obj) {
+            uid = document.getElementById("usr_id").value;
+            qid = document.getElementById("que__id").value;
+            alert(uid+qid);
+            if (uid == 0) {
+                document.getElementById("msg").innerHTML = "Please Login"
+                $('#myModal11').modal('show');
+            }
+            else {
+                $.post("/upvote_que_1",
+                    {
+                        usr: uid,
+                        que: qid
+                    },
+                    function (data, status) {
+                        document.getElementById("emptyupthumb").style.display = 'none';
+                        document.getElementById("fillupthumb").style.display = 'inline';
+                    }
+                );
+            }
+        }
+        function upvote1(obj) {
+            $.post("/upvote_que_1",
+                {
+                    usr: uid,
+                    que: qid
+                },
+                function (data, status) {
+                    q_id = obj.getAttribute("id");
+                    qid_1 = qid + "+addbook";
+                    document.getElementById(q_id).style.display = 'none';
+                    document.getElementById(qid_1).style.display = 'inline';
+                }
+            );
+        }
+        function downvote(obj) {
+            $.post("/downvote_que_1",
+                {
+                    usr: uid,
+                    que: qid
+                },
+                function (data, status) {
+                    q_id = obj.getAttribute("id");
+                    qid_1 = qid + "+addbook";
+                    document.getElementById(q_id).style.display = 'none';
+                    document.getElementById(qid_1).style.display = 'inline';
+                }
+            );
+        }
+        function downvote1(obj) {
+            $.post("/downvote_que_1",
+                {
+                    usr: uid,
+                    que: qid
+                },
+                function (data, status) {
+                    q_id = obj.getAttribute("id");
+                    qid_1 = qid + "+addbook";
+                    document.getElementById(q_id).style.display = 'none';
+                    document.getElementById(qid_1).style.display = 'inline';
+                }
+            );
+        }
     </script>
 
 </head>
 {% endblock %}
 {% block body %}
 <br>
+
 <div class="queanscontainer">
+    <input type="hidden" value="{{uid}}" id="usr_id">
     <div class="quebox">
         <div class="panel panel-info">
             <div class="panel-heading">
@@ -44,12 +227,9 @@
                     <span class="quetitle">
                         {{quedict['title']}}
                     </span>
-                </span>
-
             </div>
             <div class="panel-body">
                 {{quedict['question_content'] | safe }}
-                <br>
                 <hr>
                 <span class="tag">
                     {% for tgitem in quedict['tag'] %}
@@ -72,152 +252,166 @@
             <div class="panel-footer">
                 <span>
                     {% if 1 %}
-                    <span class="updownvotesym" data-toggle="popover" data-content="upvote">
-                        <i class="fa fa-thumbs-o-up" onclick="upvote()"></i>
+                    <span class="updownvotesym" id="emptyupthumb" data-toggle="popover" data-content="upvote">
+                        <i class="fa fa-thumbs-o-up" onclick="upvote(this)"></i>
                     </span>
                     {% else %}
-                    <span class="updownvotesym" data-toggle="popover" data-content="clear">
-                        <i class="fa fa-thumbs-up" onclick="upvote()"></i>
+                    <span class="updownvotesym" id="fillupthumb" data-toggle="popover" data-content="clear">
+                        <i class="fa fa-thumbs-up" onclick="upvote1(this)"></i>
                     </span>
                     {% endif %}
 
                     <span class="updownvotesym">{{quedict['votes']}}</span>
 
-                    {% if 0 %}
-                    <span class="updownvotesym" data-toggle="popover" data-content="downvote">
-                        <i class="fa fa-thumbs-o-down" onclick="downvote()"></i>
+                    {% if 1 %}
+                    <span class="updownvotesym" id="emptydownthumb" data-toggle="popover" data-content="downvote">
+                        <i class="fa fa-thumbs-o-down" onclick="downvote(this)"></i>
                     </span>
                     {% else %}
-                    <span class="updownvotesym" data-toggle="popover" data-content="clear">
-                        <i class="fa fa-thumbs-down" onclick="downvote()"></i>
+                    <span class="updownvotesym" id="filldownthumb" data-toggle="popover" data-content="clear">
+                        <i class="fa fa-thumbs-down" onclick="downvote1(this)"></i>
                     </span>
                     {% endif %}
 
                     <span style="float:right">
-                        {% if 0 %}
-                        <span class="bookmarksym" data-toggle="popover" data-content="answer later">
-                            <span class="fa fa-plus-square-o" onclick="addtodo()"></span>
-                        </span>
-                        {% else %}
-                        <span class="bookmarksym" data-toggle="popover" data-content="remove from TODO">
-                            <span class="fa fa-plus-square" onclick="removetodo()"></span>
-                        </span>
-
+                        {% if quedict['answered']==1 %}
                         <span class="bookmarksym" data-toggle="popover" data-content="answered">
                             <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
                         </span>
+                        {% else %}
+
+                        <span class="bookmarksym" data-toggle="popover" data-content="answer later" id="{{quedict['id']}}+add"
+                            name="{{quedict['id']}}" onclick="addtodo(this)" {% if quedict['ans_later']==0 %}style="display:inline"
+                            {% else %} style="display:none" {% endif %}>
+                            <span class="fa fa-plus-square-o"></span>
+                        </span>
+
+                        <span class="bookmarksym" data-toggle="popover" data-content="remove from answer later" id="{{quedict['id']}}+remove"
+                            name="{{quedict['id']}}" onclick="removetodo(this)" {% if quedict['ans_later']==1 %}style="display:inline"
+                            {% else %} style="display:none" {% endif %}>
+                            <span class="fa fa-plus-square"></span>
+                        </span>
+
                         {% endif %}
 
-                        {% if 0 %}
-                        <span class="bookmarksym" data-toggle="popover" data-content="bookmark">
-                            <span class="glyphicon glyphicon-star-empty" aria-hidden="true" onclick="addbookmark()"></span>
+                        <span class="bookmarksym" data-toggle="popover" id="{{quedict['id']}}+addbook" name="{{quedict['id']}}"
+                            onclick="addbookmark(this)" data-content="add bookmark" {% if quedict['BID']==0 %}style="display:inline"
+                            {% else %} style="display:none" {% endif %}>
+                            <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
                         </span>
-                        {% else %}
-                        <span class="bookmarksym" data-toggle="popover" data-content="remove bookmark">
-                            <span class="glyphicon glyphicon-star" aria-hidden="true" onclick="removebookmark()"></span>
+
+                        <span class="bookmarksym" data-toggle="popover" id="{{quedict['id']}}+removebook" name="{{quedict['id']}}"
+                            onclick="removebookmark(this)" data-content="remove bookmark" {% if quedict['BID']==1
+                            %}style="display:inline" {% else %} style="display:none" {% endif %}>
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
                         </span>
-                        {% endif %}
+
                     </span>
 
                 </span>
             </div>
         </div>
     </div>
-    {% for i in anslist %}
-    <div class="ansbox">
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <span class="panel-title">
-                    <span class="answertitle">
-                        <span>
-                            Answer by : <span><a class="ansby" href="{{url_for('view_profile',uid=i['uid'])}}">{{i['ufname']}}
-                                    {{i['ulname']}}</a></span>
-                        </span>
-                    </span>
-                </span>
-
-            </div>
-            <div class="panel-body">
-                {{ i['content'] | safe }}
-                <br>
-                <span class="comment">
-                    {% for j in i['comments'] %}
-                    <span>
-                        <hr class="commenthr">
-                        <span>
-                            {{j['content']}}
-                            <span class="commentposterinfo">
-                                <span>
-                                    -- by : <span><a href="{{url_for('view_profile',uid=j['uid'])}}">{{j['ufname']}} {{j['ulname']}}</a></span>
-                                </span>
-                                <span>
-                                    on :
-                                    <span>{{j['date']}}</span>
-                                </span>
+    <div id="refreshid">
+        {% for i in anslist %}
+        <div class="ansbox">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <span class="panel-title">
+                        <span class="answertitle">
+                            <span>
+                                Answer by : <span><a class="ansby" href="{{url_for('view_profile',uid=i['uid'])}}">{{i['ufname']}}
+                                        {{i['ulname']}}</a></span>
                             </span>
                         </span>
                     </span>
-                    {% endfor %}
-                    <br><br>
-                    <div>
-                        <form action="{{url_for('post_comment_1')}}" method="POST">
-                            <input type="hidden" name="que__id" value="{{quedict['id']}}">
-                            <input type="hidden" name="ans__id" value="{{i['a_id']}}">
-                            <div style="width:60%;float: left;">
-                                <input type="text" class="form-control" name="commentbox" placeholder="Comment here">
-                            </div>
-                            <div style="float:left;margin-left: 12px">
-                                <input type="submit" class="btn btn-primary" value="comment" {% if uid==0 %}disabled {% endif %}>
-                            </div>
-                        </form>
-                    </div>
-                </span>
 
-            </div>
-            <div class="panel-footer">
-                <span>
-                    {% if 1 %}
-                    <span class="updownvotesym" data-toggle="popover" data-content="upvote">
-                        <i class="fa fa-thumbs-o-up" onclick="upvote()"></i>
-                    </span>
-                    {% else %}
-                    <span class="updownvotesym" data-toggle="popover" data-content="clear">
-                        <i class="fa fa-thumbs-up" onclick="upvote()"></i>
-                    </span>
-                    {% endif %}
-
-                    <span class="updownvotesym">{{i['votes']}}</span>
-
-                    {% if 0 %}
-                    <span class="updownvotesym" data-toggle="popover" data-content="downvote">
-                        <i class="fa fa-thumbs-o-down" onclick="downvote()"></i>
-                    </span>
-                    {% else %}
-                    <span class="updownvotesym" data-toggle="popover" data-content="clear">
-                        <i class="fa fa-thumbs-down" onclick="downvote()"></i>
-                    </span>
-                    {% endif %}
-
-                    <span style="float:right">
+                </div>
+                <div class="panel-body">
+                    {{ i['content'] | safe }}
+                    <span class="comment">
+                        {% for j in i['comments'] %}
                         <span>
-                            Posted on :
-                            <span>{{i['date']}}</span>
+                            <hr class="commenthr">
+                            <span>
+                                {{j['content']}}
+                                <span class="commentposterinfo">
+                                    <span>
+                                        -- by : <span><a href="{{url_for('view_profile',uid=j['uid'])}}">{{j['ufname']}}
+                                                {{j['ulname']}}</a></span>
+                                    </span>
+                                    <span>
+                                        on :
+                                        <span>{{j['date']}}</span>
+                                    </span>
+                                </span>
+                            </span>
                         </span>
+                        {% endfor %}
+                        <br><br>
+                        <div>
+                            <form method="POST">
+                                <input type="hidden" name="que__id" id="que__id" value="{{quedict['id']}}">
+                                <input type="hidden" name="ans__id" id="{{i['a_id']}}ansid" value="{{i['a_id']}}">
+                                <div style="width:60%;float: left;">
+                                    <input type="text" class="form-control" id="{{i['a_id']}}commentbox" name="commentbox"
+                                        placeholder="Comment here">
+                                </div>
+                                <div style="float:left;margin-left: 12px">
+                                    <input type="button" class="btn btn-primary" id="{{i['a_id']}}" onclick="validatecomment(this)"
+                                        value="comment" {% if uid==0 %}disabled {% endif %}>
+                                </div>
+                            </form>
+                        </div>
                     </span>
 
-                </span>
+                </div>
+                <div class="panel-footer">
+                    <span>
+                        {% if 1 %}
+                        <span class="updownvotesym" data-toggle="popover" data-content="upvote">
+                            <i class="fa fa-thumbs-o-up" onclick="upvote()"></i>
+                        </span>
+                        {% else %}
+                        <span class="updownvotesym" data-toggle="popover" data-content="clear">
+                            <i class="fa fa-thumbs-up" onclick="upvote()"></i>
+                        </span>
+                        {% endif %}
+
+                        <span class="updownvotesym">{{i['votes']}}</span>
+
+                        {% if 1 %}
+                        <span class="updownvotesym" data-toggle="popover" data-content="downvote">
+                            <i class="fa fa-thumbs-o-down" onclick="downvote()"></i>
+                        </span>
+                        {% else %}
+                        <span class="updownvotesym" data-toggle="popover" data-content="clear">
+                            <i class="fa fa-thumbs-down" onclick="downvote()"></i>
+                        </span>
+                        {% endif %}
+
+                        <span style="float:right">
+                            <span>
+                                Posted on :
+                                <span>{{i['date']}}</span>
+                            </span>
+                        </span>
+
+                    </span>
+                </div>
             </div>
         </div>
+        {% endfor %}
     </div>
-    {% endfor %}
-    <form action="{{ url_for('post_answer',qid=quedict['id']) }}" method="POST" enctype="multipart/form-data" name="form1">
+    <form method="POST" name="form1">
         <div class="col-md-12 form-group group-mail">
             <!-- <div id="summernote"></div> -->
             <textarea class="summernote" id="summernote" name="editordata"></textarea>
         </div>
-        <input type="hidden" value="{{qid}}" name="qid">
+        <input type="hidden" value="{{quedict['id']}}" name="qid" id="qid">
         <div class="col-md-12 form-group group-mail">
-            <button type="button" class="btn btn-primary" onclick="validate()" {% if chkbtn == 1 or uid==0 %}disabled {% endif %}>
+            <button type="button" class="btn btn-primary" onclick="validate()" id="postansid" {% if chkbtn==1 or uid==0 %}disabled {%
+                endif %}>
                 Post Answer
             </button>
         </div>
@@ -225,39 +419,35 @@
 
 
 </div>
-
 <div class="sidebar">
     <fieldset>
         <legend>Search</legend>
         <div>
-            <div style="width:80%;float:left">
-                <input class="form-control" type="text" name="search_global" placeholder="Search Question">
-            </div>
-            <div style="width:15%;float:left;margin-left: 5px;">
-                <button type="button" class="btn btn-default" onclick="searchGlobal()">
-                    <span class="glyphicon glyphicon-search"></span>
-                </button>
-            </div>
-            <br><br>
-            <div style="width:80%;float:left">
-                <input class="form-control" type="text" name="search_global" placeholder="Search by Tag">
-            </div>
-            <div style="width:15%;float:left;margin-left: 5px;">
-                <button type="button" class="btn btn-default" onclick="searchGlobal()">
-                    <span class="glyphicon glyphicon-search"></span>
-                </button>
-            </div>
+            <form action="{{url_for('search_question')}}" method="post" name="search_que_form">
+                <div style="width:80%;float:left">
+                    <input class="form-control" type="text" name="search_question_input" id="search_question_input1" placeholder="Search Question" required>
+                </div>
+                <div style="width:15%;float:left;margin-left: 5px;">
+                
+                    <button type="submit" class="btn btn-default">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </div>
+            </form>
 
             <br><br>
-            <div style="width:80%;float:left">
-                <input class="form-control" type="text" name="search_global" placeholder="Search by User">
-            </div>
-            <div style="width:15%;float:left;margin-left: 5px;">
-                <button type="button" class="btn btn-default" onclick="searchGlobal()">
-                    <span class="glyphicon glyphicon-search"></span>
-                </button>
-            </div>
 
+            <form action="{{url_for('search_tag')}}" method="post" name="search_tag_form">
+                <div style="width:80%;float:left">
+                    <input class="form-control" type="text" name="search_tag_input" id="search_tag_input1" placeholder="Search by Tag" required>
+                </div>
+                <div style="width:15%;float:left;margin-left: 5px;">
+                    <button type="submit" class="btn btn-default">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </div>
+            </form>
+            <br>
         </div>
     </fieldset>
     <br>
@@ -278,6 +468,10 @@
         placeholder: 'Type your answer here',
         tabsize: 2,
         height: 250
+    });
+    $('#summernote').load(document.URL + ' #summernote', function () {
+        alert("hello")
+        $('#summernote').summernote();
     });
 
 </script>
