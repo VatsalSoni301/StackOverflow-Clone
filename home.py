@@ -72,95 +72,21 @@ def user_sign_in_1():
 		return "success"
 
 @app.route("/upvote_que_1",methods=['POST'])
-def upvote_que_1():
+def upvote_1():
 	usr = request.form['usr']
 	que = request.form['que']
-	queobj = user_que_vote.query.filter_by(user_id=usr,question_id=que).first()
-	if queobj is not None:
-		queobj.upvote = 1
-		queobj.downvote = 0
-		db.session.commit()
-	else:
-		queobj = user_que_vote(user_id=usr,question_id=que,upvote=1,downvote=0)
-		db.session.add(queobj)
-		db.session.commit()
-	return "success"
-
-@app.route("/neutral_que_1",methods=['POST'])
-def neutral_que_1():
-	usr = request.form['usr']
-	que = request.form['que']
-	queobj = user_que_vote.query.filter_by(user_id=usr,question_id=que).first()
-	if queobj is not None:
-		queobj.upvote = 0
-		queobj.downvote = 0
-		db.session.commit()
-	else:
-		queobj = user_que_vote(user_id=usr,question_id=que,upvote=0,downvote=0)
-		db.session.add(queobj)
-		db.session.commit()
+	queobj = questions.query.filter_by(user_id=usr,question_id=que).first()
+	queobj.votes += 1
 	db.session.commit()
 	return "success"
 
 @app.route("/downvote_que_1",methods=['POST'])
-def downvote_que_1():
+def downvote_1():
 	usr = request.form['usr']
 	que = request.form['que']
-	queobj = user_que_vote.query.filter_by(user_id=usr,question_id=que).first()
-	if queobj is not None:
-		queobj.upvote = 0
-		queobj.downvote = -1
-		db.session.commit()
-	else:
-		queobj = user_que_vote(user_id=usr,question_id=que,upvote=0,downvote=-1)
-		db.session.add(queobj)
-		db.session.commit()
-	return "success"
-	
-
-@app.route("/upvote_ans_1",methods=['POST'])
-def upvote_ans_1():
-	usr = request.form['usr']
-	ans = request.form['ans']
-	ansobj = user_ans_vote.query.filter_by(user_id=usr,ans_id=ans).first()
-	if ansobj is not None:
-		ansobj.upvote = 1
-		ansobj.downvote = 0
-		db.session.commit()
-	else:
-		ansobj = user_ans_vote(user_id=usr,ans_id=ans,upvote=1,downvote=0)
-		db.session.add(ansobj)
-		db.session.commit()
-	return "success"
-
-@app.route("/neutral_ans_1",methods=['POST'])
-def neutral_ans_1():
-	usr = request.form['usr']
-	ans = request.form['ans']
-	ansobj = user_ans_vote.query.filter_by(user_id=usr,ans_id=ans).first()
-	if ansobj is not None:
-		ansobj.upvote = 0
-		ansobj.downvote = 0
-		db.session.commit()
-	else:
-		ansobj = user_ans_vote(user_id=usr,ans_id=ans,upvote=0,downvote=0)
-		db.session.add(ansobj)
-		db.session.commit()
-	return "success"
-
-@app.route("/downvote_ans_1",methods=['POST'])
-def downvote_ans_1():
-	usr = request.form['usr']
-	ans = request.form['ans']
-	ansobj = user_ans_vote.query.filter_by(user_id=usr,ans_id=ans).first()
-	if ansobj is not None:
-		ansobj.upvote = 0
-		ansobj.downvote = -1
-		db.session.commit()
-	else:
-		ansobj = user_ans_vote(user_id=usr,ans_id=ans,upvote=0,downvote=-1)
-		db.session.add(ansobj)
-		db.session.commit()
+	queobj = questions.query.filter_by(user_id=usr,question_id=que).first()
+	queobj.votes -= 1
+	db.session.commit()
 	return "success"
 
 @app.route("/user_sign_in",methods=['POST'])
