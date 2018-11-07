@@ -52,7 +52,6 @@ class answer(db.Model):
 	__tablename__ = 'answer'
 	ans_id = db.Column('ans_id',db.Integer,primary_key=True)
 	ans_content = db.Column('ans_content',db.String,nullable=False)
-	votes = db.Column('votes',db.Integer)
 	ans_date = db.Column('ans_date',db.DateTime,nullable=False)
 	user_id = db.Column(db.ForeignKey('user.user_id'))
 	question_id = db.Column(db.ForeignKey('questions.question_id'))

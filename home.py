@@ -8,91 +8,13 @@ app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
 @app.route("/")
 def index():
+	set_questions_obj = questions.query.all()
 	if 'uid' not in session:
-		set_questions_obj = questions.query.all()
-		set_questions = [{}]
-		del set_questions[:]
-		for item in set_questions_obj:
-			tg_id = que_tag.query.filter_by(question_id=item.question_id)
-			tagName = [{}]
-			del tagName[:]
-			for it in tg_id:
-				tgNameObj=tag.query.filter_by(tag_id=it.tag_id).first()
-				tagName.append({'id':tgNameObj.tag_id,'name':tgNameObj.tag_name})
-			usr = user.query.filter_by(user_id = item.user_id).first()
-			# book = bookmark.query.filter_by(user_id = cur_id,question_id=item.question_id).first()
-			# if book == "None":
-			# 	bool_bid=0
-			# else:
-			# 	bool_bid=1
-			ans = answer.query.filter_by(question_id=item.question_id)
-			ans_count=0
-			for answer_que in ans:
-				ans_count=ans_count+1
-			# ans_lat = answer_later.query.filter_by(question_id=item.question_id,user_id=cur_id)
-			# if ans_lat == "None":
-			# 	bool_ans_lat=0
-			# else:
-			# 	bool_ans_lat=1
-			# ans = answer.query.filter_by(question_id=item.question_id,user_id=cur_id)
-			# if ans == "None":
-			# 	bool_ans=0
-			# else:
-			# 	bool_ans=1
-			vw = user_views.query.filter_by(question_id=item.question_id)
-			viewcount=0
-			for vwitem in vw:
-				viewcount=viewcount+1
-			votecount=0
-			vtobj = user_que_vote.query.filter_by(question_id=item.question_id)
-			for voteitem in vtobj:
-				votecount=votecount+voteitem.upvote+voteitem.downvote
-			set_questions.append({'id':item.question_id,'title':item.title,'votes':votecount,\
-			'views':viewcount,'date':item.que_date,'fname':usr.first_name,'lname':usr.last_name,\
-			'tags':tagName,'uid':0,'ans':ans_count,'BID':0,'ans_later':0,'answered':0})
+		set_questions = getQuestionDict(set_questions_obj,True)
 		return render_template('index.html',name="#",questionList=set_questions,uuid=0)
 	else:
 		cur_id = session['uid']
-		set_questions_obj = questions.query.all()
-		set_questions = [{}]
-		del set_questions[:]
-		for item in set_questions_obj:
-			tg_id = que_tag.query.filter_by(question_id=item.question_id)
-			tagName = [{}]
-			for it in tg_id:
-				tgNameObj=tag.query.filter_by(tag_id=it.tag_id).first()
-				tagName.append({'id':tgNameObj.tag_id,'name':tgNameObj.tag_name})
-			usr = user.query.filter_by(user_id = item.user_id).first()
-			book = bookmark.query.filter_by(user_id = cur_id,question_id=item.question_id).first()
-			if book is None:
-				bool_bid=0
-			else:
-				bool_bid=1
-			ans = answer.query.filter_by(question_id=item.question_id)
-			ans_count=0	# need to  check
-			for answer_que in ans:
-				ans_count=ans_count+1
-			ans_lat = answer_later.query.filter_by(question_id=item.question_id,user_id=cur_id).first()
-			if ans_lat is None:
-				bool_ans_lat=0
-			else:
-				bool_ans_lat=1
-			ans = answer.query.filter_by(question_id=item.question_id,user_id=cur_id).first()
-			if ans is None:
-				bool_ans=0
-			else:
-				bool_ans=1
-			vw = user_views.query.filter_by(question_id=item.question_id)
-			viewcount=0
-			for vwitem in vw:
-				viewcount=viewcount+1
-			votecount=0
-			vtobj = user_que_vote.query.filter_by(question_id=item.question_id)
-			for voteitem in vtobj:
-				votecount=votecount+voteitem.upvote+voteitem.downvote
-			set_questions.append({'id':item.question_id,'title':item.title,'votes':votecount,\
-			'views':viewcount,'date':item.que_date,'fname':usr.first_name,'lname':usr.last_name,\
-			'tags':tagName,'uid':item.user_id,'ans':ans_count,'BID':bool_bid,'ans_later':bool_ans_lat,'answered':bool_ans})
+		set_questions = getQuestionDict(set_questions_obj,False)
 		return render_template('index.html',name=session['fname'],questionList=set_questions,uuid=cur_id)
 
 @app.route("/add_answer_later_1",methods=['POST'])
@@ -271,43 +193,13 @@ def Bookmark():
 	else:
 		bookmark_objs = bookmark.query.filter_by(user_id = session['uid'])
 		que_set = []
-		
 		for bookmark_obj in bookmark_objs:
 			b_que_id = bookmark_obj.question_id
 			ques = questions.query.filter_by(question_id = b_que_id ).first()
 			que_set.append(ques)
 		cur_id = session['uid']
-		
-		for item in que_set:
-			tg_id = que_tag.query.filter_by(question_id=item.question_id)
-			tagName = [{}]
-			for it in tg_id:
-				tgNameObj=tag.query.filter_by(tag_id=it.tag_id).first()
-				tagName.append({'id':tgNameObj.tag_id,'name':tgNameObj.tag_name})
-			usr = user.query.filter_by(user_id = item.user_id).first()
-			book = bookmark.query.filter_by(user_id = cur_id,question_id=item.question_id).first()
-			if book is None:
-				bool_bid=0
-			else:
-				bool_bid=1
-			ans = answer.query.filter_by(question_id=item.question_id)
-			ans_count=0	# need to  check
-			for answer_que in ans:
-				ans_count=ans_count+1
-			ans_lat = answer_later.query.filter_by(question_id=item.question_id,user_id=cur_id).first()
-			if ans_lat is None:
-				bool_ans_lat=0
-			else:
-				bool_ans_lat=1
-			ans = answer.query.filter_by(question_id=item.question_id,user_id=cur_id).first()
-			if ans is None:
-				bool_ans=0
-			else:
-				bool_ans=1
-			set_questions.append({'id':item.question_id,'title':item.title,'votes':item.votes,\
-			'views':item.views,'date':item.que_date,'fname':usr.first_name,'lname':usr.last_name,\
-			'tags':tagName,'uid':item.user_id,'ans':ans_count,'BID':bool_bid,'ans_later':bool_ans_lat,'answered':bool_ans})
-		return render_template('bookmark.html',name=session['fname'],questionList=set_questions,uuid=session['uid'])	
+		set_questions = getQuestionDict(que_set,False)
+		return render_template('bookmark.html',name=session['fname'],questionList=set_questions,uuid=cur_id)	
 
 @app.route("/admin")
 def admin():
@@ -367,8 +259,8 @@ def que_page():
 		uvobj = user_views.query.filter_by(user_id=cur_id,question_id=qid).first()
 		if uvobj is None:
 			viewcount=viewcount+1
-			uvobj = user_views.query.filter_by(user_id=cur_id,question_id=qid).first()
-			uvobj.views=viewcount
+			uvobj = user_views(user_id=cur_id,question_id=qid,views=1)
+			db.session.add(uvobj)
 			db.session.commit()
 	quedict = {'id':qid,'title':qobj.title,'question_content':qobj.question_content,'votes':\
 	votecount,'date':qobj.que_date,'views':viewcount,'uid':usr.user_id,'ufname':usr.first_name,\
@@ -538,36 +430,7 @@ def todo():
 		for q in later_ques:
 			ques = questions.query.filter_by(question_id=q.question_id).first()
 			set_questions_obj.append(ques)
-
-		for item in set_questions_obj:
-			tg_id = que_tag.query.filter_by(question_id=item.question_id)
-			tagName = [{}]
-			for it in tg_id:
-				tgNameObj=tag.query.filter_by(tag_id=it.tag_id).first()
-				tagName.append({'id':tgNameObj.tag_id,'name':tgNameObj.tag_name})
-			usr = user.query.filter_by(user_id = item.user_id).first()
-			book = bookmark.query.filter_by(user_id = cur_id,question_id=item.question_id).first()
-			if book is None:
-				bool_bid=0
-			else:
-				bool_bid=1
-			ans = answer.query.filter_by(question_id=item.question_id)
-			ans_count=0	# need to  check
-			for answer_que in ans:
-				ans_count=ans_count+1
-			ans_lat = answer_later.query.filter_by(question_id=item.question_id,user_id=cur_id).first()
-			if ans_lat is None:
-				bool_ans_lat=0
-			else:
-				bool_ans_lat=1
-			ans = answer.query.filter_by(question_id=item.question_id,user_id=cur_id).first()
-			if ans is None:
-				bool_ans=0
-			else:
-				bool_ans=1
-			set_questions.append({'id':item.question_id,'title':item.title,'votes':item.votes,\
-			'views':item.views,'date':item.que_date,'fname':usr.first_name,'lname':usr.last_name,\
-			'tags':tagName,'uid':item.user_id,'ans':ans_count,'BID':bool_bid,'ans_later':bool_ans_lat,'answered':bool_ans})
+		set_questions = getQuestionDict(set_questions_obj,False)
 		return render_template('todo.html',name=session['fname'],questionList=set_questions,uuid=cur_id)
 
 
@@ -584,6 +447,44 @@ def contact():
 		return render_template('contact_us.html',name="#")	
 	else:
 		return render_template('contact_us.html',name=session['fname'])
+
+@app.route("/search_question",methods=['POST'])
+def search_question():
+	search_question_text = request.form['search_question_input']
+	newstr="%"+search_question_text+"%"
+	questionlist=questions.query.filter(questions.title.like(newstr)).all()
+	if 'uid' not in session:
+		set_questions = getQuestionDict(questionlist,True)
+		return render_template('search_result.html',name="#",questionList=set_questions,uuid=0)
+	else:
+		set_questions = getQuestionDict(questionlist,False)
+		return render_template('search_result.html',name=session['fname'],questionList=set_questions,uuid=session['uid'])
+
+@app.route("/search_tag",methods=['POST'])
+def search_tag():
+	search_tag_text = request.form['search_tag_input']
+	newstr="%"+search_tag_text+"%"
+	tagidlist=tag.query.filter(tag.tag_name.like(newstr)).all()
+	print tagidlist
+	queidlist=[]
+	for tagid in tagidlist:
+		tmp = que_tag.query.filter_by(tag_id = tagid.tag_id).first()
+		queidlist.append(tmp)
+	print queidlist
+	questionlist=[]
+	for queid in queidlist:
+		question_obj = questions.query.filter_by(question_id = queid.question_id ).first()
+		questionlist.append(question_obj)
+	if 'uid' not in session:
+		set_questions = getQuestionDict(questionlist,True)
+		return render_template('search_result.html',name="#",questionList=set_questions,uuid=0)
+	else:
+		set_questions = getQuestionDict(questionlist,False)
+		return render_template('search_result.html',name=session['fname'],questionList=set_questions,uuid=session['uid'])
+
+@app.route("/search_user",methods=['POST'])
+def search_user():
+	print "search_user"
 
 @app.route("/contact_us_1",methods=['POST'])
 def contact_us_1():
@@ -627,6 +528,91 @@ def post_comment_1():
 	db.session.add(cmnt)
 	db.session.commit()
 	return redirect(url_for('.que_page',qid=qid))
+
+def getQuestionDict(questionlist, isguest):
+	set_questions = []	
+	if isguest :
+		for item in questionlist:
+			tg_id = que_tag.query.filter_by(question_id=item.question_id)
+			tagName = [{}]
+			del tagName[:]
+			for it in tg_id:
+				tgNameObj=tag.query.filter_by(tag_id=it.tag_id).first()
+				tagName.append({'id':tgNameObj.tag_id,'name':tgNameObj.tag_name})
+			usr = user.query.filter_by(user_id = item.user_id).first()
+			# book = bookmark.query.filter_by(user_id = cur_id,question_id=item.question_id).first()
+			# if book == "None":
+			# 	bool_bid=0
+			# else:
+			# 	bool_bid=1
+			ans = answer.query.filter_by(question_id=item.question_id)
+			ans_count=0
+			for answer_que in ans:
+				ans_count=ans_count+1
+			# ans_lat = answer_later.query.filter_by(question_id=item.question_id,user_id=cur_id)
+			# if ans_lat == "None":
+			# 	bool_ans_lat=0
+			# else:
+			# 	bool_ans_lat=1
+			# ans = answer.query.filter_by(question_id=item.question_id,user_id=cur_id)
+			# if ans == "None":
+			# 	bool_ans=0
+			# else:
+			# 	bool_ans=1
+			vw = user_views.query.filter_by(question_id=item.question_id)
+			viewcount=0
+			for vwitem in vw:
+				viewcount=viewcount+1
+			votecount=0
+			vtobj = user_que_vote.query.filter_by(question_id=item.question_id)
+			for voteitem in vtobj:
+				votecount=votecount+voteitem.upvote+voteitem.downvote
+			set_questions.append({'id':item.question_id,'title':item.title,'votes':votecount,\
+			'views':viewcount,'date':item.que_date,'fname':usr.first_name,'lname':usr.last_name,\
+			'tags':tagName,'uid':0,'ans':ans_count,'BID':0,'ans_later':0,'answered':0})
+		return set_questions
+	else :
+		cur_id = session['uid']
+		for item in questionlist:
+			tg_id = que_tag.query.filter_by(question_id=item.question_id)
+			tagName = [{}]
+			for it in tg_id:
+				tgNameObj=tag.query.filter_by(tag_id=it.tag_id).first()
+				tagName.append({'id':tgNameObj.tag_id,'name':tgNameObj.tag_name})
+			usr = user.query.filter_by(user_id = item.user_id).first()
+			book = bookmark.query.filter_by(user_id = cur_id,question_id=item.question_id).first()
+			if book is None:
+				bool_bid=0
+			else:
+				bool_bid=1
+			ans = answer.query.filter_by(question_id=item.question_id)
+			ans_count=0	# need to  check
+			for answer_que in ans:
+				ans_count=ans_count+1
+			ans_lat = answer_later.query.filter_by(question_id=item.question_id,user_id=cur_id).first()
+			if ans_lat is None:
+				bool_ans_lat=0
+			else:
+				bool_ans_lat=1
+			ans = answer.query.filter_by(question_id=item.question_id,user_id=cur_id).first()
+			if ans is None:
+				bool_ans=0
+			else:
+				bool_ans=1
+			vw = user_views.query.filter_by(question_id=item.question_id)
+			viewcount=0
+			for vwitem in vw:
+				viewcount=viewcount+1
+			votecount=0
+			vtobj = user_que_vote.query.filter_by(question_id=item.question_id)
+			for voteitem in vtobj:
+				votecount=votecount+voteitem.upvote+voteitem.downvote
+			set_questions.append({'id':item.question_id,'title':item.title,'votes':votecount,\
+			'views':viewcount,'date':item.que_date,'fname':usr.first_name,'lname':usr.last_name,\
+			'tags':tagName,'uid':item.user_id,'ans':ans_count,'BID':bool_bid,'ans_later':\
+			bool_ans_lat,'answered':bool_ans})
+		return set_questions
+
 
 if __name__=='__main__':
 	app.run(port=5000,debug=True,threaded=True,host="127.0.0.1")
