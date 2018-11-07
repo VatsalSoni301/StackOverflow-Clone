@@ -15,11 +15,11 @@
     </span>
     <span style="width:78%;float:right;">
         <h1>{{usr_dict['fname']}} {{usr_dict['lname']}}</h1>
-        <h2>{{usr_dict['current']}}</h2>
-        <h2>{{usr_dict['college']}}</h2>
-        <h2>{{usr_dict['date']}}</h2>
-        <h2>{{usr_dict['gn']}}</h2>
-        <h2>{{usr_dict['email']}}</h2>
+        <h3>{{usr_dict['current']}}</h3>
+        <h3>{{usr_dict['email']}}</h3>
+        <h3>{{usr_dict['date']}}</h3>
+        <h3>{{usr_dict['gn']}}</h3>
+        <h3>{{usr_dict['college']}}</h3>
     </span>
     <br /><br />
     <span style="width:100%">
@@ -30,7 +30,7 @@
             <ol type="1">
                 {% for i in qset %}
                 <li>
-                    <b><a style="text-decoration:none;" href="{{url_for('que_page')}}">{{i['title']}}</a></b>
+                    <b><a style="text-decoration:none;" href="{{url_for('que_page',qid=i['id'])}}">{{i['title']}}</a></b>
                 </li>
                 <hr>
             {% endfor %}
@@ -46,7 +46,7 @@
             <ol type="1">
                 {% for i in ansset %}
                 <li>
-                    <b><a style="text-decoration:none;" href="{{url_for('que_page')}}">{{i['title']}}</a></b>
+                    <b><a style="text-decoration:none;" href="{{url_for('que_page',qid=i['id'])}}">{{i['title']}}</a></b>
                 </li>
                 <hr>
             {% endfor %}
