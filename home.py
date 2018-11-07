@@ -543,5 +543,38 @@ def post_comment_1():
 	db.session.commit()
 	return redirect(url_for('.que_page',qid=qid))
 
+@app.route("/user_change_pass")
+def user_change_pass():
+	try:
+		uid = session['uid']
+		uname = session['fname'] 
+		return render_template('user_change_pass.html',name=uname)
+	except:
+		return "not logged in"
+		#render error page
+
+@app.route("/check_cur_psd",methods=['POST'])
+def check__cur_psd():
+	old_pass = request.form['cur_psd']
+	uid = session['uid']
+	usr = user.query.filter_by(user_id=uid).first()
+	if old_pass!=usr.password:
+		return "wrong"
+	else:
+		return "ok"	
+
+@app.route("/user_change_pass_1",methods=['POST'])
+def user_change_pass_1():
+	old_pass = request.form['cur_psd']
+	uid = session['uid']
+	usr = user.query.filter_by(user_id=uid).first()
+	new_pass = request.form['new_psd']
+	usr.password = new_pass
+	db.session.add(usr)
+	db.session.commit()
+	session.pop('uid', None)
+	session.pop('fname', None)
+	return redirect(url_for('.index'))
+
 if __name__=='__main__':
 	app.run(port=5000,debug=True,threaded=True,host="127.0.0.1")
