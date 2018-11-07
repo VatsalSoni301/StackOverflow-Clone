@@ -561,6 +561,7 @@ def user_change_pass_1():
 	session.pop('uid', None)
 	session.pop('fname', None)
 	return redirect(url_for('.index'))
+
 def getQuestionDict(questionlist, isguest):
 	set_questions = []	
 	if isguest :
@@ -645,6 +646,59 @@ def getQuestionDict(questionlist, isguest):
 			bool_ans_lat,'answered':bool_ans})
 		return set_questions
 
+@app.route("/edit_profile_1",methods=['POST'])
+def edit_profile_1():
+	first = request.form['fname']
+	middle = request.form['mname']
+	last = request.form['lname']
+	gender = request.form['gn']
+	mobile = request.form['mobile']
+	country = int(request.form['country'])
+	current_pos = request.form['cur_pos']
+	college = request.form['collegename']
+	dob = request.form['date']
+	destination='Default.jpg'
+	for f in request.files.getlist("file"):
+		if f.filename=='':
+			break
+		else:
+			target=os.path.join('/home/vatsal/Documents/IIIT/SCE_Assignemnts/SCE_Project/static',\
+			'Img/')
+			filename=f.filename
+			ext=filename.split(".")
+			destination = "/".join([target,filename])
+			f.save(destination)
+			destination=filename
+	
+	usr = user.query.filter_by(user_id=session['uid']).first()
+	usr.first_name = first
+	usr.middle_name = middle
+	usr.last_name = last
+	usr.gender = gender
+	usr.mobile_no = mobile
+	usr.country_id = country
+	usr.current_position = current_pos
+	usr.college = college
+	usr.date_of_birth = dob
+	if destination!="Default.jpg":
+		usr.profile_pic = destination
 
+	# db.session.add(usr)
+	db.session.commit()
+	return redirect(url_for('edit_profile'))
+
+@app.route("/edit_profile")
+def edit_profile():
+	cn = country.query.all()
+	con = [{}]
+	del con[:]
+	for i in cn:
+		con.append({'id':i.country_id,'name':i.country_name})
+
+	uname = session['fname']
+	uid = session['uid']
+	usr = user.query.filter_by(user_id=uid).first()
+	return render_template('user_edit_profile.html',name=uname,u=usr,country=con)
+	
 if __name__=='__main__':
 	app.run(port=5000,debug=True,threaded=True,host="127.0.0.1")
