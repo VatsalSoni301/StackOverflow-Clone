@@ -271,7 +271,7 @@ def Bookmark():
 			'tags':tagName,'uid':item.user_id,'ans':ans_count,'BID':bool_bid,'ans_later':bool_ans_lat,'answered':bool_ans})
 		return render_template('bookmark.html',name=session['fname'],questionList=set_questions,uuid=session['uid'])	
 
-@app.route("/admin")
+@app.route("/admin",methods=['POST'])
 def admin():
 	cu_obj = contact_us.query.filter_by(cu_resolve=0)
 	cu_dict=[{}]
@@ -283,7 +283,6 @@ def admin():
 			'mobile':i.cu_mobile_no,
 			'message':i.cu_msg
 			} ) 
-
 	return render_template('admin.html', contact_us_dict = cu_dict)
 
 @app.route("/que_page")
