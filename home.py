@@ -467,12 +467,10 @@ def search_tag():
 	search_tag_text = request.form['search_tag_input']
 	newstr="%"+search_tag_text+"%"
 	tagidlist=tag.query.filter(tag.tag_name.like(newstr)).all()
-	print tagidlist
 	queidlist=[]
 	for tagid in tagidlist:
 		tmp = que_tag.query.filter_by(tag_id = tagid.tag_id).first()
 		queidlist.append(tmp)
-	print queidlist
 	questionlist=[]
 	for queid in queidlist:
 		question_obj = questions.query.filter_by(question_id = queid.question_id ).first()
@@ -484,9 +482,20 @@ def search_tag():
 		set_questions = getQuestionDict(questionlist,False)
 		return render_template('search_result.html',name=session['fname'],questionList=set_questions,uuid=session['uid'])
 
-@app.route("/search_user",methods=['POST'])
-def search_user():
-	print "search_user"
+@app.route("/search_perticular_tag")
+def search_perticular_tag():
+	search_tagid= request.args.get('search_tid', default='', type=str)
+	queidlist = que_tag.query.filter_by(tag_id = search_tagid).all()
+	questionlist=[]
+	for queid in queidlist:
+		question_obj = questions.query.filter_by(question_id = queid.question_id ).first()
+		questionlist.append(question_obj)
+	if 'uid' not in session:
+		set_questions = getQuestionDict(questionlist,True)
+		return render_template('search_result.html',name="#",questionList=set_questions,uuid=0)
+	else:
+		set_questions = getQuestionDict(questionlist,False)
+		return render_template('search_result.html',name=session['fname'],questionList=set_questions,uuid=session['uid'])
 
 @app.route("/contact_us_1",methods=['POST'])
 def contact_us_1():
@@ -563,6 +572,7 @@ def user_change_pass_1():
 	session.pop('uid', None)
 	session.pop('fname', None)
 	return redirect(url_for('.index'))
+
 def getQuestionDict(questionlist, isguest):
 	set_questions = []	
 	if isguest :
