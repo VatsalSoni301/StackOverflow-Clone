@@ -5,7 +5,6 @@
     <title>Question</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/static/ques_ans.css">
-    <script type="text/javascript" src="{{ url_for('static', filename='static_1/js/que_ans.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.js"></script>
@@ -13,6 +12,17 @@
     <script>
         $(document).ready(function () {
             $('#summernote').summernote();
+        });
+
+        function pop_over() {
+            $('[data-toggle="popover"]').popover({
+                placement: 'top',
+                trigger: 'hover'
+            });
+        }
+
+        $(document).ready(function () {
+            pop_over()
         });
 
         function validate() {
@@ -24,18 +34,7 @@
                 $('#myModal11').modal('show');
             }
             else {
-                qid1 = document.getElementById("qid").value;
-                $.post("/post_answer",
-                    {
-                        editordata: markupStr,
-                        qid: qid1
-                    },
-                    function (data, status) {
-                        document.getElementById("postansid").disabled = true
-                        $("#refreshid").load(location.href + " #refreshid");
-                        // $('#summernote').summernote('insertText', '');
-                    }
-                );
+                document.formx.submit();
             }
         }
         function validatecomment(x) {
@@ -164,7 +163,7 @@
                     function (data, status) {
                         $("#refreshid1").load(location.href + " #refreshid1");
                     }
-                );
+                ).done(function () { pop_over() });
             }
         }
         function quedownvote(obj) {
@@ -183,7 +182,7 @@
                     function (data, status) {
                         $("#refreshid1").load(location.href + " #refreshid1");
                     }
-                );
+                ).done(function () { pop_over() });
             }
         }
         function queneutral(obj) {
@@ -202,7 +201,7 @@
                     function (data, status) {
                         $("#refreshid1").load(location.href + " #refreshid1");
                     }
-                );
+                ).done(function () { pop_over() });
             }
         }
         function ansupvote(obj) {
@@ -400,8 +399,11 @@
                                 </span>
                             </span>
                         </span>
+                        <br>
                         {% endfor %}
-                        <br><br>
+                        {% if i['comments'] %}
+                            <br>
+                        {% endif %}
                         <div>
                             <form method="POST">
                                 <input type="hidden" name="que__id" id="que__id" value="{{quedict['id']}}">
@@ -457,7 +459,7 @@
         </div>
         {% endfor %}
     </div>
-    <form method="POST" name="form1">
+    <form method="POST" name="formx" action="{{url_for('post_answer')}}" method="post">
         <div class="col-md-12 form-group group-mail">
             <!-- <div id="summernote"></div> -->
             <textarea class="summernote" id="summernote" name="editordata"></textarea>
