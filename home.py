@@ -552,12 +552,13 @@ def search_question():
 @app.route("/search_tag",methods=['POST'])
 def search_tag():
 	search_tag_text = request.form['search_tag_input']
+	
 	newstr="%"+search_tag_text+"%"
 	tagidlist=tag.query.filter(tag.tag_name.like(newstr)).all()
 	queidlist=[]
 	for tagid in tagidlist:
-		tmp = que_tag.query.filter_by(tag_id = tagid.tag_id).first()
-		queidlist.append(tmp)
+		tmp = que_tag.query.filter_by(tag_id = tagid.tag_id).all()
+		queidlist += tmp
 	questionlist=[]
 	for queid in queidlist:
 		question_obj = questions.query.filter_by(question_id = queid.question_id ).first()
