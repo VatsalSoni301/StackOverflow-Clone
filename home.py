@@ -312,7 +312,15 @@ def ask_question_1():
 	tag3 = request.form['tag_3']
 	tag4 = request.form['tag_4']
 	tag5 = request.form['tag_5']
-	date_of_question = datetime.utcnow()
+
+	tag1=tag1.lower()
+	tag2=tag2.lower()
+	tag3=tag3.lower()
+	tag4=tag4.lower()
+	tag5=tag5.lower()
+	# datestring = str(datetime.datetime.now())
+	# date_of_question = datestring[:16]
+	date_of_question = datetime.now()
 	tagid1 = None
 	tagid2 = None
 	tagid3 = None
@@ -463,14 +471,13 @@ def search_question():
 @app.route("/search_tag",methods=['POST'])
 def search_tag():
 	search_tag_text = request.form['search_tag_input']
+	
 	newstr="%"+search_tag_text+"%"
 	tagidlist=tag.query.filter(tag.tag_name.like(newstr)).all()
-	print tagidlist
 	queidlist=[]
 	for tagid in tagidlist:
-		tmp = que_tag.query.filter_by(tag_id = tagid.tag_id).first()
-		queidlist.append(tmp)
-	print queidlist
+		tmp = que_tag.query.filter_by(tag_id = tagid.tag_id).all()
+		queidlist += tmp
 	questionlist=[]
 	for queid in queidlist:
 		question_obj = questions.query.filter_by(question_id = queid.question_id ).first()
@@ -482,9 +489,20 @@ def search_tag():
 		set_questions = getQuestionDict(questionlist,False)
 		return render_template('search_result.html',name=session['fname'],questionList=set_questions,uuid=session['uid'])
 
-@app.route("/search_user",methods=['POST'])
-def search_user():
-	print "search_user"
+@app.route("/search_perticular_tag")
+def search_perticular_tag():
+	search_tagid= request.args.get('search_tid', default='', type=str)
+	queidlist = que_tag.query.filter_by(tag_id = search_tagid).all()
+	questionlist=[]
+	for queid in queidlist:
+		question_obj = questions.query.filter_by(question_id = queid.question_id ).first()
+		questionlist.append(question_obj)
+	if 'uid' not in session:
+		set_questions = getQuestionDict(questionlist,True)
+		return render_template('search_result.html',name="#",questionList=set_questions,uuid=0)
+	else:
+		set_questions = getQuestionDict(questionlist,False)
+		return render_template('search_result.html',name=session['fname'],questionList=set_questions,uuid=session['uid'])
 
 @app.route("/contact_us_1",methods=['POST'])
 def contact_us_1():
