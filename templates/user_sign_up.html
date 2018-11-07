@@ -58,15 +58,20 @@ function fun(){
 		document.getElementById("msg").innerHTML="Password and Confirm Password must be Same"
 		$('#myModal11').modal('show');
 	}
-	else if(country_id.value==0)
-	{
-		document.getElementById("msg").innerHTML="Please select a country"
-		$('#myModal11').modal('show');
-	}
 	else if(date.value=='')
 	{
 		document.getElementById("msg").innerHTML="Please Enter D.O.B"
 		$('#myModal11').modal('show');	
+	}
+	else if(current_pos.value=='')
+	{
+		document.getElementById("msg").innerHTML="Please Enter Current Position"
+		$('#myModal11').modal('show');	
+	}
+	else if(country_id.value==0)
+	{
+		document.getElementById("msg").innerHTML="Please select a country"
+		$('#myModal11').modal('show');
 	}
 	else if(x[1]!='png' && x[1]!='jpeg' && x[1]!='jpg' && x[1]!='bmp' && file.value!='')
 	{
@@ -152,7 +157,7 @@ function fun(){
 				 name="date" id="date1">
 			</div>
 			<div class="col-md-8 form-group group-mail">
-				<label class="control-label">Current Position</label>
+				<label class="control-label">Current Position<strong style="color:red">*</strong></label>
 				<input type="text" class="form-control" placeholder="Your current position in your Company/Intitute" id="current_pos"
 				 name="cur_pos">
 			</div>
