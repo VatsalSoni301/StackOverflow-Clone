@@ -120,7 +120,7 @@ class user_ans_vote(db.Model):
 	__tablename__ = 'user_ans_vote'
 	ans_vote_id = db.Column('ans_vote_id',db.Integer,primary_key=True)
 	user_id = db.Column(db.ForeignKey('user.user_id'))
-	question_id = db.Column(db.ForeignKey('questions.question_id'))
+	ans_id = db.Column(db.ForeignKey('answer.ans_id'))
 	upvote = db.Column('upvote',db.Integer,default=0)
 	downvote = db.Column('downvote',db.Integer,default=0)
 

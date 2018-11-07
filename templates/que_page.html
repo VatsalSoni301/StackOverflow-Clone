@@ -31,6 +31,7 @@
                         qid: qid1
                     },
                     function (data, status) {
+                        document.getElementById("postansid").disabled=true
                         $("#refreshid").load(location.href + " #refreshid");
                         $('#summernote').summernote('insertText', '');
                     }
@@ -409,7 +410,7 @@
         </div>
         <input type="hidden" value="{{quedict['id']}}" name="qid" id="qid">
         <div class="col-md-12 form-group group-mail">
-            <button type="button" class="btn btn-primary" onclick="validate()" {% if chkbtn==1 or uid==0 %}disabled {%
+            <button type="button" class="btn btn-primary" onclick="validate()" id="postansid" {% if chkbtn==1 or uid==0 %}disabled {%
                 endif %}>
                 Post Answer
             </button>

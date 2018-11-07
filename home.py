@@ -282,7 +282,7 @@ def que_page():
 			commentlist.append({'id':cmntitem.comment_id,'content':cmntitem.comment_content,\
 			'uid':usr_1.user_id,'ufname':usr_1.first_name,'ulname':usr_1.last_name,'date':\
 			cmntitem.comment_date})
-		vtobj = user_ans_vote.query.filter_by(question_id=qid)
+		vtobj = user_ans_vote.query.filter_by(ans_id=item.ans_id)
 		votecount=0
 		for voteitem in vtobj:
 			votecount=votecount+voteitem.upvote+voteitem.downvote
