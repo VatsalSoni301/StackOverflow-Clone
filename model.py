@@ -45,10 +45,8 @@ class questions(db.Model):
 	user_id = db.Column(db.ForeignKey('user.user_id'))
 	question_content = db.Column('question_content',db.String,nullable=False)
 	title = db.Column('title',db.String,nullable=False)
-	votes = db.Column('votes',db.Integer)
 	delete_votes = db.Column('delete_votes',db.Integer)
 	que_date = db.Column('que_date',db.DateTime,nullable=False)
-	views = db.Column('views',db.Integer)
 
 class answer(db.Model):
 	__tablename__ = 'answer'
@@ -110,6 +108,30 @@ class contact_us(db.Model):
 	cu_mobile_no = db.Column('cu_mobile_no',db.String,nullable=False)
 	cu_msg = db.Column('cu_msg',db.String,nullable=False)
 	cu_resolve = db.Column('cu_resolve',db.Integer,default=0)
+
+class user_que_vote(db.Model):
+	__tablename__ = 'user_que_vote'
+	que_vote_id = db.Column('que_vote_id',db.Integer,primary_key=True)
+	user_id = db.Column(db.ForeignKey('user.user_id'))
+	question_id = db.Column(db.ForeignKey('questions.question_id'))
+	upvote = db.Column('upvote',db.Integer,default=0)
+	downvote = db.Column('downvote',db.Integer,default=0)
+
+class user_ans_vote(db.Model):
+	__tablename__ = 'user_ans_vote'
+	ans_vote_id = db.Column('ans_vote_id',db.Integer,primary_key=True)
+	user_id = db.Column(db.ForeignKey('user.user_id'))
+	question_id = db.Column(db.ForeignKey('questions.question_id'))
+	upvote = db.Column('upvote',db.Integer,default=0)
+	downvote = db.Column('downvote',db.Integer,default=0)
+
+class user_views(db.Model):
+	__tablename__ = 'user_views'
+	views_id = db.Column('views_id',db.Integer,primary_key=True)
+	user_id = db.Column(db.ForeignKey('user.user_id'))
+	question_id = db.Column(db.ForeignKey('questions.question_id'))
+	views = db.Column('views',db.Integer,default=0)
+
 
 # tg = tag.query.all() # Retrieve all data
 # 	ll = [{'id':1,'name':"sad"}]

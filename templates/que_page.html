@@ -32,15 +32,15 @@
                     },
                     function (data, status) {
                         $("#refreshid").load(location.href + " #refreshid");
-                        $('#summernote').summernote('insertText','');
+                        $('#summernote').summernote('insertText', '');
                     }
                 );
             }
         }
         function validatecomment(x) {
             var qid = document.getElementById("que__id").value;
-            var aid = document.getElementById(x.getAttribute("id")+"ansid").value;
-            var cmntbox = document.getElementById(x.getAttribute("id")+"commentbox").value;
+            var aid = document.getElementById(x.getAttribute("id") + "ansid").value;
+            var cmntbox = document.getElementById(x.getAttribute("id") + "commentbox").value;
             if (cmntbox == '') {
                 document.getElementById("msg").innerHTML = "Please Enter Content.";
                 $('#myModal11').modal('show');
@@ -58,6 +58,158 @@
                 );
             }
         }
+        function addtodo(obj) {
+            uid = document.getElementById("usr_id").value;
+            qid = obj.getAttribute("name");
+            if (uid == 0) {
+                document.getElementById("msg").innerHTML = "Please Login"
+                $('#myModal11').modal('show');
+            }
+            else {
+                $.post("/add_answer_later_1",
+                    {
+                        usr: uid,
+                        que: qid
+                    },
+                    function (data, status) {
+                        q_id = obj.getAttribute("id");
+                        qid_1 = qid + "+remove";
+                        document.getElementById(q_id).style.display = 'none';
+                        document.getElementById(qid_1).style.display = 'inline';
+
+                    }
+                );
+            }
+        }
+        function removetodo(obj) {
+            uid = document.getElementById("usr_id").value;
+            qid = obj.getAttribute("name");
+            if (uid == 0) {
+                document.getElementById("msg").innerHTML = "Please Login"
+                $('#myModal11').modal('show');
+            }
+            else {
+                $.post("/rm_answer_later_1",
+                    {
+                        usr: uid,
+                        que: qid
+                    },
+                    function (data, status) {
+                        q_id = obj.getAttribute("id");
+                        qid_1 = qid + "+add";
+                        document.getElementById(q_id).style.display = 'none';
+                        document.getElementById(qid_1).style.display = 'inline';
+                    }
+                );
+            }
+        }
+        function addbookmark(obj) {
+            uid = document.getElementById("usr_id").value;
+            qid = obj.getAttribute("name");
+            if (uid == 0) {
+                document.getElementById("msg").innerHTML = "Please Login"
+                $('#myModal11').modal('show');
+            }
+            else {
+                $.post("/add_bookmark_1",
+                    {
+                        usr: uid,
+                        que: qid
+                    },
+                    function (data, status) {
+                        q_id = obj.getAttribute("id");
+                        document.getElementById(q_id).style.display = "none";
+                        qid_1 = qid + "+removebook";
+                        document.getElementById(qid_1).style.display = "inline";
+                    }
+                );
+            }
+        }
+        function removebookmark(obj) {
+            uid = document.getElementById("usr_id").value;
+            qid = obj.getAttribute("name");
+            if (uid == 0) {
+                document.getElementById("msg").innerHTML = "Please Login"
+                $('#myModal11').modal('show');
+            }
+            else {
+                $.post("/rm_bookmark_1",
+                    {
+                        usr: uid,
+                        que: qid
+                    },
+                    function (data, status) {
+                        q_id = obj.getAttribute("id");
+                        qid_1 = qid + "+addbook";
+                        document.getElementById(q_id).style.display = 'none';
+                        document.getElementById(qid_1).style.display = 'inline';
+                    }
+                );
+            }
+        }
+        function upvote(obj) {
+            uid = document.getElementById("usr_id").value;
+            qid = document.getElementById("que__id").value;
+            alert(uid+qid);
+            if (uid == 0) {
+                document.getElementById("msg").innerHTML = "Please Login"
+                $('#myModal11').modal('show');
+            }
+            else {
+                $.post("/upvote_que_1",
+                    {
+                        usr: uid,
+                        que: qid
+                    },
+                    function (data, status) {
+                        document.getElementById("emptyupthumb").style.display = 'none';
+                        document.getElementById("fillupthumb").style.display = 'inline';
+                    }
+                );
+            }
+        }
+        function upvote1(obj) {
+            $.post("/upvote_que_1",
+                {
+                    usr: uid,
+                    que: qid
+                },
+                function (data, status) {
+                    q_id = obj.getAttribute("id");
+                    qid_1 = qid + "+addbook";
+                    document.getElementById(q_id).style.display = 'none';
+                    document.getElementById(qid_1).style.display = 'inline';
+                }
+            );
+        }
+        function downvote(obj) {
+            $.post("/downvote_que_1",
+                {
+                    usr: uid,
+                    que: qid
+                },
+                function (data, status) {
+                    q_id = obj.getAttribute("id");
+                    qid_1 = qid + "+addbook";
+                    document.getElementById(q_id).style.display = 'none';
+                    document.getElementById(qid_1).style.display = 'inline';
+                }
+            );
+        }
+        function downvote1(obj) {
+            $.post("/downvote_que_1",
+                {
+                    usr: uid,
+                    que: qid
+                },
+                function (data, status) {
+                    q_id = obj.getAttribute("id");
+                    qid_1 = qid + "+addbook";
+                    document.getElementById(q_id).style.display = 'none';
+                    document.getElementById(qid_1).style.display = 'inline';
+                }
+            );
+        }
     </script>
 
 </head>
@@ -65,14 +217,15 @@
 {% block body %}
 <br>
 
-    <div class="queanscontainer">
-        <div class="quebox">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <span class="panel-title">
-                        <span class="quetitle">
-                            {{quedict['title']}}
-                        </span>
+<div class="queanscontainer">
+    <input type="hidden" value="{{uid}}" id="usr_id">
+    <div class="quebox">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <span class="panel-title">
+                    <span class="quetitle">
+                        {{quedict['title']}}
+                    </span>
             </div>
             <div class="panel-body">
                 {{quedict['question_content'] | safe }}
@@ -94,62 +247,71 @@
                     </div>
                 </span>
 
-            </div>    
-                <div class="panel-footer">
-                    <span>
-                        {% if 1 %}
-                        <span class="updownvotesym" data-toggle="popover" data-content="upvote">
-                            <i class="fa fa-thumbs-o-up" onclick="upvote()"></i>
+            </div>
+            <div class="panel-footer">
+                <span>
+                    {% if 1 %}
+                    <span class="updownvotesym" id="emptyupthumb" data-toggle="popover" data-content="upvote">
+                        <i class="fa fa-thumbs-o-up" onclick="upvote(this)"></i>
+                    </span>
+                    {% else %}
+                    <span class="updownvotesym" id="fillupthumb" data-toggle="popover" data-content="clear">
+                        <i class="fa fa-thumbs-up" onclick="upvote1(this)"></i>
+                    </span>
+                    {% endif %}
+
+                    <span class="updownvotesym">{{quedict['votes']}}</span>
+
+                    {% if 1 %}
+                    <span class="updownvotesym" id="emptydownthumb" data-toggle="popover" data-content="downvote">
+                        <i class="fa fa-thumbs-o-down" onclick="downvote(this)"></i>
+                    </span>
+                    {% else %}
+                    <span class="updownvotesym" id="filldownthumb" data-toggle="popover" data-content="clear">
+                        <i class="fa fa-thumbs-down" onclick="downvote1(this)"></i>
+                    </span>
+                    {% endif %}
+
+                    <span style="float:right">
+                        {% if quedict['answered']==1 %}
+                        <span class="bookmarksym" data-toggle="popover" data-content="answered">
+                            <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
                         </span>
                         {% else %}
-                        <span class="updownvotesym" data-toggle="popover" data-content="clear">
-                            <i class="fa fa-thumbs-up" onclick="upvote()"></i>
+
+                        <span class="bookmarksym" data-toggle="popover" data-content="answer later" id="{{quedict['id']}}+add"
+                            name="{{quedict['id']}}" onclick="addtodo(this)" {% if quedict['ans_later']==0 %}style="display:inline"
+                            {% else %} style="display:none" {% endif %}>
+                            <span class="fa fa-plus-square-o"></span>
                         </span>
+
+                        <span class="bookmarksym" data-toggle="popover" data-content="remove from answer later" id="{{quedict['id']}}+remove"
+                            name="{{quedict['id']}}" onclick="removetodo(this)" {% if quedict['ans_later']==1 %}style="display:inline"
+                            {% else %} style="display:none" {% endif %}>
+                            <span class="fa fa-plus-square"></span>
+                        </span>
+
                         {% endif %}
 
-                        <span class="updownvotesym">{{quedict['votes']}}</span>
-
-                        {% if 0 %}
-                        <span class="updownvotesym" data-toggle="popover" data-content="downvote">
-                            <i class="fa fa-thumbs-o-down" onclick="downvote()"></i>
+                        <span class="bookmarksym" data-toggle="popover" id="{{quedict['id']}}+addbook" name="{{quedict['id']}}"
+                            onclick="addbookmark(this)" data-content="add bookmark" {% if quedict['BID']==0 %}style="display:inline"
+                            {% else %} style="display:none" {% endif %}>
+                            <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
                         </span>
-                        {% else %}
-                        <span class="updownvotesym" data-toggle="popover" data-content="clear">
-                            <i class="fa fa-thumbs-down" onclick="downvote()"></i>
-                        </span>
-                        {% endif %}
 
-                        <span style="float:right">
-                            {% if 0 %}
-                            <span class="bookmarksym" data-toggle="popover" data-content="answer later">
-                                <span class="fa fa-plus-square-o" onclick="addtodo()"></span>
-                            </span>
-                            {% else %}
-                            <span class="bookmarksym" data-toggle="popover" data-content="remove from TODO">
-                                <span class="fa fa-plus-square" onclick="removetodo()"></span>
-                            </span>
-
-                            <span class="bookmarksym" data-toggle="popover" data-content="answered">
-                                <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
-                            </span>
-                            {% endif %}
-
-                            {% if 0 %}
-                            <span class="bookmarksym" data-toggle="popover" data-content="bookmark">
-                                <span class="glyphicon glyphicon-star-empty" aria-hidden="true" onclick="addbookmark()"></span>
-                            </span>
-                            {% else %}
-                            <span class="bookmarksym" data-toggle="popover" data-content="remove bookmark">
-                                <span class="glyphicon glyphicon-star" aria-hidden="true" onclick="removebookmark()"></span>
-                            </span>
-                            {% endif %}
+                        <span class="bookmarksym" data-toggle="popover" id="{{quedict['id']}}+removebook" name="{{quedict['id']}}"
+                            onclick="removebookmark(this)" data-content="remove bookmark" {% if quedict['BID']==1
+                            %}style="display:inline" {% else %} style="display:none" {% endif %}>
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
                         </span>
 
                     </span>
-                </div>
+
+                </span>
             </div>
         </div>
-        <div id="refreshid">
+    </div>
+    <div id="refreshid">
         {% for i in anslist %}
         <div class="ansbox">
             <div class="panel panel-info">
@@ -163,11 +325,11 @@
                         </span>
                     </span>
 
-            </div>
-            <div class="panel-body">
-                {{ i['content'] | safe }}
-                <span class="comment">
-                    {% for j in i['comments'] %}
+                </div>
+                <div class="panel-body">
+                    {{ i['content'] | safe }}
+                    <span class="comment">
+                        {% for j in i['comments'] %}
                         <span>
                             <hr class="commenthr">
                             <span>
@@ -195,12 +357,12 @@
                                         placeholder="Comment here">
                                 </div>
                                 <div style="float:left;margin-left: 12px">
-                                    <input type="button" class="btn btn-primary" id="{{i['a_id']}}" onclick="validatecomment(this)" value="comment"
-                                        {% if uid==0 %}disabled {% endif %}>
+                                    <input type="button" class="btn btn-primary" id="{{i['a_id']}}" onclick="validatecomment(this)"
+                                        value="comment" {% if uid==0 %}disabled {% endif %}>
                                 </div>
                             </form>
                         </div>
-                </span>
+                    </span>
 
                 </div>
                 <div class="panel-footer">
@@ -217,7 +379,7 @@
 
                         <span class="updownvotesym">{{i['votes']}}</span>
 
-                        {% if 0 %}
+                        {% if 1 %}
                         <span class="updownvotesym" data-toggle="popover" data-content="downvote">
                             <i class="fa fa-thumbs-o-down" onclick="downvote()"></i>
                         </span>
@@ -240,22 +402,22 @@
         </div>
         {% endfor %}
     </div>
-        <form method="POST" name="form1">
-            <div class="col-md-12 form-group group-mail">
-                <!-- <div id="summernote"></div> -->
-                <textarea class="summernote" id="summernote" name="editordata"></textarea>
-            </div>
-            <input type="hidden" value="{{quedict['id']}}" name="qid" id="qid">
-            <div class="col-md-12 form-group group-mail">
-                <button type="button" class="btn btn-primary" onclick="validate()" {% if chkbtn==1 or uid==0 %}disabled
-                    {% endif %}>
-                    Post Answer
-                </button>
-            </div>
-        </form>
+    <form method="POST" name="form1">
+        <div class="col-md-12 form-group group-mail">
+            <!-- <div id="summernote"></div> -->
+            <textarea class="summernote" id="summernote" name="editordata"></textarea>
+        </div>
+        <input type="hidden" value="{{quedict['id']}}" name="qid" id="qid">
+        <div class="col-md-12 form-group group-mail">
+            <button type="button" class="btn btn-primary" onclick="validate()" {% if chkbtn==1 or uid==0 %}disabled {%
+                endif %}>
+                Post Answer
+            </button>
+        </div>
+    </form>
 
 
-    </div>
+</div>
 <div class="sidebar">
     <fieldset>
         <legend>Search</legend>
@@ -311,7 +473,7 @@
     });
     $('#summernote').load(document.URL + ' #summernote', function () {
         alert("hello")
-        $('#summernote').summernote();        
+        $('#summernote').summernote();
     });
 
 </script>
