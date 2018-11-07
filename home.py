@@ -399,6 +399,12 @@ def ask_question_1():
 	tag3 = request.form['tag_3']
 	tag4 = request.form['tag_4']
 	tag5 = request.form['tag_5']
+
+	tag1=tag1.lower()
+	tag2=tag2.lower()
+	tag3=tag3.lower()
+	tag4=tag4.lower()
+	tag5=tag5.lower()
 	# datestring = str(datetime.datetime.now())
 	# date_of_question = datestring[:16]
 	date_of_question = datetime.now()
