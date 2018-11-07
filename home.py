@@ -275,7 +275,7 @@ def Bookmark():
 		set_questions = getQuestionDict(que_set,False)
 		return render_template('bookmark.html',name=session['fname'],questionList=set_questions,uuid=cur_id)	
 
-@app.route("/admin")
+@app.route("/admin",methods=['POST'])
 def admin():
 	cu_obj = contact_us.query.filter_by(cu_resolve=0)
 	cu_dict=[{}]
@@ -287,7 +287,6 @@ def admin():
 			'mobile':i.cu_mobile_no,
 			'message':i.cu_msg
 			} ) 
-
 	return render_template('admin.html', contact_us_dict = cu_dict)
 
 @app.route("/que_page")
