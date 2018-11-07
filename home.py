@@ -69,21 +69,95 @@ def user_sign_in_1():
 		return "success"
 
 @app.route("/upvote_que_1",methods=['POST'])
-def upvote_1():
+def upvote_que_1():
 	usr = request.form['usr']
 	que = request.form['que']
-	queobj = questions.query.filter_by(user_id=usr,question_id=que).first()
-	queobj.votes += 1
+	queobj = user_que_vote.query.filter_by(user_id=usr,question_id=que).first()
+	if queobj is not None:
+		queobj.upvote = 1
+		queobj.downvote = 0
+		db.session.commit()
+	else:
+		queobj = user_que_vote(user_id=usr,question_id=que,upvote=1,downvote=0)
+		db.session.add(queobj)
+		db.session.commit()
+	return "success"
+
+@app.route("/neutral_que_1",methods=['POST'])
+def neutral_que_1():
+	usr = request.form['usr']
+	que = request.form['que']
+	queobj = user_que_vote.query.filter_by(user_id=usr,question_id=que).first()
+	if queobj is not None:
+		queobj.upvote = 0
+		queobj.downvote = 0
+		db.session.commit()
+	else:
+		queobj = user_que_vote(user_id=usr,question_id=que,upvote=0,downvote=0)
+		db.session.add(queobj)
+		db.session.commit()
 	db.session.commit()
 	return "success"
 
 @app.route("/downvote_que_1",methods=['POST'])
-def downvote_1():
+def downvote_que_1():
 	usr = request.form['usr']
 	que = request.form['que']
-	queobj = questions.query.filter_by(user_id=usr,question_id=que).first()
-	queobj.votes -= 1
-	db.session.commit()
+	queobj = user_que_vote.query.filter_by(user_id=usr,question_id=que).first()
+	if queobj is not None:
+		queobj.upvote = 0
+		queobj.downvote = -1
+		db.session.commit()
+	else:
+		queobj = user_que_vote(user_id=usr,question_id=que,upvote=0,downvote=-1)
+		db.session.add(queobj)
+		db.session.commit()
+	return "success"
+	
+
+@app.route("/upvote_ans_1",methods=['POST'])
+def upvote_ans_1():
+	usr = request.form['usr']
+	ans = request.form['ans']
+	ansobj = user_ans_vote.query.filter_by(user_id=usr,ans_id=ans).first()
+	if ansobj is not None:
+		ansobj.upvote = 1
+		ansobj.downvote = 0
+		db.session.commit()
+	else:
+		ansobj = user_ans_vote(user_id=usr,ans_id=ans,upvote=1,downvote=0)
+		db.session.add(ansobj)
+		db.session.commit()
+	return "success"
+
+@app.route("/neutral_ans_1",methods=['POST'])
+def neutral_ans_1():
+	usr = request.form['usr']
+	ans = request.form['ans']
+	ansobj = user_ans_vote.query.filter_by(user_id=usr,ans_id=ans).first()
+	if ansobj is not None:
+		ansobj.upvote = 0
+		ansobj.downvote = 0
+		db.session.commit()
+	else:
+		ansobj = user_ans_vote(user_id=usr,ans_id=ans,upvote=0,downvote=0)
+		db.session.add(ansobj)
+		db.session.commit()
+	return "success"
+
+@app.route("/downvote_ans_1",methods=['POST'])
+def downvote_ans_1():
+	usr = request.form['usr']
+	ans = request.form['ans']
+	ansobj = user_ans_vote.query.filter_by(user_id=usr,ans_id=ans).first()
+	if ansobj is not None:
+		ansobj.upvote = 0
+		ansobj.downvote = -1
+		db.session.commit()
+	else:
+		ansobj = user_ans_vote(user_id=usr,ans_id=ans,upvote=0,downvote=-1)
+		db.session.add(ansobj)
+		db.session.commit()
 	return "success"
 
 @app.route("/user_sign_in",methods=['POST'])
@@ -112,7 +186,7 @@ def view_profile():
 	con = country.query.filter_by(country_id=usr.country_id).first()
 	user_dict={'fname':usr.first_name,'lname':usr.last_name,'email':usr.email_id,\
 	'country':con.country_name,'current':usr.current_position,'college':usr.college,\
-	'date':usr.date_of_birth,'pic':usr.profile_pic,'gn':usr.gender}
+	'date':str(usr.date_of_birth)[:10],'pic':usr.profile_pic,'gn':usr.gender}
 
 	ques_obj = questions.query.filter_by(user_id=uid)
 	ques_set = [{}]
@@ -143,7 +217,7 @@ def user_sign_up_1():
 	current_pos = request.form['cur_pos']
 	college = request.form['collegename']
 	dob = request.form['date']
-	dd=datetime.utcnow()
+	dd=datetime.now()
 	destination='Default.jpg'
 	for f in request.files.getlist("file"):
 		if f.filename=='':
@@ -255,7 +329,13 @@ def que_page():
 	vtobj = user_que_vote.query.filter_by(question_id=qid)
 	for voteitem in vtobj:
 		votecount=votecount+voteitem.upvote+voteitem.downvote
+	up = 0
+	down = 0
 	if cur_id!=0:
+		vtobj = user_que_vote.query.filter_by(question_id=qid,user_id=cur_id).first()
+		if vtobj is not None:
+			up = vtobj.upvote
+			down = vtobj.downvote
 		uvobj = user_views.query.filter_by(user_id=cur_id,question_id=qid).first()
 		if uvobj is None:
 			viewcount=viewcount+1
@@ -263,8 +343,9 @@ def que_page():
 			db.session.add(uvobj)
 			db.session.commit()
 	quedict = {'id':qid,'title':qobj.title,'question_content':qobj.question_content,'votes':\
-	votecount,'date':qobj.que_date,'views':viewcount,'uid':usr.user_id,'ufname':usr.first_name,\
-	'ulname':usr.last_name,'tag':tglist,'BID':bool_bid,'ans_later':bool_ans_lat,'answered':bool_ans}
+	votecount,'date':str(qobj.que_date)[:16],'views':viewcount,'uid':usr.user_id,'ufname':usr.first_name,\
+	'ulname':usr.last_name,'tag':tglist,'BID':bool_bid,'ans_later':bool_ans_lat,\
+	'answered':bool_ans,'upvote':up,'downvote':down}
 	
 	chk=0
 	ansobj = answer.query.filter_by(question_id=qid)
@@ -281,14 +362,20 @@ def que_page():
 			usr_1 = user.query.filter_by(user_id=cmntitem.user_id).first()
 			commentlist.append({'id':cmntitem.comment_id,'content':cmntitem.comment_content,\
 			'uid':usr_1.user_id,'ufname':usr_1.first_name,'ulname':usr_1.last_name,'date':\
-			cmntitem.comment_date})
+			str(cmntitem.comment_date)[:16]})
 		vtobj = user_ans_vote.query.filter_by(ans_id=item.ans_id)
 		votecount=0
 		for voteitem in vtobj:
 			votecount=votecount+voteitem.upvote+voteitem.downvote
-		anslist.append({'a_id':item.ans_id,'content':item.ans_content,'date':item.ans_date,\
+		up = 0
+		down = 0
+		ansvoteobj = user_ans_vote.query.filter_by(user_id=cur_id,ans_id=item.ans_id).first()
+		if ansvoteobj is not None:
+			up = ansvoteobj.upvote
+			down = ansvoteobj.downvote
+		anslist.append({'a_id':item.ans_id,'content':item.ans_content,'date':str(item.ans_date)[:16],\
 		'votes':votecount,'uid':item.user_id,'ufname':usr.first_name,'ulname':usr.last_name\
-		,'comments':commentlist})
+		,'comments':commentlist,'upvote':up,'downvote':down})
 
 	if 'uid' not in session:
 		return render_template('que_page.html',name="#",uid=cur_id,qid=qid,quedict=quedict,anslist=anslist)
@@ -312,7 +399,9 @@ def ask_question_1():
 	tag3 = request.form['tag_3']
 	tag4 = request.form['tag_4']
 	tag5 = request.form['tag_5']
-	date_of_question = datetime.utcnow()
+	# datestring = str(datetime.datetime.now())
+	# date_of_question = datestring[:16]
+	date_of_question = datetime.now()
 	tagid1 = None
 	tagid2 = None
 	tagid3 = None
@@ -382,9 +471,9 @@ def ask_question_1():
 	db.session.add(quevote)
 	db.session.commit()
 
-	queview = user_views(user_id=cur_id,question_id=qid,views=0)
-	db.session.add(queview)
-	db.session.commit()
+	# queview = user_views(user_id=cur_id,question_id=qid,views=0)
+	# db.session.add(queview)
+	# db.session.commit()
 
 	if tagid1!=None and tagid1!="":
 		qt = que_tag(tag_id=tagid1,question_id=qid)
@@ -503,7 +592,7 @@ def post_answer():
 	cur_id = session['uid']
 	ans_content = request.form['editordata']
 	qid = request.form['qid']
-	ans_date = datetime.utcnow()
+	ans_date = datetime.now()
 	ans = answer(ans_content=ans_content,user_id=cur_id,question_id=qid,ans_date=ans_date) 
 	db.session.add(ans)
 	db.session.commit()
@@ -523,7 +612,7 @@ def post_comment_1():
 	aid = request.form['ans__id']
 	qid = request.form['que__id']
 	comment_content = request.form['commentbox']
-	cmnt_date = datetime.utcnow()
+	cmnt_date = datetime.now()
 	cmnt = comment(user_id=uid,ans_id=aid,comment_content=comment_content,comment_date=cmnt_date)
 	db.session.add(cmnt)
 	db.session.commit()
@@ -601,7 +690,7 @@ def getQuestionDict(questionlist, isguest):
 			for voteitem in vtobj:
 				votecount=votecount+voteitem.upvote+voteitem.downvote
 			set_questions.append({'id':item.question_id,'title':item.title,'votes':votecount,\
-			'views':viewcount,'date':item.que_date,'fname':usr.first_name,'lname':usr.last_name,\
+			'views':viewcount,'date':str(item.que_date)[:16],'fname':usr.first_name,'lname':usr.last_name,\
 			'tags':tagName,'uid':0,'ans':ans_count,'BID':0,'ans_later':0,'answered':0})
 		return set_questions
 	else :
@@ -641,7 +730,7 @@ def getQuestionDict(questionlist, isguest):
 			for voteitem in vtobj:
 				votecount=votecount+voteitem.upvote+voteitem.downvote
 			set_questions.append({'id':item.question_id,'title':item.title,'votes':votecount,\
-			'views':viewcount,'date':item.que_date,'fname':usr.first_name,'lname':usr.last_name,\
+			'views':viewcount,'date':str(item.que_date)[:16],'fname':usr.first_name,'lname':usr.last_name,\
 			'tags':tagName,'uid':item.user_id,'ans':ans_count,'BID':bool_bid,'ans_later':\
 			bool_ans_lat,'answered':bool_ans})
 		return set_questions

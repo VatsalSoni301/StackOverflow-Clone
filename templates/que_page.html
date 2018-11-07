@@ -31,9 +31,9 @@
                         qid: qid1
                     },
                     function (data, status) {
-                        document.getElementById("postansid").disabled=true
+                        document.getElementById("postansid").disabled = true
                         $("#refreshid").load(location.href + " #refreshid");
-                        $('#summernote').summernote('insertText', '');
+                        // $('#summernote').summernote('insertText', '');
                     }
                 );
             }
@@ -148,10 +148,9 @@
                 );
             }
         }
-        function upvote(obj) {
+        function queupvote(obj) {
             uid = document.getElementById("usr_id").value;
-            qid = document.getElementById("que__id").value;
-            alert(uid+qid);
+            qid = document.getElementById("que__id1").value;
             if (uid == 0) {
                 document.getElementById("msg").innerHTML = "Please Login"
                 $('#myModal11').modal('show');
@@ -163,53 +162,105 @@
                         que: qid
                     },
                     function (data, status) {
-                        document.getElementById("emptyupthumb").style.display = 'none';
-                        document.getElementById("fillupthumb").style.display = 'inline';
+                        $("#refreshid1").load(location.href + " #refreshid1");
                     }
                 );
             }
         }
-        function upvote1(obj) {
-            $.post("/upvote_que_1",
-                {
-                    usr: uid,
-                    que: qid
-                },
-                function (data, status) {
-                    q_id = obj.getAttribute("id");
-                    qid_1 = qid + "+addbook";
-                    document.getElementById(q_id).style.display = 'none';
-                    document.getElementById(qid_1).style.display = 'inline';
-                }
-            );
+        function quedownvote(obj) {
+            uid = document.getElementById("usr_id").value;
+            qid = document.getElementById("que__id1").value;
+            if (uid == 0) {
+                document.getElementById("msg").innerHTML = "Please Login"
+                $('#myModal11').modal('show');
+            }
+            else {
+                $.post("/downvote_que_1",
+                    {
+                        usr: uid,
+                        que: qid
+                    },
+                    function (data, status) {
+                        $("#refreshid1").load(location.href + " #refreshid1");
+                    }
+                );
+            }
         }
-        function downvote(obj) {
-            $.post("/downvote_que_1",
-                {
-                    usr: uid,
-                    que: qid
-                },
-                function (data, status) {
-                    q_id = obj.getAttribute("id");
-                    qid_1 = qid + "+addbook";
-                    document.getElementById(q_id).style.display = 'none';
-                    document.getElementById(qid_1).style.display = 'inline';
-                }
-            );
+        function queneutral(obj) {
+            uid = document.getElementById("usr_id").value;
+            qid = document.getElementById("que__id1").value;
+            if (uid == 0) {
+                document.getElementById("msg").innerHTML = "Please Login"
+                $('#myModal11').modal('show');
+            }
+            else {
+                $.post("/neutral_que_1",
+                    {
+                        usr: uid,
+                        que: qid
+                    },
+                    function (data, status) {
+                        $("#refreshid1").load(location.href + " #refreshid1");
+                    }
+                );
+            }
         }
-        function downvote1(obj) {
-            $.post("/downvote_que_1",
-                {
-                    usr: uid,
-                    que: qid
-                },
-                function (data, status) {
-                    q_id = obj.getAttribute("id");
-                    qid_1 = qid + "+addbook";
-                    document.getElementById(q_id).style.display = 'none';
-                    document.getElementById(qid_1).style.display = 'inline';
-                }
-            );
+        function ansupvote(obj) {
+            uid = document.getElementById("usr_id").value;
+            aid = obj.getAttribute("id");
+            if (uid == 0) {
+                document.getElementById("msg").innerHTML = "Please Login"
+                $('#myModal11').modal('show');
+            }
+            else {
+                $.post("/upvote_ans_1",
+                    {
+                        usr: uid,
+                        ans: aid
+                    },
+                    function (data, status) {
+                        $("#refreshid").load(location.href + " #refreshid");
+                    }
+                );
+            }
+        }
+        function ansdownvote(obj) {
+            uid = document.getElementById("usr_id").value;
+            aid = obj.getAttribute("id");
+            if (uid == 0) {
+                document.getElementById("msg").innerHTML = "Please Login"
+                $('#myModal11').modal('show');
+            }
+            else {
+                $.post("/downvote_ans_1",
+                    {
+                        usr: uid,
+                        ans: aid
+                    },
+                    function (data, status) {
+                        $("#refreshid").load(location.href + " #refreshid");
+                    }
+                );
+            }
+        }
+        function ansneutral(obj) {
+            uid = document.getElementById("usr_id").value;
+            aid = obj.getAttribute("id");
+            if (uid == 0) {
+                document.getElementById("msg").innerHTML = "Please Login"
+                $('#myModal11').modal('show');
+            }
+            else {
+                $.post("/neutral_ans_1",
+                    {
+                        usr: uid,
+                        ans: aid
+                    },
+                    function (data, status) {
+                        $("#refreshid").load(location.href + " #refreshid");
+                    }
+                );
+            }
         }
     </script>
 
@@ -220,6 +271,7 @@
 
 <div class="queanscontainer">
     <input type="hidden" value="{{uid}}" id="usr_id">
+    <input type="hidden" name="que__id" id="que__id1" value="{{quedict['id']}}">
     <div class="quebox">
         <div class="panel panel-info">
             <div class="panel-heading">
@@ -249,66 +301,66 @@
                 </span>
 
             </div>
-            <div class="panel-footer">
-                <span>
-                    {% if 1 %}
-                    <span class="updownvotesym" id="emptyupthumb" data-toggle="popover" data-content="upvote">
-                        <i class="fa fa-thumbs-o-up" onclick="upvote(this)"></i>
-                    </span>
-                    {% else %}
-                    <span class="updownvotesym" id="fillupthumb" data-toggle="popover" data-content="clear">
-                        <i class="fa fa-thumbs-up" onclick="upvote1(this)"></i>
-                    </span>
-                    {% endif %}
-
-                    <span class="updownvotesym">{{quedict['votes']}}</span>
-
-                    {% if 1 %}
-                    <span class="updownvotesym" id="emptydownthumb" data-toggle="popover" data-content="downvote">
-                        <i class="fa fa-thumbs-o-down" onclick="downvote(this)"></i>
-                    </span>
-                    {% else %}
-                    <span class="updownvotesym" id="filldownthumb" data-toggle="popover" data-content="clear">
-                        <i class="fa fa-thumbs-down" onclick="downvote1(this)"></i>
-                    </span>
-                    {% endif %}
-
-                    <span style="float:right">
-                        {% if quedict['answered']==1 %}
-                        <span class="bookmarksym" data-toggle="popover" data-content="answered">
-                            <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+            <div id="refreshid1">
+                <div class="panel-footer">
+                    <span>
+                        <span class="updownvotesym" id="emptyupthumb" data-toggle="popover" {% if quedict['upvote']==0
+                            %} style="display:inline" {% else %} style="display:none" {% endif %} data-content="upvote">
+                            <i class="fa fa-thumbs-o-up" onclick="queupvote(this)"></i>
                         </span>
-                        {% else %}
-
-                        <span class="bookmarksym" data-toggle="popover" data-content="answer later" id="{{quedict['id']}}+add"
-                            name="{{quedict['id']}}" onclick="addtodo(this)" {% if quedict['ans_later']==0 %}style="display:inline"
-                            {% else %} style="display:none" {% endif %}>
-                            <span class="fa fa-plus-square-o"></span>
+                        <span class="updownvotesym" id="fillupthumb" data-toggle="popover" {% if quedict['upvote']!=0
+                            %} style="display:inline" {% else %} style="display:none" {% endif %} data-content="clear">
+                            <i class="fa fa-thumbs-up" onclick="queneutral(this)"></i>
                         </span>
 
-                        <span class="bookmarksym" data-toggle="popover" data-content="remove from answer later" id="{{quedict['id']}}+remove"
-                            name="{{quedict['id']}}" onclick="removetodo(this)" {% if quedict['ans_later']==1 %}style="display:inline"
-                            {% else %} style="display:none" {% endif %}>
-                            <span class="fa fa-plus-square"></span>
+                        <span class="updownvotesym">{{quedict['votes']}}</span>
+
+                        <span class="updownvotesym" id="emptydownthumb" data-toggle="popover" {% if quedict['downvote']==0
+                            %} style="display:inline" {% else %} style="display:none" {% endif %} data-content="downvote">
+                            <i class="fa fa-thumbs-o-down" onclick="quedownvote(this)"></i>
+                        </span>
+                        <span class="updownvotesym" id="filldownthumb" data-toggle="popover" {% if quedict['downvote']!=0
+                            %} style="display:inline" {% else %} style="display:none" {% endif %} data-content="clear">
+                            <i class="fa fa-thumbs-down" onclick="queneutral(this)"></i>
                         </span>
 
-                        {% endif %}
+                        <span style="float:right">
+                            {% if quedict['answered']==1 %}
+                            <span class="bookmarksym" data-toggle="popover" data-content="answered">
+                                <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+                            </span>
+                            {% else %}
 
-                        <span class="bookmarksym" data-toggle="popover" id="{{quedict['id']}}+addbook" name="{{quedict['id']}}"
-                            onclick="addbookmark(this)" data-content="add bookmark" {% if quedict['BID']==0 %}style="display:inline"
-                            {% else %} style="display:none" {% endif %}>
-                            <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-                        </span>
+                            <span class="bookmarksym" data-toggle="popover" data-content="answer later" id="{{quedict['id']}}+add"
+                                name="{{quedict['id']}}" onclick="addtodo(this)" {% if quedict['ans_later']==0 %}style="display:inline"
+                                {% else %} style="display:none" {% endif %}>
+                                <span class="fa fa-plus-square-o"></span>
+                            </span>
 
-                        <span class="bookmarksym" data-toggle="popover" id="{{quedict['id']}}+removebook" name="{{quedict['id']}}"
-                            onclick="removebookmark(this)" data-content="remove bookmark" {% if quedict['BID']==1
-                            %}style="display:inline" {% else %} style="display:none" {% endif %}>
-                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                            <span class="bookmarksym" data-toggle="popover" data-content="remove from answer later" id="{{quedict['id']}}+remove"
+                                name="{{quedict['id']}}" onclick="removetodo(this)" {% if quedict['ans_later']==1
+                                %}style="display:inline" {% else %} style="display:none" {% endif %}>
+                                <span class="fa fa-plus-square"></span>
+                            </span>
+
+                            {% endif %}
+
+                            <span class="bookmarksym" data-toggle="popover" id="{{quedict['id']}}+addbook" name="{{quedict['id']}}"
+                                onclick="addbookmark(this)" data-content="add bookmark" {% if quedict['BID']==0 %}style="display:inline"
+                                {% else %} style="display:none" {% endif %}>
+                                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                            </span>
+
+                            <span class="bookmarksym" data-toggle="popover" id="{{quedict['id']}}+removebook" name="{{quedict['id']}}"
+                                onclick="removebookmark(this)" data-content="remove bookmark" {% if quedict['BID']==1
+                                %}style="display:inline" {% else %} style="display:none" {% endif %}>
+                                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                            </span>
+
                         </span>
 
                     </span>
-
-                </span>
+                </div>
             </div>
         </div>
     </div>
@@ -366,29 +418,30 @@
                     </span>
 
                 </div>
+
                 <div class="panel-footer">
                     <span>
-                        {% if 1 %}
-                        <span class="updownvotesym" data-toggle="popover" data-content="upvote">
-                            <i class="fa fa-thumbs-o-up" onclick="upvote()"></i>
+                        <span class="updownvotesym" data-toggle="popover" data-content="upvote" {% if i['upvote']==0 %}
+                            style="display:inline" {% else %} style="display:none" {% endif %}>
+                            <i class="fa fa-thumbs-o-up" id="{{i['a_id']}}" onclick="ansupvote(this)"></i>
                         </span>
-                        {% else %}
-                        <span class="updownvotesym" data-toggle="popover" data-content="clear">
-                            <i class="fa fa-thumbs-up" onclick="upvote()"></i>
+                        <span class="updownvotesym" data-toggle="popover" data-content="clear" {% if i['upvote']!=0 %}
+                            style="display:inline" {% else %} style="display:none" {% endif %}>
+                            <i class="fa fa-thumbs-up" id="{{i['a_id']}}" onclick="ansneutral(this)"></i>
                         </span>
-                        {% endif %}
 
-                        <span class="updownvotesym">{{i['votes']}}</span>
+                        <span class="updownvotesym"> {{i['votes']}} </span>
 
-                        {% if 1 %}
-                        <span class="updownvotesym" data-toggle="popover" data-content="downvote">
-                            <i class="fa fa-thumbs-o-down" onclick="downvote()"></i>
+                        <span class="updownvotesym" data-toggle="popover" data-content="downvote" {% if i['downvote']==0
+                            %} style="display:inline" {% else %} style="display:none" {% endif %}>
+                            <i class="fa fa-thumbs-o-down" id="{{i['a_id']}}" onclick="ansdownvote(this)"></i>
                         </span>
-                        {% else %}
-                        <span class="updownvotesym" data-toggle="popover" data-content="clear">
-                            <i class="fa fa-thumbs-down" onclick="downvote()"></i>
+
+                        <span class="updownvotesym" data-toggle="popover" data-content="clear" {% if i['downvote']!=0
+                            %} style="display:inline" {% else %} style="display:none" {% endif %}>
+                            <i class="fa fa-thumbs-down" id="{{i['a_id']}}" onclick="ansneutral(this)"></i>
                         </span>
-                        {% endif %}
+
 
                         <span style="float:right">
                             <span>
@@ -410,8 +463,8 @@
         </div>
         <input type="hidden" value="{{quedict['id']}}" name="qid" id="qid">
         <div class="col-md-12 form-group group-mail">
-            <button type="button" class="btn btn-primary" onclick="validate()" id="postansid" {% if chkbtn==1 or uid==0 %}disabled {%
-                endif %}>
+            <button type="button" class="btn btn-primary" onclick="validate()" id="postansid" {% if chkbtn==1 or uid==0
+                %}disabled {% endif %}>
                 Post Answer
             </button>
         </div>
@@ -425,10 +478,11 @@
         <div>
             <form action="{{url_for('search_question')}}" method="post" name="search_que_form">
                 <div style="width:80%;float:left">
-                    <input class="form-control" type="text" name="search_question_input" id="search_question_input1" placeholder="Search Question" required>
+                    <input class="form-control" type="text" name="search_question_input" id="search_question_input1"
+                        placeholder="Search Question" required>
                 </div>
                 <div style="width:15%;float:left;margin-left: 5px;">
-                
+
                     <button type="submit" class="btn btn-default">
                         <span class="glyphicon glyphicon-search"></span>
                     </button>
@@ -439,9 +493,11 @@
 
             <form action="{{url_for('search_tag')}}" method="post" name="search_tag_form">
                 <div style="width:80%;float:left">
-                    <input class="form-control" type="text" name="search_tag_input" id="search_tag_input1" placeholder="Search by Tag" required>
+                    <input class="form-control" type="text" name="search_tag_input" id="search_tag_input1" placeholder="Search by Tag"
+                        required>
                 </div>
                 <div style="width:15%;float:left;margin-left: 5px;">
+
                     <button type="submit" class="btn btn-default">
                         <span class="glyphicon glyphicon-search"></span>
                     </button>
@@ -469,11 +525,6 @@
         tabsize: 2,
         height: 250
     });
-    $('#summernote').load(document.URL + ' #summernote', function () {
-        alert("hello")
-        $('#summernote').summernote();
-    });
-
 </script>
 
 {% endblock %}
