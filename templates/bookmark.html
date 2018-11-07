@@ -133,7 +133,10 @@
 <br>
 <div id="queanscontainerid">
 	<div class="queanscontainer">
-
+		<div class="w3-heading-grid">
+			<h3 class="text-center" style="color:green">Your Bookmarks</h3>
+		</div>
+		<hr class="text-center" style="width: 40%">
 		{% if name=="#" %}
 		<div class="w3-heading-grid">
 			<h3 class="text-center" style="color:red">You need to be logged in for this</h3>
@@ -225,32 +228,34 @@
 	<fieldset>
 		<legend>Search</legend>
 		<div>
-				<form action="{{url_for('search_question')}}" method="post" name="search_que_form">
-					<div style="width:80%;float:left">
-						<input class="form-control" type="text" name="search_question_input" id="search_question_input1" placeholder="Search Question" required>
-					</div>
-					<div style="width:15%;float:left;margin-left: 5px;">
-					
-						<button type="submit" class="btn btn-default">
-							<span class="glyphicon glyphicon-search"></span>
-						</button>
-					</div>
-				</form>
-	
-				<br><br>
-	
-				<form action="{{url_for('search_tag')}}" method="post" name="search_tag_form">
-					<div style="width:80%;float:left">
-						<input class="form-control" type="text" name="search_tag_input" id="search_tag_input1" placeholder="Search by Tag" required>
-					</div>
-					<div style="width:15%;float:left;margin-left: 5px;">
-						<button type="submit" class="btn btn-default">
-							<span class="glyphicon glyphicon-search"></span>
-						</button>
-					</div>
-				</form>
-				<br>
-			</div>
+			<form action="{{url_for('search_question')}}" method="post" name="search_que_form">
+				<div style="width:80%;float:left">
+					<input class="form-control" type="text" name="search_question_input" id="search_question_input1" placeholder="Search Question"
+					 required>
+				</div>
+				<div style="width:15%;float:left;margin-left: 5px;">
+
+					<button type="submit" class="btn btn-default">
+						<span class="glyphicon glyphicon-search"></span>
+					</button>
+				</div>
+			</form>
+
+			<br><br>
+
+			<form action="{{url_for('search_tag')}}" method="post" name="search_tag_form">
+				<div style="width:80%;float:left">
+					<input class="form-control" type="text" name="search_tag_input" id="search_tag_input1" placeholder="Search by Tag"
+					 required>
+				</div>
+				<div style="width:15%;float:left;margin-left: 5px;">
+					<button type="submit" class="btn btn-default">
+						<span class="glyphicon glyphicon-search"></span>
+					</button>
+				</div>
+			</form>
+			<br>
+		</div>
 	</fieldset>
 	<br>
 	<div>
