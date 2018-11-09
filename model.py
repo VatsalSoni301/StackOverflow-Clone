@@ -132,6 +132,8 @@ class user_views(db.Model):
 	views = db.Column('views',db.Integer,default=0)
 
 
+# https://www.dbdesigner.net/designer
+
 # tg = tag.query.all() # Retrieve all data
 # 	ll = [{'id':1,'name':"sad"}]
 # 	del ll[:]
