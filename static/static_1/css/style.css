@@ -40,7 +40,7 @@ p{
 	margin:0;
 }
 ul{
-	margin:0;
+	margin-left:6%;
 	padding:0;
 }
 label{
@@ -1139,7 +1139,6 @@ h3.w3l-agile:before,h2.w3l-agile:before  {
     padding: 24px 0 10px 0;
     font-weight: 300;
     font-size: 1.7em;
-    margin-bottom: 0.8em;
     letter-spacing: 1px;
 }
 .connect-agileits.newsletter h4 {
