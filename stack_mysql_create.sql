@@ -16,18 +16,18 @@ CREATE TABLE `user` (
 	`up_votes` INT(8) NOT NULL DEFAULT '0',
 	`down_votes` INT(8) NOT NULL DEFAULT '0',
 	`date_of_reg` DATETIME(6) NOT NULL,
-	`profile_pic` VARCHAR(100),
+	`profile_pic` VARCHAR(200),
 	PRIMARY KEY (`user_id`)
 );
 
 CREATE TABLE `questions` (
 	`question_id` INT(8) NOT NULL AUTO_INCREMENT,
 	`user_id` INT(8) NOT NULL,
-	`question_content` VARCHAR(3000) NOT NULL,
+	`question_content` VARCHAR(60000) NOT NULL,
 	`title` VARCHAR(1000) NOT NULL,
 	`delete_votes` INT(8) NOT NULL DEFAULT '0',
 	`que_date` DATETIME(6) NOT NULL,
-	`question_image` VARCHAR(100),
+	`question_image` VARCHAR(200),
 	`question_code` VARCHAR(3000),
 	PRIMARY KEY (`question_id`)
 );
@@ -36,7 +36,7 @@ CREATE TABLE `answer` (
 	`ans_id` INT(8) NOT NULL AUTO_INCREMENT,
 	`user_id` INT(8) NOT NULL,
 	`question_id` INT(8) NOT NULL,
-	`ans_content` VARCHAR(3000) NOT NULL,
+	`ans_content` VARCHAR(60000) NOT NULL,
 	`ans_date` DATETIME(6) NOT NULL,
 	`answer_code` VARCHAR(3000),
 	`answer_image` VARCHAR(100),
@@ -54,7 +54,7 @@ CREATE TABLE `comment` (
 	`comment_id` INT(8) NOT NULL AUTO_INCREMENT,
 	`ans_id` INT(8) NOT NULL,
 	`user_id` INT(8) NOT NULL,
-	`comment_content` VARCHAR(1500) NOT NULL,
+	`comment_content` VARCHAR(10000) NOT NULL,
 	`comment_date` DATETIME(6) NOT NULL,
 	PRIMARY KEY (`comment_id`)
 );
@@ -73,13 +73,13 @@ CREATE TABLE `admin` (
 	`gender` VARCHAR(10),
 	`date_of_birth` DATETIME(6),
 	`date_of_reg` DATETIME(6) NOT NULL,
-	`profile_pic` VARCHAR(100),
+	`profile_pic` VARCHAR(200),
 	PRIMARY KEY (`admin_id`)
 );
 
 CREATE TABLE `tag` (
 	`tag_id` INT(8) NOT NULL AUTO_INCREMENT,
-	`tag_name` VARCHAR(50) NOT NULL UNIQUE,
+	`tag_name` VARCHAR(100) NOT NULL UNIQUE,
 	PRIMARY KEY (`tag_id`)
 );
 
@@ -99,7 +99,7 @@ CREATE TABLE `answer_later` (
 
 CREATE TABLE `country` (
 	`country_id` INT(8) NOT NULL AUTO_INCREMENT,
-	`country_name` VARCHAR(30) NOT NULL UNIQUE,
+	`country_name` VARCHAR(70) NOT NULL UNIQUE,
 	PRIMARY KEY (`country_id`)
 );
 
@@ -108,7 +108,7 @@ CREATE TABLE `contact_us` (
 	`cu_name` VARCHAR(50) NOT NULL,
 	`cu_email_id` VARCHAR(50) NOT NULL,
 	`cu_mobile_no` VARCHAR(10) NOT NULL,
-	`cu_msg` VARCHAR(500) NOT NULL,
+	`cu_msg` VARCHAR(5000) NOT NULL,
 	`cu_resolve` INT(8) DEFAULT '0',
 	PRIMARY KEY (`cu_id`)
 );
