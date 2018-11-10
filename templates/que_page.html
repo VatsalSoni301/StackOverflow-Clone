@@ -381,6 +381,7 @@
                 </div>
                 <div class="panel-body">
                     {{ i['content'] | safe }}
+                    <br>
                     <span class="comment">
                         {% for j in i['comments'] %}
                         <span>
@@ -401,9 +402,7 @@
                         </span>
                         <br>
                         {% endfor %}
-                        {% if i['comments'] %}
-                            <br>
-                        {% endif %}
+                        <br>
                         <div>
                             <form method="POST">
                                 <input type="hidden" name="que__id" id="que__id" value="{{quedict['id']}}">

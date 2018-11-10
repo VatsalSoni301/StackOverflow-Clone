@@ -533,6 +533,8 @@ def que_page():
                 'upvote': up,
                 'downvote': down,
                 })
+        from operator import itemgetter
+        anslist = sorted(anslist, key=itemgetter('votes'), reverse=True)
 
         if 'uid' not in session:
             return render_template(
