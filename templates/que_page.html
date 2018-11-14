@@ -285,7 +285,7 @@
                 <hr>
                 <span class="tag">
                     {% for tgitem in quedict['tag'] %}
-                    <a class="label label-info taglable" href="#">{{tgitem['name']}}</a>
+                    <a class="label label-info taglable" href="{{url_for('search_perticular_tag',search_tid=tgitem['id'])}}">{{tgitem['name']}}</a>
                     {% endfor %}
                 </span>
 
