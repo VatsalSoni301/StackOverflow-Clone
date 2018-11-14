@@ -285,8 +285,11 @@ def view_profile():
                 questions.query.filter_by(question_id=item.question_id).first()
             ques_ans_set.append({'title': que_detail.title,
                                 'id': que_detail.question_id})
-
-        return render_template('view_profile.html', name=session['fname'
+        if 'uid' not in session:
+            return render_template('view_profile.html', name="#", usr_dict=user_dict, qset=ques_set,
+                               ansset=ques_ans_set)
+        else :
+            return render_template('view_profile.html', name=session['fname'
                                ], usr_dict=user_dict, qset=ques_set,
                                ansset=ques_ans_set)
     except :
@@ -1017,7 +1020,7 @@ def getQuestionDict(questionlist, isguest):
                     'fname': usr.first_name,
                     'lname': usr.last_name,
                     'tags': tagName,
-                    'uid': 0,
+                    'uid': usr.user_id,
                     'ans': ans_count,
                     'BID': 0,
                     'ans_later': 0,
