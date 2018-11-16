@@ -317,9 +317,8 @@ def user_sign_up_1():
                 break
             else:
 
-                target = \
-                    os.path.join('/home/vatsal/Documents/IIIT/SCE_Assignemnts/SCE_Project/static'
-                                 , 'Img/')
+                cwd = os.getcwd()
+                target = os.path.join(cwd, 'static/Img/')
                 filename = f.filename
                 ext = filename.split('.')
                 destination = '/'.join([target, filename])
@@ -938,9 +937,8 @@ def edit_profile_1():
             if f.filename == '':
                 break
             else:
-                target = \
-                    os.path.join('/home/vatsal/Documents/IIIT/SCE_Assignemnts/SCE_Project/static'
-                                 , 'Img/')
+                cwd = os.getcwd()
+                target = os.path.join(cwd, 'static/Img/')
                 filename = f.filename
                 ext = filename.split('.')
                 destination = '/'.join([target, filename])
@@ -1099,6 +1097,9 @@ def getQuestionDict(questionlist, isguest):
 def http_404_handler(error):
 	return render_template('error.html')
 
+@app.errorhandler(405)
+def http_405_handler(error):
+	return render_template('error.html')
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True, threaded=True, host='127.0.0.1')
